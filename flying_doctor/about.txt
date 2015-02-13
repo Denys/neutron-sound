@@ -1,1 +1,0 @@
-This is a 4 in 4 out oscillator/mixer which is similar to the rotor as used by John Bowen in his solaris, and also a sonic-core(creamware) DSP module
