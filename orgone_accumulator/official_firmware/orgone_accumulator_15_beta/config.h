@@ -16,7 +16,7 @@
 #define CRUSHBITS 9
 //this is the amount of bit reduction, (number>>CRUSHBITS)<<CRUSHBITS)
 //only affected by bit crush
-//valid numbers are 2 to 8 
+//valid numbers are 8 to 12 
 
 
 
