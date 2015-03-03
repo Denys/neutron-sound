@@ -83,7 +83,7 @@ void FASTRUN outUpdateISR_MAIN(void){
     o10.wave = o10.wave+((((o10.nextwave - o10.wave)) * o10.phaseRemain) >>15); 
 
     AGCtest = ((((o10.wave+o4.wave+o6.wave+o8.wave+o2.wave)>>2)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
-    if (tuneLockOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
+    if (bitCrushOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
     analogWrite(aout2,AGCtest+4000);
     
     
@@ -163,7 +163,7 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
 
     AGCtest = ((((o10.wave+o4.wave+o6.wave+o8.wave+o2.wave)>>2)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
     
-    if (tuneLockOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
+    if (bitCrushOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
     
     analogWrite(aout2,AGCtest+4000);     
    
@@ -260,7 +260,7 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
   //  AGCtest = o1.wave >>13; 
    AGCtest = ((((o9.wave+o7.wave+o5.wave+o3.wave+o1.wave)>>2)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
       
-    if (tuneLockOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
+    if (bitCrushOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
     analogWrite(aout2,AGCtest+4000);
   
   
@@ -365,7 +365,7 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
   //  AGCtest = o1.wave >>13; 
    AGCtest = ((((o9.wave+o7.wave+o5.wave+o3.wave+o1.wave)>>2)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
       
-    if (tuneLockOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
+    if (bitCrushOn) AGCtest = (AGCtest>>conf_CRUSH)<<conf_CRUSH;
     analogWrite(aout2,AGCtest+4000);
   
     break;   

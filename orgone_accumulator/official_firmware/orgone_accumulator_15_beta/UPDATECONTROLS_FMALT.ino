@@ -18,7 +18,8 @@ void UPDATECONTROLS_FMALT(){
     buh = digitalReadFast(tuneLockSwitch); 
     if (tuneLockOn != buh){
       tuneLockOn = buh;
-      digitalWriteFast(LED_TuneLock,tuneLockOn);  
+      digitalWriteFast(LED_TuneLock,tuneLockOn);
+      if (conf_TLP == 1) {bitCrushOn = tuneLockOn;} else bitCrushOn = 0;   
     }      
     detuneAmountCont = analogControls[2];
     //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;  

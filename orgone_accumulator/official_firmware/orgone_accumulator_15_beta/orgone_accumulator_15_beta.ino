@@ -1,7 +1,7 @@
 //Neutron-sound.com 
-//Orgone Accumulator 1.5.0 RC1
-//press tune lock to hear the difference, on = interpolation on
-//no interpolation on X modes
+//Orgone Accumulator 1.5.0 RC2
+
+//use config.h tab to change tune lock function
 
 #include <stdint.h>
 #include "Config.h"
@@ -1298,7 +1298,6 @@ struct lfo
 lfo;
 
 #define primeSwitch 3 //ok
-//#define resyncSwitch 8
 #define CZmodeSwitch 6
 #define FMFixedSwitch 7
 #define detuneLoSwitch 1
@@ -1437,6 +1436,7 @@ int32_t FMX_HiOffsetContCub;
 
 
 uint8_t tuneLockOn =0;
+uint8_t bitCrushOn =0;
 //float updn;
 float inputScaler;
 float inputVOct;

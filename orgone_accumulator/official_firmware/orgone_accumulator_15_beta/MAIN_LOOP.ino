@@ -12,7 +12,7 @@ void loop() {
 
   if (loopReset == 1)goto evilGoto;
   ARC ++;
-  //if ((ARC == 7 || ARC == 9)&& tuneLockOn) ARC ++; //skip reading tuning knobs if tunelock is on.
+  if ((ARC == 7 || ARC == 9)&& tuneLockOn && (conf_TLP == 0)) ARC ++; //skip reading tuning knobs if tunelock is on.
   if (ARC > 9) {
     ARC = 0;
   }  //cycle through analog controls. skip tuning controls if tunelock is on.
