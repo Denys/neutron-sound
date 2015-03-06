@@ -7,16 +7,13 @@
 
 #define LED_COMP 1000  //LED compensation. adjusts how the LEDs fade across positions
 
-#define TUNE_LOCK_PROCESS 0
+#define FX_PROCESS 1
 
 //0 = normal tune lock [default]
 //1 = bitcrush
 //2 = alt modes. //dont use yet
 
-#define CRUSHBITS 10
-//this is the amount of bit reduction, (number>>CRUSHBITS)<<CRUSHBITS)
-//only affected by bit crush
-//valid numbers are 8 to 12 
+ 
 
 
 

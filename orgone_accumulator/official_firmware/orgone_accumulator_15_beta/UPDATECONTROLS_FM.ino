@@ -15,12 +15,7 @@ void UPDATECONTROLS_FM(){
     break;
 
   case 3:
-    buh = digitalReadFast(tuneLockSwitch); 
-    if (tuneLockOn != buh){
-      tuneLockOn = buh;
-      digitalWriteFast(LED_TuneLock,tuneLockOn);
-      if (conf_TLP == 1) {bitCrushOn = tuneLockOn;} else bitCrushOn = 0;   
-    }      
+    SELECT_ISRS();
     detuneAmountCont = analogControls[2];
     //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;  
     

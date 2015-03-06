@@ -1,5 +1,5 @@
 //Neutron-sound.com 
-//Orgone Accumulator 1.5.0 RC2
+//Orgone Accumulator 1.5.0 RC3
 
 //use config.h tab to change tune lock function
 
@@ -1329,8 +1329,8 @@ uint16_t conf_LED_comp = LED_COMP; //see config.h for explanations
 uint32_t conf_TuneMult = TUNEMULT;
 //uint32_t conf_LFOBase = LFOBASE;
 const float conf_NoteSize = NOTESIZE; 
-const int conf_TLP = TUNE_LOCK_PROCESS;
-const int conf_CRUSH = CRUSHBITS;
+const int FX = FX_PROCESS;
+
 
 int aout2 = A14; //dac out
 //int ISRtestPin = 5;
@@ -1460,6 +1460,20 @@ uint8_t oscSyncTest;
 uint8_t buh;
 int inCV = 1200;
 int cycleCounter;
+int CRUSHBITS = 0;
+
+int ISRrate = 15;
+// 12 = 83.333khz
+ // 13 = 76.923
+ // 14 = 71.428
+ // 15 = 66.666
+ //16 = 62.500
+ //17 = 58.823
+ //18 = 55.555
+ //19 = 52.631
+ // 20 = 50khz  
+  // lower if your ISR takes up too much time. and strange or no sounds happen.
+  //this affects master tuning 
 
 
 //int waveIncrement = 1;
@@ -1518,18 +1532,8 @@ pinMode(LED_Hi, OUTPUT);
   analogReadResolution(13); 
   analogReadAveraging(16);  
   //analogWriteFrequency(14, 80000);
-  outUpdateTimer.begin(outUpdateISR_MAIN,15); //this is the oscillator and DAC output update rate in uS  
- // 12 = 83.333khz
- // 13 = 76.923
- // 14 = 71.428
- // 15 = 66.666
- //16 = 62.500
- //17 = 58.823
- //18 = 55.555
- //19 = 52.631
- // 20 = 50khz  
-  // lower if your ISR takes up too much time. and strange or no sounds happen.
-  //this affects master tuning 
+  outUpdateTimer.begin(outUpdateISR_MAIN,ISRrate); //this is the oscillator and DAC output update rate in uS  
+ 
 attachInterrupt(gateIn, gateISR, RISING);  
 
    

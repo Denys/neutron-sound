@@ -1,5 +1,6 @@
 void DODETUNING(){
 
+  CRUSHBITS = int(constrain((aInModDetune+detuneAmountCont),0,8191)/1365)+7;
   aInModDetuneCubing = max((aInModDetune+detuneAmountCont),0)/64.0;
   aInModDetune = ((aInModDetuneCubing*aInModDetuneCubing*aInModDetuneCubing)/8.0);
   //switches between prime and even spaced detune modes.  

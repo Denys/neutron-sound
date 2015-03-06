@@ -1,0 +1,174 @@
+void FASTRUN outUpdateISR_CRUSH(void){
+ //noInterrupts();  
+
+ //digitalWriteFast (oSQout,0);//temp testing OC
+ 
+  
+  oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
+  digitalWriteFast (oSQout,(oSQ.phase < oSQ.PW)); //pulse out   
+
+  switch(oscMode){
+    
+  //-----------------------------------------------FM MODE OSCILLATORS-----------------------------------------------
+  case 0:
+  
+   noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
+    noiseTable[o1.phase>>23]= random(-32767,32767); //replace noise cells with random values.  
+
+    //main oscillator
+    o1.phase = o1.phase + o1.phase_increment; 
+    o1.phaseRemain = (o1.phase<<9)>>17;    
+    o1.wave = (FMTable[o1.phase>>WTShift]);
+    o1.nextwave =  (FMTable[(o1.phase+nextstep)>>WTShift]);
+    o1.wave = o1.wave+((((o1.nextwave - o1.wave)) * o1.phaseRemain) >>15);    
+    o1.index = (FMIndex * o1.wave);   
+    o2.phase = o2.phase +  (o2.phase_increment+o1.index);
+    o2.phaseRemain = (o2.phase<<9)>>17;    
+     
+    //-----------------------------------------------------------------------
+
+    o2.wave = (((waveTableLink[o2.phase>>23]*mixHi)+(waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*mixMid)))>>11;
+    
+    o2.nextwave = (((waveTableLink[(o2.phase + nextstep)>>23]*mixHi)+(waveTable2Link[(o2.phase + nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase + nextstep)>>23]*mixMid)))>>11;
+    
+    
+    o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);     
+
+    AGCtest = (((((o2.wave)*((int)mixDetuneUp))>>14)>>CRUSHBITS)<<CRUSHBITS)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
+    
+    analogWrite(aout2,AGCtest+4000);
+    
+    
+    break;  
+    
+    //-----------------------------------------------ALT FM MODE OSCILLATORS-----------------------------------------------
+  case 2:
+  
+  
+noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
+    noiseTable[o1.phase>>23]= random(-32767,32767); //replace noise cells with random values.  
+
+    //main oscillator
+    o1.phase = o1.phase + o1.phase_increment; 
+    o1.phaseRemain = (o1.phase<<9)>>17;    
+    o1.wave = (FMTable[o1.phase>>WTShift]);
+    o1.nextwave =  (FMTable[(o1.phase+nextstep)>>WTShift]);
+    o1.wave = o1.wave+((((o1.nextwave - o1.wave)) * o1.phaseRemain) >>15);    
+    o1.index = (FMIndex * o1.wave);   
+    o2.phase = o2.phase +  (o2.phase_increment+o1.index);
+    o2.phaseRemain = (o2.phase<<9)>>17;    
+    
+    
+    //-----------------------------------------------------------------------
+
+    o2.wave = (((waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*(mixMid+mixHi))))>>11;    
+  
+    o2.nextwave = (((waveTable2Link[(o2.phase + nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase + nextstep)>>23]*(mixMid+mixHi))))>>11;    
+    
+    o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);   
+    
+
+    AGCtest = (((((o3.wave)*((int)mixDetuneUp))>>14)>>CRUSHBITS)<<CRUSHBITS)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune   
+    
+    analogWrite(aout2,AGCtest+4000);    
+        
+    break;  
+     
+    
+  case 1://-------------------------------------------CZ MODE OSCILLATORS-----------------------------------------------
+
+    
+    o1.phase = o1.phase + o1.phase_increment; 
+    noiseTable[o1.phase>>23]= random(-32767,32767); //replace noise cells with random values.
+    if (o1.phaseOld > o1.phase)o2.phase = 0; //check for sync reset osc in CZ mode.        
+    o1.phaseOld = o1.phase;       
+    o2.phase = o2.phase +  o2.phase_increment; 
+    o2.phaseRemain = (o2.phase<<9)>>17; //used for fake interpolation
+    o1.phaseRemain = (o1.phase<<9)>>17;
+    
+      
+    //-----------------------------------------------------------------------
+   
+    o2.wave = (FMTable[o2.phase>>23]);    
+    o2.nextwave =  (FMTable[(o2.phase+nextstep)>>23]);    
+   
+    
+    o1.wave = (((waveTableLink[o1.phase>>23]*mixHi)+(waveTable2Link[o1.phase>>23]*mixLo)+(waveTableMidLink[o1.phase>>23]*mixMid))>>4)>>11;
+    o1.nextwave = (((waveTableLink[(o1.phase+nextstep)>>23]*mixHi)+(waveTable2Link[(o1.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o1.phase+nextstep)>>23]*mixMid))>>4)>>11;
+    
+        
+    o1.wave = o1.wave+((((o1.nextwave - o1.wave)) * o1.phaseRemain) >>15); 
+    
+    
+    o2.wave = o2.wave +((((o2.nextwave - o2.wave))* o2.phaseRemain)>>15);
+    o4.wave = o4.wave +((((o4.nextwave - o4.wave))* o4.phaseRemain)>>15);
+   
+
+    
+    o1.wave = ((o1.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>11))>>15));    
+    o3.wave = (o1.wave>>CRUSHBITS)<<CRUSHBITS; 
+   
+
+  //  AGCtest = o1.wave >>13; 
+   AGCtest = (((o3.wave)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+      
+    
+    analogWrite(aout2,AGCtest+4000);
+  
+  
+  break;
+  
+ 
+  
+    //----------------------------------------------ALT CZ mode-----------------------------------------
+    case 3: 
+
+   lfo.phase = lfo.phase + lfo.phase_increment;
+    lfo.wave = FMTableAMX[lfo.phase>>23];    
+    
+    o1.phaseOffset = (FMX_HiOffset * lfo.wave);
+    o1.phase = o1.phase + (o1.phase_increment + o1.phaseOffset); 
+    noiseTable[o1.phase>>23]= random(-32767,32767); //replace noise cells with random values.
+    if (o1.phaseOld > o1.phase)o2.phase = 0; //check for sync reset osc in CZ mode.        
+    o1.phaseOld = o1.phase;       
+    o2.phase = o2.phase +  o2.phase_increment; 
+    o2.phaseRemain = (o2.phase<<9)>>17; //used for fake interpolation
+    o1.phaseRemain = (o1.phase<<9)>>17;
+    
+   
+       
+    //-----------------------------------------------------------------------
+   
+    o2.wave = (FMTable[o2.phase>>23]);    
+    o2.nextwave =  (FMTable[(o2.phase+nextstep)>>23]);    
+   
+   
+    
+    o1.wave = (((waveTable2Link[o1.phase>>23]*mixLo)+(waveTableMidLink[o1.phase>>23]*(mixMid+mixHi)))>>4)>>11;
+    o1.nextwave = (((waveTable2Link[(o1.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o1.phase+nextstep)>>23]*(mixMid+mixHi)))>>4)>>11;
+    
+        
+    o1.wave = o1.wave+((((o1.nextwave - o1.wave)) * o1.phaseRemain) >>15); 
+        
+    
+    o2.wave = o2.wave +((((o2.nextwave - o2.wave))* o2.phaseRemain)>>15);
+       
+    o1.wave = ((o1.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>11))>>15));    
+    o3.wave = (o1.wave>>CRUSHBITS)<<CRUSHBITS;      
+    
+
+  //  AGCtest = o1.wave >>13; 
+   AGCtest = (((o3.wave)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+      
+    
+    analogWrite(aout2,AGCtest+4000);
+  
+    break;   
+  
+  }
+   
+ //digitalWriteFast (oSQout,1);//temp testing OC 
+}
+
+
+

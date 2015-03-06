@@ -3,25 +3,20 @@ void UPDATECONTROLS_CZ(){
   switch (ARC+1) {
 
   case 7:
-         
+
     break;
 
   case 9:   
- 
+
     Serial.println((float)o1.phase_increment/51550); 
     //outputs the frequency on USB serial. tune lock, FM and X must be off
-    
-    
-     
+
+
+
     break;
 
   case 3:
-    buh = digitalReadFast(tuneLockSwitch);
-    if (tuneLockOn != buh){
-      tuneLockOn = buh;
-      digitalWriteFast(LED_TuneLock,tuneLockOn);
-      if (conf_TLP == 1) {bitCrushOn = tuneLockOn;} else bitCrushOn = 0;     
-    }          
+    SELECT_ISRS();
     detuneAmountCont = analogControls[2];
     //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0; 
     break;
@@ -131,7 +126,7 @@ void UPDATECONTROLS_CZ(){
     case 15: 
       waveTable2Link = nothingTable; 
       break;
-    
+
     }      
     break;
 
@@ -191,16 +186,18 @@ void UPDATECONTROLS_CZ(){
 
   case 1:     
     mixPos = (analogControls[6]>>5)<<4;     
-    
+
     FMFixedOn = digitalReadFast(FMFixedSwitch);
-    if (FMFixedOn){inputConverterF = 200000;} //sets fixed frequency to current frequency when fixed is pushed.
-             
-    
+    if (FMFixedOn){
+      inputConverterF = 200000;
+    } //sets fixed frequency to current frequency when fixed is pushed.
+
+
     oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);   
     break; 
 
   case 8:
-  primeDetuneOn = !digitalReadFast(primeSwitch);
+    primeDetuneOn = !digitalReadFast(primeSwitch);
     detuneLoOn = digitalReadFast(detuneLoSwitch); 
     detuneMidOn = !digitalReadFast(detuneMidSwitch); 
     detuneHiOn = !digitalReadFast(detuneHiSwitch);    
@@ -214,13 +211,13 @@ void UPDATECONTROLS_CZ(){
     controlAveragingIndex = controlAveragingIndex + 1;
     if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
     averageratio = totalratio / numreadingsratio;    
-     break; 
+    break; 
 
   case 10:
     FMIndexCont = (int)(analogControls[1]>>2);    
 
-    
-     switch (analogControls[3]>>9){
+
+    switch (analogControls[3]>>9){
     case 0: 
       FMTable = sinTable; 
       break;
@@ -270,11 +267,12 @@ void UPDATECONTROLS_CZ(){
       FMTable = noiseTable; 
       break;    
     }
-    
+
 
     break;   
 
 
   }
 }
+
 
