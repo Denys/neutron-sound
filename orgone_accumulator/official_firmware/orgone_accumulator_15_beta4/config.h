@@ -32,7 +32,7 @@
 #define PWM_CONTROL 1
 
 //0 = position control and CV controls PWM across range
-//1 = index controls PWM 50% to minimum, modified by index CV
+//1 = index controls PWM minimum PW to 50%, modified by index CV
 
  
 

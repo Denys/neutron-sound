@@ -1,5 +1,5 @@
 //Neutron-sound.com 
-//Orgone Accumulator 1.5.0 RC4
+//Orgone Accumulator 1.5.0 beta4
 
 //use config.h tab to change tune lock function
 
