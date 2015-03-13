@@ -225,8 +225,9 @@ case 1://cz
    
   }
 
-  oSQ.phase_increment = inputConverter*4;
-  oSQ.PW = (envVal<<20)+(FMIndexCont<<20);   //pwm.phase inc
+  oSQ.phase_increment = (inputConverter/PWM_Div)*4;
+  if (PWM_Cont == 0){oSQ.PW = (PWM_Min<<20) + ((envVal*(4095 - (PWM_Min<<1)))<<8);}  //scale the pwm so it only reaches min/max set by PWM_MINIMUM in config 
+  else {oSQ.PW = (PWM_Min<<20) + (constrain((((2046+FMIndexCont)+(2046-int(averageaInIAv)))*(4095 - (PWM_Min<<1))),0,16777216)<<8);}
 
   //BSFfreq = min((o2.phase_increment>>16),2047); 
 

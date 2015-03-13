@@ -14,5 +14,15 @@ void SELECT_ISRS()
           outUpdateTimer.begin(outUpdateISR_MAIN,ISRrate);     
         }
       }
+      if (FX == 2) {
+        if (tuneLockOn == 1) { 
+          outUpdateTimer.end();
+          outUpdateTimer.begin(outUpdateISR_HDT,ISRrate);
+        }     
+        else {
+          outUpdateTimer.end();
+          outUpdateTimer.begin(outUpdateISR_MAIN,ISRrate);     
+        }
+      }
     }     
 }

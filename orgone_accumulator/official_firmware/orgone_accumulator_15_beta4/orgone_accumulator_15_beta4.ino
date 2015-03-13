@@ -1,10 +1,30 @@
 //Neutron-sound.com 
-//Orgone Accumulator 1.5.0 RC3
+//Orgone Accumulator 1.5.0 RC4
 
 //use config.h tab to change tune lock function
 
 #include <stdint.h>
 #include "Config.h"
+
+const int16_t waveShaper[] = {
+  -32764,-32757,-32744,-32727,-32705,-32678,-32646,-32609,-32567,-32520,-32468,-32412,-32350,-32284,-32213,-32137,
+  -32056,-31970,-31880,-31785,-31684,-31580,-31470,-31356,-31236,-31113,-30984,-30851,-30713,-30571,-30424,-30272,
+  -30116,-29955,-29790,-29621,-29446,-29268,-29085,-28897,-28706,-28510,-28309,-28105,-27896,-27683,-27466,-27244,
+  -27019,-26789,-26556,-26318,-26077,-25831,-25582,-25329,-25072,-24811,-24546,-24278,-24006,-23731,-23452,-23169,
+  -22883,-22594,-22301,-22004,-21705,-21402,-21096,-20787,-20474,-20159,-19840,-19519,-19194,-18867,-18537,-18204,
+  -17868,-17530,-17189,-16845,-16499,-16150,-15799,-15446,-15090,-14732,-14372,-14009,-13645,-13278,-12909,-12539,
+  -12166,-11792,-11416,-11038,-10659,-10278,-9895,-9511,-9126,-8739,-8351,-7961,-7571,-7179,-6786,-6392,
+  -5997,-5601,-5205,-4807,-4409,-4011,-3611,-3211,-2811,-2410,-2009,-1607,-1206,-804,-402,
+  0,402,804,1206,1607,2009,2410,2811,3211,3611,4011,4409,4807,5205,5601,5997,6392,
+  6786,7179,7571,7961,8351,8739,9126,9511,9895,10278,10659,11038,11416,11792,12166,12539,
+  12909,13278,13645,14009,14372,14732,15090,15446,15799,16150,16499,16845,17189,17530,17868,18204,
+  18537,18867,19194,19519,19840,20159,20474,20787,21096,21402,21705,22004,22301,22594,22883,23169,
+  23452,23731,24006,24278,24546,24811,25072,25329,25582,25831,26077,26318,26556,26789,27019,27244,
+  27466,27683,27896,28105,28309,28510,28706,28897,29085,29268,29446,29621,29790,29955,30116,30272,
+  30424,30571,30713,30851,30984,31113,31236,31356,31470,31580,31684,31785,31880,31970,32056,32137,
+  32213,32284,32350,32412,32468,32520,32567,32609,32646,32678,32705,32727,32744,32757,32764,32767,
+};
+
 
 const int16_t sinTable[] = {
   0,402,804,1206,1607,2009,2410,2811,3211,3611,4011,4409,4807,5205,5601,5997,6392,
@@ -1166,6 +1186,10 @@ int16_t noiseTable[512]; //generated in program, uses SRAM
 int16_t noiseTable2[512]; //generated in program, uses SRAM
 int16_t noiseTable3[2]; //array of 2, for program generated LF noise
 int16_t NT3Rate; //the rate noisetable 3 changes.
+int16_t delayTable[1024];
+uint16_t delayCounter =0;
+uint16_t delayPut = 0;
+uint16_t delayGet = 0;
 
 float osc_mult[]  = {4,4};
 
@@ -1204,6 +1228,7 @@ o2;
 struct oscillator3
 {
   uint32_t phase =0;
+  uint32_t phaseAdd =0; 
   int32_t phaseRemain = 0;
   int32_t nextwave; 
  int32_t phaseOffset =0; 
@@ -1215,7 +1240,8 @@ struct oscillator3
 o3;
 struct oscillator4
 {
-  uint32_t phase =0; 
+  uint32_t phase =0;
+  uint32_t phaseAdd =0;  
  int32_t phaseRemain = 0;
   int32_t nextwave;  
   int32_t wave;
@@ -1225,7 +1251,7 @@ struct oscillator4
 o4;
 struct oscillator5
 {
-  uint32_t phase =0;
+  uint32_t phase =0;  
   int32_t phaseRemain = 0;
   int32_t nextwave; 
   int32_t phaseOffset =0;
@@ -1330,6 +1356,9 @@ uint32_t conf_TuneMult = TUNEMULT;
 //uint32_t conf_LFOBase = LFOBASE;
 const float conf_NoteSize = NOTESIZE; 
 const int FX = FX_PROCESS;
+const int PWM_Div = PWM_SUB;
+const int PWM_Min = PWM_MINIMUM<<4;
+const int PWM_Cont = PWM_CONTROL;
 
 
 int aout2 = A14; //dac out
@@ -1377,7 +1406,7 @@ const int16_t *waveTableLink;
 const int16_t *waveTable2Link;
 const int16_t *waveTableMidLink;
 const int16_t *FMTable;
-const int16_t *FMTableAMX;
+const int16_t *FMTableAMX; //in CZ alt mode the modulator can be different for the AM and FM.
 
 //int32_t filterAccumulator;
 
@@ -1421,9 +1450,6 @@ uint8_t detuneLoOn;
 uint8_t detuneMidOn;
 uint8_t detuneHiOn;
 int32_t envVal;
-//int32_t CZVal32;
-int32_t filtSamplesLP;
-int32_t filtSamplesHP;
 int tuner;
 
 int32_t AGCtest;
