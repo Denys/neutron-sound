@@ -12,7 +12,7 @@ void loop() {
 
   if (loopReset == 1)goto evilGoto;
   ARC ++;
-  if ((ARC == 7 || ARC == 9)&& tuneLockOn && (FX == 0)) ARC ++; //skip reading tuning knobs if tunelock is on.
+  if ((ARC == 7 || ARC == 9)&& tuneLockOn) ARC ++; //skip reading tuning knobs if tunelock is on.
   if (ARC > 9) {
     ARC = 0;
   }  //cycle through analog controls. skip tuning controls if tunelock is on.
@@ -87,7 +87,8 @@ if (loopReset == 1)goto evilGoto;
   
   if (loopReset == 1)goto evilGoto;
 //---------------------------Detune CV----------------
-  aInModDetune = ((4095-analogRead(A12))<<1);  
+  aInDetuneReading = analogRead(A12);
+  aInModDetune = ((4095-aInDetuneReading)<<1);  
   //--------------------------------------------------
  
   DODETUNING();  
@@ -101,6 +102,23 @@ if (loopReset == 1)goto evilGoto;
   
 if (loopReset == 1)goto evilGoto;
   UPDATE_LEDS(); 
+  
+  if (FXCycleButton.update()) {
+    if (FXCycleButton.fallingEdge()) {
+      FX = FX + 1;
+      if (FX > FX_Count) FX = 0;
+      EEPROM.write(0, FX);
+      SELECT_ISRS();
+    }
+    if (FXSw == 1 && FXCycleButton.risingEdge()) {
+      FX = FX + 1;
+      if (FX > FX_Count) FX = 0;
+      EEPROM.write(0, FX);
+      SELECT_ISRS();
+    }
+  }
+  
+  
    
 }
 

@@ -1,9 +1,11 @@
 //Neutron-sound.com 
-//Orgone Accumulator 1.5.0 beta4
+//Orgone Accumulator 2 beta1
 
 //use config.h tab to change tune lock function
 
 #include <stdint.h>
+#include <Bounce.h>
+#include <EEPROM.h>
 #include "Config.h"
 
 const int16_t waveShaper[] = {
@@ -1186,14 +1188,27 @@ int16_t noiseTable[512]; //generated in program, uses SRAM
 int16_t noiseTable2[512]; //generated in program, uses SRAM
 int16_t noiseTable3[2]; //array of 2, for program generated LF noise
 int16_t NT3Rate; //the rate noisetable 3 changes.
-int16_t delayTable[1024];
+
+int16_t delayTable[4096];
 uint16_t delayCounter =0;
-uint16_t delayPut = 0;
-uint16_t delayGet = 0;
+uint16_t delayFB = 0;
+uint16_t delayCounterShift = 0;
+uint16_t delayTime = 512; 
+uint16_t delayTimeShift = 0;
+uint16_t delayTimeShift2 = 0;
+uint16_t delayTimeShift3 = 0;
+uint16_t delayTimeShift4 = 0;
+int32_t delayFeedback = 0;
+
+uint32_t ADT1;
+uint32_t ADT2;
 
 float osc_mult[]  = {4,4};
 
 int32_t nextstep = 8388609;
+int32_t clipping = 0;
+int32_t clippingTest = 0;
+
 
 struct oscillatorSQUARE //PWM osc
 {
@@ -1208,11 +1223,14 @@ struct oscillator1
   uint32_t phase =0;
   int32_t phaseRemain = 0; 
   int32_t phaseOffset =0;
+  uint32_t maxlev;
+  int32_t amp;
   uint32_t phaseOld = 0; 
   int32_t wave;
   int32_t nextwave;  
   int32_t index;
-  int32_t phase_increment = 0;         
+  int32_t phase_increment = 0; 
+  
 } 
 o1;
 struct oscillator2
@@ -1280,7 +1298,8 @@ struct oscillator7
   uint32_t phaseOld = 0; 
   int32_t index;
   int32_t wave;  
-  int32_t phase_increment = 0;         
+  int32_t phase_increment = 0;
+int32_t phase_increment2 = 0;  
 } 
 o7;
 struct oscillator8
@@ -1302,7 +1321,8 @@ struct oscillator9
   uint32_t phaseOld = 0; 
   int32_t index;
   int32_t wave;  
-  int32_t phase_increment = 0;         
+  int32_t phase_increment = 0;
+int32_t phase_increment2 = 0;      
 } 
 o9;
 struct oscillator10
@@ -1323,7 +1343,9 @@ struct lfo
 } 
 lfo;
 
-#define primeSwitch 3 //ok
+
+
+#define FXButton 3 //ok
 #define CZmodeSwitch 6
 #define FMFixedSwitch 7
 #define detuneLoSwitch 1
@@ -1355,10 +1377,11 @@ uint16_t conf_LED_comp = LED_COMP; //see config.h for explanations
 uint32_t conf_TuneMult = TUNEMULT;
 //uint32_t conf_LFOBase = LFOBASE;
 const float conf_NoteSize = NOTESIZE; 
-const int FX = FX_PROCESS;
+const int FXSw = FX_SWITCH;
 const int PWM_Div = PWM_SUB;
 const int PWM_Min = PWM_MINIMUM<<4;
 const int PWM_Cont = PWM_CONTROL;
+const int FX_Count = FX_N;
 
 
 int aout2 = A14; //dac out
@@ -1372,6 +1395,7 @@ int table =0;
 //int muff = 0;
 int ARC; 
 int SWC; //slow wave counter
+int FX; //effect mode.
 
 uint16_t aInMain;
 int32_t aInMod; 
@@ -1382,6 +1406,7 @@ int32_t aInPos;
 
 //detuning
 float aInModDetune;
+uint16_t aInDetuneReading;
 float aInModDetuneCubing;
 float detuneScaler;
 float detuneAmountCont;
@@ -1390,7 +1415,7 @@ uint32_t detune[]= { //array holds detune amounts
   0,0,0,0,};
   int32_t detuneP[]= { //array holds detune amounts
   0,0,0,0,};
-float primes[]= {163.0,443.0,397.0,223.0};//primes for detuning
+float primes[]= {351.1,442.3,398.9,327.1};//primes for detuning
 uint8_t primeDetuneOn;
 uint8_t WTShift = 23;
 
@@ -1504,6 +1529,7 @@ int ISRrate = 15;
 
 //int waveIncrement = 1;
 IntervalTimer outUpdateTimer;
+Bounce FXCycleButton = Bounce(FXButton, 10);
 
 // the setup routine runs once when you press reset:
 void setup() {                 
@@ -1562,7 +1588,8 @@ pinMode(LED_Hi, OUTPUT);
  
 attachInterrupt(gateIn, gateISR, RISING);  
 
-   
+   FX = EEPROM.read(0);
+   SELECT_ISRS();
 
   for(int i=0; i <= 511; i++){
     noiseTable[i]=random(-32768,32768);

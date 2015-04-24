@@ -1,24 +1,31 @@
-void UPDATECONTROLS_CZ(){
+void UPDATECONTROLS_FM(){
+     
 
   switch (ARC+1) {
 
-  case 7:
+  case 7: //7 and 9 are skipped when tune lock is on, do not use.
+    
 
+    
     break;
 
-  case 9:   
-
-    Serial.println((float)o1.phase_increment/51550); 
-    //outputs the frequency on USB serial. tune lock, FM and X must be off
-
-
-
+  case 9:    
+    
+     
     break;
 
   case 3:
-    SELECT_ISRS();
+    TUNELOCK_TOGGLE();
     detuneAmountCont = analogControls[2];
-    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0; 
+    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;  
+    
+//        Serial.print(FMIndex);
+//        Serial.print("    ");
+//        Serial.print(detuneAmountCont);
+//        
+//        Serial.print("    ");
+//        Serial.println(aInModDetune);
+
     break;
 
   case 4:
@@ -31,46 +38,46 @@ void UPDATECONTROLS_CZ(){
       waveTableMidLink = triTable; 
       break;
     case 2: 
-      waveTableMidLink = sawTable; 
+      waveTableMidLink = AKWF_symetric_0001; 
       break;
     case 3: 
-      waveTableMidLink = scarabTable1; 
+      waveTableMidLink = AKWF_symetric_0010; 
       break;
     case 4: 
       waveTableMidLink = scarabTable2; 
       break;
     case 5: 
-      waveTableMidLink = pulseTable; 
+      waveTableMidLink = AKWF_symetric_0013; 
       break;
     case 6: 
       waveTableMidLink = pnoTable; 
       break;
     case 7: 
-      waveTableMidLink = bassTable1; 
-      break;
-    case 8: 
-      waveTableMidLink = bassTable2; 
+      waveTableMidLink = FMTableS180; 
+      break; 
+     case 8: 
+      waveTableMidLink = AKWF_gapsaw_0017; 
       break;
     case 9: 
-      waveTableMidLink = celloTable; 
+      waveTableMidLink = FMTableSQR; 
       break;
     case 10: 
-      waveTableMidLink = violTable; 
-      break;
-    case 11: 
       waveTableMidLink = distoTable; 
       break;
+    case 11: 
+      waveTableMidLink = AKWF_0003; 
+      break;
     case 12: 
-      waveTableMidLink = blipTable; 
+      waveTableMidLink = voiceTable; 
       break;
     case 13: 
-      waveTableMidLink = voiceTable; 
+      waveTableMidLink = FMTableFM98; 
       break;
     case 14: 
       waveTableMidLink = noiseTable2; 
-      break;
+      break;      
     case 15: 
-      waveTableMidLink = noiseTable; 
+      waveTableMidLink = AKWF_squ_0011; 
       break;    
     }      
     break;
@@ -85,48 +92,47 @@ void UPDATECONTROLS_CZ(){
       waveTable2Link = triTable; 
       break;
     case 2: 
-      waveTable2Link = sawTable; 
+      waveTable2Link = AKWF_symetric_0001; 
       break;
     case 3: 
-      waveTable2Link = scarabTable1; 
+      waveTable2Link = AKWF_symetric_0010; 
       break;
     case 4: 
       waveTable2Link = scarabTable2; 
       break;
     case 5: 
-      waveTable2Link = pulseTable; 
+      waveTable2Link = AKWF_symetric_0013; 
       break;
     case 6: 
       waveTable2Link = pnoTable; 
       break;
-    case 7: 
-      waveTable2Link = bassTable1; 
+      case 7: 
+      waveTable2Link = FMTableS180; 
       break;
     case 8: 
-      waveTable2Link = bassTable2; 
+      waveTable2Link = AKWF_gapsaw_0017; 
       break;
     case 9: 
-      waveTable2Link = celloTable; 
+      waveTable2Link = FMTableSQR; 
       break;
     case 10: 
-      waveTable2Link = violTable; 
-      break;
-    case 11: 
       waveTable2Link = distoTable; 
       break;
-    case 12: 
-      waveTable2Link = blipTable; 
+    case 11: 
+      waveTable2Link = AKWF_0003; 
       break;
-    case 13: 
+    case 12: 
       waveTable2Link = voiceTable; 
       break;
-    case 14: 
-      waveTable2Link = primeTable; 
+    case 13: 
+      waveTable2Link = FMTableFM98; 
       break;
+    case 14: 
+      waveTable2Link = noiseTable2; 
+      break;      
     case 15: 
       waveTable2Link = nothingTable; 
-      break;
-
+      break;    
     }      
     break;
 
@@ -139,16 +145,16 @@ void UPDATECONTROLS_CZ(){
       waveTableLink = triTable; 
       break;
     case 2: 
-      waveTableLink = sawTable; 
+      waveTableLink = AKWF_symetric_0001; 
       break;
     case 3: 
-      waveTableLink = scarabTable1; 
+      waveTableLink = AKWF_symetric_0010; 
       break;
     case 4: 
       waveTableLink = scarabTable2; 
       break;
     case 5: 
-      waveTableLink = pulseTable; //change
+      waveTableLink = AKWF_symetric_0013; 
       break;
     case 6: 
       waveTableLink = pnoTable; 
@@ -156,48 +162,47 @@ void UPDATECONTROLS_CZ(){
     case 7: 
       waveTableLink = bassTable1; 
       break;
-    case 8: 
-      waveTableLink = bassTable2; 
+      case 8: 
+      waveTableLink = AKWF_gapsaw_0017; 
       break;
     case 9: 
-      waveTableLink = celloTable; 
+      waveTableLink = FMTableSQR; 
       break;
     case 10: 
-      waveTableLink = violTable; 
-      break;
-    case 11: 
       waveTableLink = distoTable; 
       break;
+    case 11: 
+      waveTableLink = AKWF_0003; 
+      break;
     case 12: 
-      waveTableLink = blipTable; //change
+      waveTableLink = voiceTable; 
       break;
     case 13: 
-      waveTableLink = voiceTable; 
+      waveTableLink = FMTableFM98; 
       break;
     case 14: 
       waveTableLink = noiseTable2; 
-      break;
+      break;      
     case 15: 
-      waveTableLink = noiseTable; 
+      waveTableLink = AKWF_squ_0011; 
       break;    
+   
     }
 
     break;  
 
   case 1:     
-    mixPos = (analogControls[6]>>5)<<4;     
-
+    mixPos = (analogControls[6]>>1); 
+    
     FMFixedOn = digitalReadFast(FMFixedSwitch);
-    if (FMFixedOn){
-      inputConverterF = 200000;
-    } //sets fixed frequency to current frequency when fixed is pushed.
-
-
-    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);   
+    if (FMFixedOn){inputConverterF = 10000;} //sets fixed frequency to current frequency when fixed is pushed.
+           
+    
+    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);
     break; 
 
   case 8:
-    primeDetuneOn = !digitalReadFast(primeSwitch);
+  
     detuneLoOn = digitalReadFast(detuneLoSwitch); 
     detuneMidOn = !digitalReadFast(detuneMidSwitch); 
     detuneHiOn = !digitalReadFast(detuneHiSwitch);    
@@ -206,73 +211,92 @@ void UPDATECONTROLS_CZ(){
 
   case 2:
     totalratio = totalratio - readingsratio[controlAveragingIndex]; 
-    readingsratio[controlAveragingIndex] = analogControls[0];
+    readingsratio[controlAveragingIndex] = analogControls[0]; //fm ratio control smoothing in FM
     totalratio = totalratio + readingsratio[controlAveragingIndex];
     controlAveragingIndex = controlAveragingIndex + 1;
     if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
     averageratio = totalratio / numreadingsratio;    
-    break; 
+     break; 
 
   case 10:
     FMIndexCont = (int)(analogControls[1]>>2);    
-
-
-    switch (analogControls[3]>>9){
+    
+//    else {
+//      FMIndexContCubing = (analogControls[8])/1024.0;
+//      FMIndexCont = (int) (FMIndexContCubing* FMIndexContCubing*FMIndexContCubing); 
+//    }
+    
+     switch (analogControls[3]>>9){
     case 0: 
-      FMTable = sinTable; 
+      FMTable = sinTable;
+     WTShift = 23; 
       break;
     case 1: 
-      FMTable = triTable; 
+      FMTable = triTable;
+     WTShift = 23; 
       break;
     case 2: 
-      FMTable = FMTableS180; 
+      FMTable = AKWF_symetric_0011;
+      WTShift = 23;
       break;
     case 3: 
-      FMTable = FMTableSQ; 
+      FMTable = FMTableSQ;
+     WTShift = 23; 
       break;
     case 4: 
-      FMTable = FMTableSQR; 
+      FMTable = FMTableSQR;
+     WTShift = 23; 
       break;
     case 5: 
-      FMTable = AKWF_0003; 
+       FMTable = AKWF_symetric_0013;
+       WTShift = 23;
       break;
     case 6: 
-      FMTable = pnoTable; 
+      FMTable = AKWF_symetric_0001;
+      WTShift = 23;
       break;
     case 7: 
-      FMTable = bassTable1; 
+      FMTable = bassTable1;
+     WTShift = 23; 
       break;
-    case 8: 
-      FMTable = bassTable2; 
+     case 8: 
+      FMTable = FMTableS180;
+     WTShift = 23; 
       break;
     case 9: 
-      FMTable = celloTable; 
+      FMTable = celloTable;
+     WTShift = 23; 
       break;
     case 10: 
       FMTable = violTable; 
+      WTShift = 23;
       break;
     case 11: 
-      FMTable = FMTableFM98; 
+      FMTable = distoTable;
+     WTShift = 23; 
       break;
     case 12: 
-      FMTable = FMTablehvoice26; 
+      FMTable = blipTable;
+     WTShift = 23; 
       break;
     case 13: 
-      FMTable = AKWF_squ_0011; 
+      FMTable = FMTableFM98;
+     WTShift = 23; 
       break;
     case 14: 
-      FMTable = noiseTable2;//FMTableCZ;
+      FMTable = noiseTable2; 
+      WTShift = 23;
       break;
     case 15: 
-      FMTable = noiseTable; 
-      break;    
+      FMTable = noiseTable3;
+     WTShift = 31; 
+      break;      
     }
-
+    
 
     break;   
 
 
   }
 }
-
 

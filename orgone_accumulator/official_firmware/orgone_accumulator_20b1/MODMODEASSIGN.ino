@@ -1,4 +1,6 @@
 void ASSIGNINCREMENTS(){
+  
+  
 
   switch(oscMode){ //switches which oscs get changed by FM and how much multiplier ;
 
@@ -28,29 +30,29 @@ void ASSIGNINCREMENTS(){
       osc_mult[0]=FMMult;
       osc_mult[1]=4.0;
       o2.phase_increment = inputConverter*osc_mult[1]  ;
-      o4.phase_increment = inputConverter*osc_mult[1]+ detune[0];
-      o6.phase_increment = inputConverter*osc_mult[1]+ detune[3];
-      o8.phase_increment = inputConverter*osc_mult[1]- detune[2];
+      o4.phase_increment = inputConverter*osc_mult[1]+ detune[2];
+      o6.phase_increment = inputConverter*osc_mult[1]- detune[3];
+      o8.phase_increment = inputConverter*osc_mult[1]+ detune[0];
       o10.phase_increment = inputConverter*osc_mult[1] - detune[1];
       o1.phase_increment = inputConverterF*osc_mult[0] ;
-      o3.phase_increment = inputConverterF*osc_mult[0]+ detune[0];
+      o3.phase_increment = inputConverterF*osc_mult[0]- detune[2];
       o5.phase_increment = inputConverterF*osc_mult[0]+ detune[3];
-      o7.phase_increment = inputConverterF*osc_mult[0]- detune[2];
-      o9.phase_increment = inputConverterF*osc_mult[0]- detune[1];   
+      o7.phase_increment = inputConverterF*osc_mult[0]- detune[0];
+      o9.phase_increment = inputConverterF*osc_mult[0]+ detune[1];   
     }
     else {
       FMMult = ((int)((averageratio>>9)+1))*aInModRatio; //FM + free 
       osc_mult[0]=FMMult;
       osc_mult[1]=4.0;
       o2.phase_increment = inputConverter*osc_mult[1] ;
-      o4.phase_increment = inputConverter*osc_mult[1]+ detune[0];
-      o6.phase_increment = inputConverter*osc_mult[1]+ detune[3];
-      o8.phase_increment = inputConverter*osc_mult[1]- detune[2];
+      o4.phase_increment = inputConverter*osc_mult[1]+ detune[2];
+      o6.phase_increment = inputConverter*osc_mult[1]- detune[3];
+      o8.phase_increment = inputConverter*osc_mult[1]+ detune[0];
       o10.phase_increment = inputConverter*osc_mult[1] - detune[1];
       o1.phase_increment = inputConverter*osc_mult[0] ;
-      o3.phase_increment = inputConverter*osc_mult[0]+ detune[0];
+      o3.phase_increment = inputConverter*osc_mult[0]- detune[2];
       o5.phase_increment = inputConverter*osc_mult[0]+ detune[3];
-      o7.phase_increment = inputConverter*osc_mult[0]- detune[2];
+      o7.phase_increment = inputConverter*osc_mult[0]+ detune[0];
       o9.phase_increment = inputConverter*osc_mult[0] - detune[1];
     }
     break; 
@@ -84,9 +86,9 @@ void ASSIGNINCREMENTS(){
       osc_mult[1]=4;
       FMX_HiOffset=mixHi*FMX_HiOffsetCont;
       o2.phase_increment = inputConverter*osc_mult[1] + FMX_HiOffset ;
-      o4.phase_increment = inputConverter*osc_mult[1]+ detune[0]+ FMX_HiOffset;
-      o6.phase_increment = inputConverter*osc_mult[1]+ detune[3]+ FMX_HiOffset;
-      o8.phase_increment = inputConverter*osc_mult[1]- detune[2]+ FMX_HiOffset;
+      o4.phase_increment = inputConverter*osc_mult[1]+ detune[2]+ FMX_HiOffset;
+      o6.phase_increment = inputConverter*osc_mult[1]- detune[3]+ FMX_HiOffset;
+      o8.phase_increment = inputConverter*osc_mult[1]+ detune[0]+ FMX_HiOffset;
       o10.phase_increment = inputConverter*osc_mult[1] - detune[1]+ FMX_HiOffset;
       o1.phase_increment = inputConverterF*osc_mult[0] ;
       o3.phase_increment = inputConverterF*osc_mult[0] ;
@@ -100,14 +102,14 @@ void ASSIGNINCREMENTS(){
       osc_mult[1]=4;
       FMX_HiOffset=mixHi*FMX_HiOffsetCont;
       o2.phase_increment = inputConverter*osc_mult[1]+ FMX_HiOffset ;
-      o4.phase_increment = inputConverter*osc_mult[1]+ detune[0]+ FMX_HiOffset;
-      o6.phase_increment = inputConverter*osc_mult[1]+ detune[3]+ FMX_HiOffset;
-      o8.phase_increment = inputConverter*osc_mult[1]- detune[2]+ FMX_HiOffset;
-      o10.phase_increment = inputConverter*osc_mult[1] - detune[1]+ FMX_HiOffset;
+      o4.phase_increment = inputConverter*osc_mult[1]+ detune[2]+ FMX_HiOffset;
+      o6.phase_increment = inputConverter*osc_mult[1]- detune[3]+ FMX_HiOffset;
+      o8.phase_increment = inputConverter*osc_mult[1]+ detune[1]+ FMX_HiOffset;
+      o10.phase_increment = inputConverter*osc_mult[1] - detune[0]+ FMX_HiOffset;
       o1.phase_increment = inputConverter*osc_mult[0] ;
-      o3.phase_increment = inputConverter*osc_mult[0]+ detune[0];
+      o3.phase_increment = inputConverter*osc_mult[0]- detune[2];
       o5.phase_increment = inputConverter*osc_mult[0]+ detune[3];
-      o7.phase_increment = inputConverter*osc_mult[0]- detune[2];
+      o7.phase_increment = inputConverter*osc_mult[0]+ detune[0];
       o9.phase_increment = inputConverter*osc_mult[0] - detune[1];
     }
     break; 
@@ -142,8 +144,8 @@ case 1://cz
       o10.phase_increment = inputConverterF*osc_mult[1];
       o1.phase_increment = inputConverter*osc_mult[0];
       o3.phase_increment = inputConverter*osc_mult[0]+ detune[3];
-      o5.phase_increment = inputConverter*osc_mult[0]+ detune[2];
-      o7.phase_increment = inputConverter*osc_mult[0]- detune[1];
+      o5.phase_increment = inputConverter*osc_mult[0]- detune[2];
+      o7.phase_increment = inputConverter*osc_mult[0]+ detune[1];
       o9.phase_increment = inputConverter*osc_mult[0] - detune[0];
     }
     else{
@@ -152,13 +154,13 @@ case 1://cz
     osc_mult[1]=FMMult;
       o2.phase_increment = inputConverter*osc_mult[1];
       o4.phase_increment = inputConverter*osc_mult[1]+ detune[3];
-      o6.phase_increment = inputConverter*osc_mult[1]+ detune[2];
-      o8.phase_increment = inputConverter*osc_mult[1]- detune[1];
+      o6.phase_increment = inputConverter*osc_mult[1]- detune[2];
+      o8.phase_increment = inputConverter*osc_mult[1]+ detune[1];
       o10.phase_increment = inputConverter*osc_mult[1] - detune[0];
       o1.phase_increment = inputConverter*osc_mult[0];
       o3.phase_increment = inputConverter*osc_mult[0]+ detune[3];
-      o5.phase_increment = inputConverter*osc_mult[0]+ detune[2];
-      o7.phase_increment = inputConverter*osc_mult[0]- detune[1];
+      o5.phase_increment = inputConverter*osc_mult[0]- detune[2];
+      o7.phase_increment = inputConverter*osc_mult[0]+ detune[1];
       o9.phase_increment = inputConverter*osc_mult[0] - detune[0];
     }
     break; 
@@ -192,14 +194,14 @@ case 1://cz
     osc_mult[1]=FMMult;
     FMX_HiOffset=int32_t(mixHi*FMX_HiOffsetCont)>>10;
       o2.phase_increment = inputConverterF*osc_mult[1]; //modulation not detuned 
-      o4.phase_increment = inputConverterF*osc_mult[1];
-      o6.phase_increment = inputConverterF*osc_mult[1];
-      o8.phase_increment = inputConverterF*osc_mult[1];
-      o10.phase_increment = inputConverterF*osc_mult[1];
+      o4.phase_increment = inputConverterF*osc_mult[1]+detune[2];
+      o6.phase_increment = inputConverterF*osc_mult[1]-detune[3];
+      o8.phase_increment = inputConverterF*osc_mult[1]+detune[0];
+      o10.phase_increment = inputConverterF*osc_mult[1]-detune[1];
       o1.phase_increment = inputConverter*osc_mult[0] ;
       o3.phase_increment = inputConverter*osc_mult[0]+ detune[3];
-      o5.phase_increment = inputConverter*osc_mult[0]+ detune[2];
-      o7.phase_increment = inputConverter*osc_mult[0]- detune[1];
+      o5.phase_increment = inputConverter*osc_mult[0]- detune[2];
+      o7.phase_increment = inputConverter*osc_mult[0]+ detune[1];
       o9.phase_increment = inputConverter*osc_mult[0]- detune[0];
       lfo.phase_increment = inputConverterF*(osc_mult[1]/8.0);
     }
@@ -210,13 +212,13 @@ case 1://cz
     FMX_HiOffset=int32_t(mixHi*FMX_HiOffsetCont)>>10;
       o2.phase_increment = inputConverter*osc_mult[1];
       o4.phase_increment = inputConverter*osc_mult[1]+ detune[3];;
-      o6.phase_increment = inputConverter*osc_mult[1]+ detune[2];;
-      o8.phase_increment = inputConverter*osc_mult[1]- detune[1];;
+      o6.phase_increment = inputConverter*osc_mult[1]- detune[2];;
+      o8.phase_increment = inputConverter*osc_mult[1]+ detune[1];;
       o10.phase_increment = inputConverter*osc_mult[1]- detune[0];;
       o1.phase_increment = inputConverter*osc_mult[0];
       o3.phase_increment = inputConverter*osc_mult[0]+ detune[3];
-      o5.phase_increment = inputConverter*osc_mult[0]+ detune[2];
-      o7.phase_increment = inputConverter*osc_mult[0]- detune[1];
+      o5.phase_increment = inputConverter*osc_mult[0]- detune[2];
+      o7.phase_increment = inputConverter*osc_mult[0]+ detune[1];
       o9.phase_increment = inputConverter*osc_mult[0]- detune[0];
       lfo.phase_increment = inputConverter*(osc_mult[1]/2.0);
     }
@@ -224,7 +226,10 @@ case 1://cz
     break; 
    
   }
-
+  
+  if (FX == 3) o3.phase_increment = inputConverter*osc_mult[0]+ detune[3];
+  
+ 
   oSQ.phase_increment = (inputConverter/PWM_Div)*4;
   if (PWM_Cont == 0){oSQ.PW = (PWM_Min<<20) + ((envVal*(4095 - (PWM_Min<<1)))<<8);}  //scale the pwm so it only reaches min/max set by PWM_MINIMUM in config 
   else {oSQ.PW = (PWM_Min<<20) + (((constrain(((2048+FMIndexCont)+(int(2048-averageaInIAv))),0,4095))    *    (4095 - (PWM_Min<<1)))<<8);}

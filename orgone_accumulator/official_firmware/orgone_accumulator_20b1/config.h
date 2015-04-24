@@ -11,12 +11,12 @@
 
 //LED compensation. adjusts how the LEDs fade across positions
 
-#define FX_PROCESS 1
+#define FX_SWITCH 0
 
-//0 = normal tune lock [default]
-//1 = bitcrush
-//2 = self mod (dont use yet)
+//0 = momentary
+//1 = toggle
 
+#define FX_N 4
 
 #define PWM_SUB 2
 
@@ -33,6 +33,10 @@
 
 //0 = position control and CV controls PWM across range
 //1 = index controls PWM minimum PW to 50%, modified by index CV
+
+#define FX_SELECT_EXT 0
+
+//do not change, for effect select sub panel.
 
  
 

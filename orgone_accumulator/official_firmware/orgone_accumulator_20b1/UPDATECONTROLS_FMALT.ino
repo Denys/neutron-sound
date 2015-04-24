@@ -15,7 +15,7 @@ void UPDATECONTROLS_FMALT(){
     break;
 
   case 3:
-    SELECT_ISRS();
+    TUNELOCK_TOGGLE();
     detuneAmountCont = analogControls[2];
     //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;  
     
@@ -153,7 +153,7 @@ void UPDATECONTROLS_FMALT(){
     break; 
 
   case 8:
-  primeDetuneOn = !digitalReadFast(primeSwitch);
+  
     detuneLoOn = digitalReadFast(detuneLoSwitch); 
     detuneMidOn = !digitalReadFast(detuneMidSwitch); 
     detuneHiOn = !digitalReadFast(detuneHiSwitch);    
