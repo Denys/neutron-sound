@@ -38,7 +38,7 @@ void FASTRUN outUpdateISR_PULSAR(void){
    
 
     
-    o1.wave =   (o2.wave * o3.wave)>>15;    
+    o1.wave =   (o2.wave * o3.wave)>>14;    
     
       
 
