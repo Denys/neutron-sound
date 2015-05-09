@@ -1,4 +1,4 @@
-void FASTRUN outUpdateISR_ADET(void){
+void FASTRUN outUpdateISR_MSAW(void){
 // same as normal mode but with alternate detune method (full volume but detuned waves are AM by each other to keep the level down)
  
   

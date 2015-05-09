@@ -8,7 +8,8 @@ void TUNELOCK_TOGGLE()
 
 void SELECT_ISRS(){
 
-      
+     LED_MCD = LED_MST;    
+  
       switch (FX){//select middle wavetable
     case 0: 
       outUpdateTimer.end();
@@ -32,5 +33,9 @@ void SELECT_ISRS(){
       outUpdateTimer.end();
       outUpdateTimer.begin(outUpdateISR_CRUSH,ISRrate); 
       break;
+      case 5: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_FOLD,ISRrate); 
+      break; 
       
 }}

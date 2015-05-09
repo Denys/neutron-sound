@@ -7,7 +7,9 @@
 // note resolution. lower value will give wider oscillator range, higher will give better resolution
 //you will need to recalibrate the v/oct trimmer if you adjust this. decimal is important, even if zero.
 
-#define LED_COMP 1000  
+#define LED_COMP 1000
+
+#define LED_MODESWITCH_TIME 5000 //time in main loop cycles, about 2-3 khz depending on am/fm effects etc.
 
 //LED compensation. adjusts how the LEDs fade across positions
 
@@ -16,7 +18,7 @@
 //0 = momentary
 //1 = toggle
 
-#define FX_N 4
+#define FX_N 5
 
 #define PWM_SUB 2
 
@@ -37,6 +39,8 @@
 #define FX_SELECT_EXT 0
 
 //do not change, for effect select sub panel.
+
+
 
  
 

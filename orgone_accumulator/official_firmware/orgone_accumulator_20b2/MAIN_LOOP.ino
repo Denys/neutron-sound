@@ -2,6 +2,8 @@ void loop() {
     
     if (loopReset == 1)goto evilGoto; //these will jump to the same place in the loop when a gateISR happens.
     
+    if (LED_MCD > 0)LED_MCD = LED_MCD -1;
+    
   //slow generated signals
   noiseTable2[random(0,512)]= random(-32767,32767); //hypnotoad noise (noiseTable2)
   if (loopReset == 1)goto evilGoto;
