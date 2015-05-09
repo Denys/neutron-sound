@@ -3,6 +3,7 @@ void TUNELOCK_TOGGLE()
  buh = digitalReadFast(tuneLockSwitch);
     if (tuneLockOn != buh){
       tuneLockOn = buh;
+      LED_MCD = LED_MST;
       digitalWriteFast(LED_TuneLock,tuneLockOn);}}
 
 
