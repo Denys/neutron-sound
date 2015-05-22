@@ -1,5 +1,5 @@
 //Neutron-sound.com 
-//Orgone Accumulator 2 beta2
+//Orgone Accumulator 2 beta3
 
 //pre 2.0 firmware orgones
 //use config.h tab to change FX function button to toggle
@@ -12,6 +12,21 @@
 #include <Bounce.h>
 #include <EEPROM.h>
 #include "Config.h"
+
+const int chordTable[] = {
+  1,3,5,
+  1,4,7,
+  1,3,7,
+  1,4,6,
+  1,3,6,
+  1,5,9,
+  1,4,8,
+  1,3,8,
+  1,4,9,
+};
+
+const float equalTemprementTable[] = {1,1,1.05946,1.12246,1.18921,1.25992,1.33483,1.41421,1.49831,1.58740,1.68179,1.78180,1.88775,2};
+const float justTable[] = {1,1,1.0417,1.1250,1.2,1.25,1.33333,1.4063,1.5,1.6,1.66666,1.8,1.875,2};
 
 const int16_t waveShaper[] = {
   -32764,-32757,-32744,-32727,-32705,-32678,-32646,-32609,-32567,-32520,-32468,-32412,-32350,-32284,-32213,-32137,
@@ -1229,6 +1244,7 @@ struct oscillator1
   uint32_t phase =0;
   int32_t phaseRemain = 0; 
   int32_t phaseOffset =0;
+  uint32_t CRUSHwave = 0;
   uint32_t maxlev;
   int32_t amp;
   uint32_t phaseOld = 0; 
@@ -1243,6 +1259,7 @@ struct oscillator2
 {
   uint32_t phase =0;
   int32_t phaseRemain = 0;
+  uint32_t phaseOld = 0;
   int32_t index; 
   int32_t wave; 
   int32_t nextwave; 
@@ -1388,6 +1405,7 @@ const int PWM_Div = PWM_SUB;
 const int PWM_Min = PWM_MINIMUM<<4;
 const int PWM_Cont = PWM_CONTROL;
 const int FX_Count = FX_N;
+const int FXa[] = {FX0,FX1,FX2,FX3,FX4,FX5,FX6,FX7};
 const int LED_MST = LED_MODESWITCH_TIME;
 int LED_MCD;
 
@@ -1404,6 +1422,7 @@ int table =0;
 int ARC; 
 int SWC; //slow wave counter
 int FX; //effect mode.
+int FXi; //effect array index
 
 uint16_t aInMain;
 int32_t aInMod; 
@@ -1419,6 +1438,8 @@ float aInModDetuneCubing;
 float detuneScaler;
 float detuneAmountCont;
 float detuneAmountContCubing;
+int32_t mixDetuneUpTMp ;
+int32_t mixDetuneDnTMp;
 uint32_t detune[]= { //array holds detune amounts
   0,0,0,0,};
 int32_t detuneP[]= { //array holds detune amounts
@@ -1440,6 +1461,7 @@ const int16_t *waveTableLink;
 const int16_t *waveTable2Link;
 const int16_t *waveTableMidLink;
 const int16_t *FMTable;
+const int16_t *FMTableMM;
 const int16_t *FMTableAMX; //in CZ alt mode the modulator can be different for the AM and FM.
 
 //int32_t filterAccumulator;
@@ -1520,7 +1542,8 @@ uint8_t oscSyncTest;
 uint8_t buh;
 int inCV = 1200;
 int cycleCounter;
-int CRUSHBITS = 0;
+uint8_t CRUSHBITS = 0;
+int32_t CRUSH_Remain = 0;
 
 int ISRrate = 15;
 // 12 = 83.333khz
@@ -1597,7 +1620,8 @@ void setup() {
 
   attachInterrupt(gateIn, gateISR, RISING);  
 
-  FX = EEPROM.read(0);
+  FXi = EEPROM.read(0);
+  FX = FXa[FXi];
   SELECT_ISRS();
 
   for(int i=0; i <= 511; i++){

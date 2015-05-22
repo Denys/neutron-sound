@@ -3,13 +3,13 @@ void UPDATECONTROLS_FM(){
 
   switch (ARC+1) {
 
-  case 7: //7 and 9 are skipped when tune lock is on, do not use.
+  case 8: //7 and 9 are skipped when tune lock is on, do not use.
     
 
     
     break;
 
-  case 9:    
+  case 10:    
     
      
     break;
@@ -25,6 +25,59 @@ void UPDATECONTROLS_FM(){
 //        
 //        Serial.print("    ");
 //        Serial.println(aInModDetune);
+
+   switch (analogControls[2]>>9){
+    case 0: 
+      FMTableMM = sinTable;      
+      break;
+    case 1: 
+      FMTableMM = triTable;     
+      break;
+    case 2: 
+      FMTableMM = AKWF_symetric_0011;     
+      break;
+    case 3: 
+      FMTableMM = FMTableSQ;     
+      break;
+    case 4: 
+      FMTableMM = FMTableSQR;    
+      break;
+    case 5: 
+       FMTableMM = AKWF_symetric_0013;     
+      break;
+    case 6: 
+      FMTableMM = AKWF_symetric_0001;    
+      break;
+    case 7: 
+      FMTableMM = bassTable1;     
+      break;
+     case 8: 
+      FMTableMM = FMTableS180;     
+      break;
+    case 9: 
+      FMTableMM = celloTable;      
+      break;
+    case 10: 
+      FMTableMM = violTable;      
+      break;
+    case 11: 
+      FMTableMM = distoTable;     
+      break;
+    case 12: 
+      FMTableMM = blipTable;     
+      break;
+    case 13: 
+      FMTableMM = FMTableFM98;      
+      break;
+    case 14: 
+      FMTableMM = noiseTable2;       
+      break;
+    case 15: 
+      FMTableMM = noiseTable3;
+     
+      break;      
+    }
+
 
     break;
 
@@ -195,13 +248,13 @@ void UPDATECONTROLS_FM(){
     mixPos = (analogControls[6]>>1); 
     
     FMFixedOn = digitalReadFast(FMFixedSwitch);
-    if (FMFixedOn){inputConverterF = 10000;} //sets fixed frequency to current frequency when fixed is pushed.
+    if (FMFixedOn){inputConverterF = 20000;} //sets fixed frequency to current frequency when fixed is pushed.
            
     
     oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);
     break; 
 
-  case 8:
+  case 7:
   
     detuneLoOn = digitalReadFast(detuneLoSwitch); 
     detuneMidOn = !digitalReadFast(detuneMidSwitch); 
@@ -218,7 +271,7 @@ void UPDATECONTROLS_FM(){
     averageratio = totalratio / numreadingsratio;    
      break; 
 
-  case 10:
+  case 9:
     FMIndexCont = (int)(analogControls[1]>>2);    
     
 //    else {

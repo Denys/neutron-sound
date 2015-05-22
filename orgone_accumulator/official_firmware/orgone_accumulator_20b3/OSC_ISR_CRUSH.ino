@@ -34,7 +34,10 @@ void FASTRUN outUpdateISR_CRUSH(void){
     
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);     
 
-    AGCtest = (((((o2.wave)*((int)mixDetuneUp))>>14)>>CRUSHBITS)<<CRUSHBITS)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
+    //mix the crushed wave with next one up
+    o1.wave = (((((o2.wave>>(CRUSHBITS))<<(CRUSHBITS)))*(CRUSH_Remain))>>10)+(((((o2.wave>>(CRUSHBITS-1))<<(CRUSHBITS-1)))*(1023 - CRUSH_Remain))>>10);
+    
+   AGCtest = (((o1.wave)*((int)mixDetuneUp))>>14) +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out
     
     analogWrite(aout2,AGCtest+4000);
     
@@ -68,7 +71,9 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);   
     
 
-    AGCtest = (((((o3.wave)*((int)mixDetuneUp))>>14)>>CRUSHBITS)<<CRUSHBITS)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune   
+    o1.wave = (((((o2.wave>>(CRUSHBITS))<<(CRUSHBITS)))*(CRUSH_Remain))>>10)+(((((o2.wave>>(CRUSHBITS-1))<<(CRUSHBITS-1)))*(1023 - CRUSH_Remain))>>10);
+    
+   AGCtest = (((o1.wave)*((int)mixDetuneUp))>>14) +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out
     
     analogWrite(aout2,AGCtest+4000);    
         
@@ -106,11 +111,12 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
 
     
     o1.wave = ((o1.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>11))>>15));    
-    o3.wave = (o1.wave>>CRUSHBITS)<<CRUSHBITS; 
-   
-
-  //  AGCtest = o1.wave >>13; 
-   AGCtest = (((o3.wave)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+       
+     
+     o2.wave = (((((o1.wave>>(CRUSHBITS-4))<<(CRUSHBITS-4)))*(CRUSH_Remain))>>10)+(((((o1.wave>>(CRUSHBITS-5))<<(CRUSHBITS-5)))*(1023 - CRUSH_Remain))>>10);
+    
+   AGCtest = (((o2.wave)*((int)mixDetuneUp))>>10) +  (((o1.wave*((int)mixDetuneDn))>>10)); //main out
+     
       
     
     analogWrite(aout2,AGCtest+4000);
@@ -154,11 +160,9 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o2.wave = o2.wave +((((o2.nextwave - o2.wave))* o2.phaseRemain)>>15);
        
     o1.wave = ((o1.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>11))>>15));    
-    o3.wave = (o1.wave>>CRUSHBITS)<<CRUSHBITS;      
+     o2.wave = (((((o1.wave>>(CRUSHBITS-4))<<(CRUSHBITS-4)))*(CRUSH_Remain))>>10)+(((((o1.wave>>(CRUSHBITS-5))<<(CRUSHBITS-5)))*(1023 - CRUSH_Remain))>>10);
     
-
-  //  AGCtest = o1.wave >>13; 
-   AGCtest = (((o3.wave)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+   AGCtest = (((o2.wave)*((int)mixDetuneUp))>>10) +  (((o1.wave*((int)mixDetuneDn))>>10)); //main out
       
     
     analogWrite(aout2,AGCtest+4000);

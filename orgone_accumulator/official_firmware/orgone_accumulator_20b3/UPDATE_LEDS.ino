@@ -19,13 +19,13 @@ void UPDATE_LEDS(){
   else{
   switch (ARC+1) {
     case 1:
-    analogWrite(LED_Lo,(bitRead(FX,0)*8000));
+    analogWrite(LED_Lo,(bitRead(FXi,0)*8000));
     break;
     case 2:
-    analogWrite(LED_Mid,(bitRead(FX,1)*8000));
+    analogWrite(LED_Mid,(bitRead(FXi,1)*8000));
     break;
     case 3:
-    analogWrite(LED_Hi,(bitRead(FX,2)*8000));
+    analogWrite(LED_Hi,(bitRead(FXi,2)*8000));
     break;
   
   }}

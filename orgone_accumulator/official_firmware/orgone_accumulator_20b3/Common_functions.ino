@@ -11,7 +11,7 @@ void SELECT_ISRS(){
 
      LED_MCD = LED_MST;    
   
-      switch (FX){//select middle wavetable
+      switch (FX){
     case 0: 
       outUpdateTimer.end();
       outUpdateTimer.begin(outUpdateISR_MAIN,ISRrate);
@@ -28,6 +28,17 @@ void SELECT_ISRS(){
       break;
     case 3: 
       outUpdateTimer.end();
+      o1.phase =        
+      o2.phase =      
+      o3.phase =     
+      o4.phase =       
+      o5.phase =       
+      o6.phase =     
+      o7.phase =       
+      o8.phase =       
+      o9.phase = 
+      lfo.phase =      
+      o10.phase = 0;
       outUpdateTimer.begin(outUpdateISR_PULSAR,ISRrate);
       break;
     case 4: 
@@ -37,6 +48,18 @@ void SELECT_ISRS(){
       case 5: 
       outUpdateTimer.end();
       outUpdateTimer.begin(outUpdateISR_FOLD,ISRrate); 
+      break; 
+      case 6: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_MODMOD,ISRrate); 
+      break; 
+      case 7: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_CHORD,ISRrate); 
+      break; 
+      case 8: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_CHORD,ISRrate); 
       break; 
       
 }}

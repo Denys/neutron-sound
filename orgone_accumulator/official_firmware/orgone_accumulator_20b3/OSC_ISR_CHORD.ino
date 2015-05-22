@@ -1,5 +1,7 @@
-void FASTRUN outUpdateISR_MSAW(void){
-// same as normal mode but with alternate detune method (full volume but detuned waves are AM by each other to keep the level down)
+void FASTRUN outUpdateISR_CHORD(void){
+ //noInterrupts();  
+
+ //digitalWriteFast (oSQout,0);//temp testing OC
  
   
   oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
@@ -80,7 +82,7 @@ void FASTRUN outUpdateISR_MSAW(void){
     o8.wave = o8.wave+((((o8.nextwave - o8.wave)) * o8.phaseRemain) >>15); 
     o10.wave = o10.wave+((((o10.nextwave - o10.wave)) * o10.phaseRemain) >>15); 
 
-    AGCtest = ((((o10.wave+o4.wave+o6.wave+o8.wave+o2.wave)>>2)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
+    AGCtest = ((((o4.wave+o6.wave+o8.wave)>>2)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
     
     analogWrite(aout2,AGCtest+4000);
     
@@ -158,13 +160,8 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o6.wave = o6.wave+((((o6.nextwave - o6.wave)) * o6.phaseRemain) >>15); 
     o8.wave = o8.wave+((((o8.nextwave - o8.wave)) * o8.phaseRemain) >>15); 
     o10.wave = o10.wave+((((o10.nextwave - o10.wave)) * o10.phaseRemain) >>15); 
-    
-    o4.wave = ((32767-abs(o2.wave))*o4.wave)>>16;
-    o6.wave = ((32767-abs(o2.wave+o4.wave))*o6.wave)>>16;
-    o8.wave = ((32767-abs(o2.wave+o4.wave+o6.wave))*o8.wave)>>16;
-    o10.wave = ((32767-abs(o2.wave+o4.wave+o6.wave+o8.wave))*o10.wave)>>16;
 
-    AGCtest = ((((o10.wave+o2.wave+o4.wave+o6.wave+o8.wave))*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
+    AGCtest = ((((o4.wave+o6.wave+o8.wave)>>2)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
             
     analogWrite(aout2,AGCtest+4000);     
    
@@ -257,14 +254,10 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o7.wave = ((o7.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o7.wave) * ((o8.wave*CZMix)>>11))>>15));
     o9.wave = ((o9.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o9.wave) * ((o10.wave*CZMix)>>11))>>15)); 
    
-   o3.wave = ((2047-abs(o1.wave))*o3.wave)>>11;
-   o5.wave = ((2047-abs(o1.wave+o3.wave))*o5.wave)>>11;
-   o7.wave = ((2047-abs(o1.wave+o3.wave+o5.wave))*o7.wave)>>11; 
-   o9.wave = ((2047-abs(o1.wave+o3.wave+o5.wave+o7.wave))*o9.wave)>>11;  
     
 
   //  AGCtest = o1.wave >>13; 
-   AGCtest = ((o3.wave+o1.wave+o5.wave+o7.wave+o9.wave));
+   AGCtest = ((o3.wave+o5.wave+o7.wave)>>2);
    o1.wave = ((AGCtest * ((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
    //o1.maxlev = max(AGCtest,o1.maxlev);
    
@@ -370,14 +363,9 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o7.wave = ((o7.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o7.wave) * ((o8.wave*CZMix)>>11))>>15));
     o9.wave = ((o9.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o9.wave) * ((o10.wave*CZMix)>>11))>>15));  
     
-    o3.wave = ((2047-abs(o1.wave))*o3.wave)>>11;
-   o5.wave = ((2047-abs(o1.wave+o3.wave))*o5.wave)>>11;
-   o7.wave = ((2047-abs(o1.wave+o3.wave+o5.wave))*o7.wave)>>11; 
-   o9.wave = ((2047-abs(o1.wave+o3.wave+o5.wave+o7.wave))*o9.wave)>>11;  
-    
 
   //  AGCtest = o1.wave >>13; 
-   AGCtest = ((((o9.wave+o7.wave+o5.wave+o3.wave+o1.wave))*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+   AGCtest = ((((o7.wave+o5.wave+o3.wave)>>2)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
       
     
     analogWrite(aout2,AGCtest+4000);

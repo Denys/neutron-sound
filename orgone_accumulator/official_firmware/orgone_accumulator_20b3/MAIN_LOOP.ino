@@ -3,6 +3,7 @@ void loop() {
     if (loopReset == 1)goto evilGoto; //these will jump to the same place in the loop when a gateISR happens.
     
     if (LED_MCD > 0)LED_MCD = LED_MCD -1;
+    if (LED_MCD == 1)EEPROM.write(0, FXi);
     
   //slow generated signals
   noiseTable2[random(0,512)]= random(-32767,32767); //hypnotoad noise (noiseTable2)
@@ -100,24 +101,43 @@ if (loopReset == 1)goto evilGoto;
   aInModIndex = analogRead(A15);
   //----------------------------------------------------------------------
   
-  ASSIGNINCREMENTS();  
+  
+  if (FX == 3) ASSIGNINCREMENTS_P();  
+  else if (FX == 7||FX == 8) ASSIGNINCREMENTS_C();
+  else ASSIGNINCREMENTS();
   
 if (loopReset == 1)goto evilGoto;
   UPDATE_LEDS(); 
   
   if (FXCycleButton.update()) {
+    if (tuneLockOn){
     if (FXCycleButton.fallingEdge()) {
-      FX = FX + 1;
-      if (FX > FX_Count) FX = 0;
-      EEPROM.write(0, FX);
+      FXi = FXi - 1;
+      if (FXi < 0) FXi = FX_Count;
+      FX = FXa[FXi];
       SELECT_ISRS();
     }
     if (FXSw == 1 && FXCycleButton.risingEdge()) {
-      FX = FX + 1;
-      if (FX > FX_Count) FX = 0;
-      EEPROM.write(0, FX);
+      FXi = FXi - 1;
+      if (FXi < 0) FXi = FX_Count;
+      FX = FXa[FXi];
+      SELECT_ISRS();
+    }}    
+    
+    
+    else{
+    if (FXCycleButton.fallingEdge()) {
+      FXi = FXi + 1;
+      if (FXi > FX_Count) FXi = 0;
+      FX = FXa[FXi];
       SELECT_ISRS();
     }
+    if (FXSw == 1 && FXCycleButton.risingEdge()) {
+      FXi = FXi + 1;
+      if (FXi > FX_Count) FXi = 0;
+      FX = FXa[FXi];
+      SELECT_ISRS();
+    }}
   }
   
   

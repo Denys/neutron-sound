@@ -41,6 +41,8 @@ void FASTRUN outUpdateISR_DEL(void){
     delayTable[delayCounterShift] = o4.wave;
     
     o3.wave = delayTable[delayTimeShift]; 
+    
+    
    
 
   //  AGCtest = o1.wave >>13; 

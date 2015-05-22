@@ -36,14 +36,15 @@ void FASTRUN outUpdateISR_FOLD(void){
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15); 
      
 
-    o3.wave = ((((o1.wave * o1.amp)>>10) * ((int)mixDetuneUp))>>14) + o2.wave>>3; //main out and mix detune
+    o3.wave = (((((o1.wave * o1.amp)>>8) * ((int)mixDetuneUp))>>14) + o2.wave)>>3; //main out and mix detune
     
-    o4.wave = (o3.wave<<19)>>19;
-      
-   if (o3.wave > 0){
+    o4.wave = (o3.wave<<19)>>19;    
+   
+ 
+ if (o3.wave > 0){
    if((((o3.wave)>>12)& 0x01) == 0) o4.wave = -o4.wave; } 
    else {
-   if((((o3.wave)>>12)& 0x01) == 1) o4.wave = -o4.wave; }    
+   if((((o3.wave)>>12)& 0x01) == 1) o4.wave = -o4.wave; }      
     
     analogWrite(aout2,o4.wave+4000);
     
@@ -77,7 +78,7 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15); 
      
 
-    o3.wave = ((((o1.wave * o1.amp)>>10) * ((int)mixDetuneUp))>>14) + o2.wave>>3; //main out and mix detune
+    o3.wave = (((((o1.wave * o1.amp)>>8) * ((int)mixDetuneUp))>>14) + o2.wave)>>3; //main out and mix detune
     
     o4.wave = (o3.wave<<19)>>19;
       

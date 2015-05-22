@@ -1,22 +1,18 @@
-void UPDATECONTROLS_CZ(){
+void UPDATECONTROLS_CZALT(){
 
   switch (ARC+1) {
 
-  case 7:
-
+  case 8:
+         
     break;
 
-  case 9:   
-
-    Serial.println((float)o1.phase_increment/51550); 
-    //outputs the frequency on USB serial. tune lock, FM and X must be off
-
-
-
+  case 10:    
+    
+     
     break;
 
   case 3:
-    TUNELOCK_TOGGLE();
+    TUNELOCK_TOGGLE();     
     detuneAmountCont = analogControls[2];
     //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0; 
     break;
@@ -118,86 +114,35 @@ void UPDATECONTROLS_CZ(){
       waveTable2Link = blipTable; 
       break;
     case 13: 
-      waveTable2Link = voiceTable; 
+      waveTable2Link = noiseTable2; 
       break;
     case 14: 
-      waveTable2Link = primeTable; 
+      waveTable2Link = noiseTable; 
       break;
     case 15: 
       waveTable2Link = nothingTable; 
       break;
-
+    
     }      
     break;
 
   case 6: //select hi wave
-    switch (analogControls[4]>>9){
-    case 0: 
-      waveTableLink = sinTable; 
-      break;
-    case 1: 
-      waveTableLink = triTable; 
-      break;
-    case 2: 
-      waveTableLink = sawTable; 
-      break;
-    case 3: 
-      waveTableLink = scarabTable1; 
-      break;
-    case 4: 
-      waveTableLink = scarabTable2; 
-      break;
-    case 5: 
-      waveTableLink = pulseTable; //change
-      break;
-    case 6: 
-      waveTableLink = pnoTable; 
-      break;
-    case 7: 
-      waveTableLink = bassTable1; 
-      break;
-    case 8: 
-      waveTableLink = bassTable2; 
-      break;
-    case 9: 
-      waveTableLink = celloTable; 
-      break;
-    case 10: 
-      waveTableLink = violTable; 
-      break;
-    case 11: 
-      waveTableLink = distoTable; 
-      break;
-    case 12: 
-      waveTableLink = blipTable; //change
-      break;
-    case 13: 
-      waveTableLink = voiceTable; 
-      break;
-    case 14: 
-      waveTableLink = noiseTable2; 
-      break;
-    case 15: 
-      waveTableLink = noiseTable; 
-      break;    
-    }
-
-    break;  
+   
+   FMX_HiOffsetContCub = (analogControls[4]>>3)-512; 
+   FMX_HiOffsetCont = (int32_t)(FMX_HiOffsetContCub*FMX_HiOffsetContCub*FMX_HiOffsetContCub)>>20;
+    //FMX_HiOffsetCont = FMX_HiOffsetContCub*FMX_HiOffsetContCub*FMX_HiOffsetContCub  ;      
 
   case 1:     
     mixPos = (analogControls[6]>>5)<<4;     
-
+    
     FMFixedOn = digitalReadFast(FMFixedSwitch);
-    if (FMFixedOn){
-      inputConverterF = 200000;
-    } //sets fixed frequency to current frequency when fixed is pushed.
-
-
-    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);   
+    if (FMFixedOn){inputConverterF = 20000;} //sets lowest fixed modulator frequency       
+    
+    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);
     break; 
 
-  case 8:
-    
+  case 7:
+  
     detuneLoOn = digitalReadFast(detuneLoSwitch); 
     detuneMidOn = !digitalReadFast(detuneMidSwitch); 
     detuneHiOn = !digitalReadFast(detuneHiSwitch);    
@@ -211,68 +156,76 @@ void UPDATECONTROLS_CZ(){
     controlAveragingIndex = controlAveragingIndex + 1;
     if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
     averageratio = totalratio / numreadingsratio;    
-    break; 
+     break; 
 
-  case 10:
-    FMIndexCont = (int)(analogControls[1]>>2);    
-
-
-    switch (analogControls[3]>>9){
-    case 0: 
-      FMTable = sinTable; 
+  case 9:
+    FMIndexCont = (int)(analogControls[1]>>2);
+   
+    
+//    else {
+//      FMIndexContCubing = (analogControls[8])/1024.0;
+//      FMIndexCont = (int) (FMIndexContCubing* FMIndexContCubing*FMIndexContCubing); 
+//    }
+    
+     switch (analogControls[3]>>9){
+       case 0: 
+      FMTable = sinTable;
+      FMTableAMX = DCTable; 
       break;
     case 1: 
-      FMTable = triTable; 
+      FMTable = sinTable;
+      FMTableAMX = sinTable; 
       break;
     case 2: 
-      FMTable = FMTableS180; 
-      break;
+      FMTable = triTable;
+      FMTableAMX = FMTableSQ; 
+      break;    
     case 3: 
-      FMTable = FMTableSQ; 
+      FMTable = FMTableAMX = FMTableSQ; 
       break;
     case 4: 
-      FMTable = FMTableSQR; 
+      FMTable = FMTableAMX = FMTableSQR; 
       break;
     case 5: 
-      FMTable = AKWF_0003; 
+      FMTable = FMTableAMX = AKWF_0003; 
       break;
     case 6: 
-      FMTable = pnoTable; 
+      FMTable = FMTableAMX = pnoTable; 
       break;
     case 7: 
-      FMTable = bassTable1; 
+      FMTable = FMTableAMX = bassTable1; 
       break;
     case 8: 
-      FMTable = bassTable2; 
+      FMTable = FMTableAMX = bassTable2; 
       break;
     case 9: 
-      FMTable = celloTable; 
+      FMTable = FMTableAMX = celloTable; 
       break;
     case 10: 
-      FMTable = violTable; 
+      FMTable = FMTableAMX = violTable; 
       break;
     case 11: 
-      FMTable = FMTableFM98; 
+      FMTable = FMTableAMX = FMTableFM98; 
       break;
     case 12: 
-      FMTable = FMTablehvoice26; 
+      FMTable = FMTableAMX = FMTablehvoice26; 
       break;
     case 13: 
-      FMTable = AKWF_squ_0011; 
+      FMTable = AKWF_squ_0011;
+      FMTableAMX = sinTable; 
       break;
     case 14: 
-      FMTable = noiseTable2;//FMTableCZ;
+      FMTable = FMTableAMX = noiseTable2;//FMTableCZ;
       break;
     case 15: 
-      FMTable = noiseTable; 
+      FMTable = FMTableAMX = noiseTable; 
       break;    
     }
-
+    
 
     break;   
 
 
   }
 }
-
 
