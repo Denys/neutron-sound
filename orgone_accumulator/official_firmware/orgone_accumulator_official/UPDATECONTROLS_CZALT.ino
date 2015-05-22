@@ -2,11 +2,11 @@ void UPDATECONTROLS_CZALT(){
 
   switch (ARC+1) {
 
-  case 7:
+  case 8:
          
     break;
 
-  case 9:    
+  case 10:    
     
      
     break;
@@ -146,7 +146,7 @@ void UPDATECONTROLS_CZALT(){
     oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);    
     break; 
 
-  case 8:
+  case 7:
   primeDetuneOn = !digitalReadFast(primeSwitch);
     detuneLoOn = digitalReadFast(detuneLoSwitch); 
     detuneMidOn = !digitalReadFast(detuneMidSwitch); 
@@ -163,7 +163,7 @@ void UPDATECONTROLS_CZALT(){
     averageratio = totalratio / numreadingsratio;    
      break; 
 
-  case 10:
+  case 9:
     FMIndexCont = (int)(analogControls[1]>>2);
    
     

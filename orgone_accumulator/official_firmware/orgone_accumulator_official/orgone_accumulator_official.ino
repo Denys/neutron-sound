@@ -1,5 +1,5 @@
 //Neutron-sound.com 
-//Orgone Accumulator 1.1.1
+//Orgone Accumulator 1.1.2
 //these wavetables can be replaced with ones converted from the AKWF collection. they are included in the github download.
 
 const int16_t sinTable[] = {

@@ -2,11 +2,11 @@ void UPDATECONTROLS_CZ(){
 
   switch (ARC+1) {
 
-  case 7:
+  case 8:
          
     break;
 
-  case 9:   
+  case 10:   
  
     Serial.println((float)o1.phase_increment/51550); 
     //outputs the frequency on USB serial. tune lock, FM and X must be off
@@ -198,7 +198,7 @@ void UPDATECONTROLS_CZ(){
     oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);   
     break; 
 
-  case 8:
+  case 7:
   primeDetuneOn = !digitalReadFast(primeSwitch);
     detuneLoOn = digitalReadFast(detuneLoSwitch); 
     detuneMidOn = !digitalReadFast(detuneMidSwitch); 
@@ -215,7 +215,7 @@ void UPDATECONTROLS_CZ(){
     averageratio = totalratio / numreadingsratio;    
      break; 
 
-  case 10:
+  case 9:
     FMIndexCont = (int)(analogControls[1]>>2);    
 
     
