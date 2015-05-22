@@ -9,8 +9,8 @@ void DODETUNING(){
   switch (FX){//select middle wavetable
   case 0: //symetrical detune
     detuneScaler = aInModDetune;
-    detune[1] = detune[3]=(uint32_t)((detuneScaler/32768.0)*(inputConverter));
-    detune[2] = detune[0]=(uint32_t)((detuneScaler/16384.0)*(inputConverter)) ;
+    detune[1] = detune[2]=(uint32_t)((detuneScaler/32768.0)*(inputConverter));
+    detune[3] = detune[0]=(uint32_t)((detuneScaler/16384.0)*(inputConverter)) ;
     break;
 
 
