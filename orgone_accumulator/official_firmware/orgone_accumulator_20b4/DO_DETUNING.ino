@@ -21,7 +21,8 @@ void DODETUNING(){
     }
     break;
 
-  case 2: //delay    
+  case 2: //delay
+    GRADUALWAVE();  
     delayTime = analogControls[0];//For Feedback altFX ratio knob
     delayFeedback = (constrain(((analogControls[2]>>2)+(2047-(aInDetuneReading>>1))),0,2047));//detune become feedback  
     break;
