@@ -27,8 +27,8 @@ void FASTRUN outUpdateISR_PULSAR(void){
    
     
     if (o3.phase < 2147483647) {o3.phase = o3.phase + o3.phase_increment + (CZMix<<14);
-    o3.wave = (FMTable[o3.phase>>23]);    
-    o3.nextwave =  (FMTable[(o3.phase+nextstep)>>23]);}
+    o3.wave = (PENV[o3.phase>>23]);    
+    o3.nextwave =  (PENV[(o3.phase+nextstep)>>23]);}
     else {
     o3.wave = 0;    
     o3.nextwave =  0;}
@@ -36,8 +36,15 @@ void FASTRUN outUpdateISR_PULSAR(void){
         
    
     
-    o2.wave = (((waveTableLink[o2.phase>>23]*mixHi)+(waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*mixMid))>>4)>>11;
-    o2.nextwave = (((waveTableLink[(o2.phase+nextstep)>>23]*mixHi)+(waveTable2Link[(o2.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase+nextstep)>>23]*mixMid))>>4)>>11;
+    o2.wave = (
+    (((int32_t)(((GWThi1[o2.phase>>23]*(511-GremHi))>>9) + ((GWThi2[o2.phase>>23]*(GremHi))>>9)))*mixHi)+
+    (((int32_t)(((GWTlo1[o2.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o2.phase>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[o2.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o2.phase>>23]*(GremMid))>>9)))*mixMid))>>15;
+    
+    o2.nextwave = (
+    (((int32_t)(((GWThi1[(o2.phase+nextstep)>>23]*(511-GremHi))>>9)  +  ((GWThi2[(o2.phase+nextstep)>>23]*(GremHi))>>9)))*mixHi)+
+    (((int32_t)(((GWTlo1[(o2.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o2.phase+nextstep)>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[(o2.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o2.phase+nextstep)>>23]*(GremMid))>>9)))*mixMid))>>15;
     
         
     o3.wave = o3.wave+((((o3.nextwave - o3.wave)) * o3.phaseRemain) >>15); 
@@ -90,8 +97,8 @@ void FASTRUN outUpdateISR_PULSAR(void){
    
     
     if (o3.phase < 2147483647) {o3.phase = o3.phase + o3.phase_increment + (CZMix<<14);
-    o3.wave = (FMTable[o3.phase>>23]);    
-    o3.nextwave =  (FMTable[(o3.phase+nextstep)>>23]);}
+    o3.wave = (PENV[o3.phase>>23]);    
+    o3.nextwave =  (PENV[(o3.phase+nextstep)>>23]);}
     else {
     o3.wave = 0;    
     o3.nextwave =  0;}
@@ -100,9 +107,15 @@ void FASTRUN outUpdateISR_PULSAR(void){
         
    
     
-    o2.wave = (((waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*(mixMid+mixHi)))>>4)>>11;
-    o2.nextwave = (((waveTable2Link[(o2.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase+nextstep)>>23]*(mixMid+mixHi)))>>4)>>11;
+    o2.wave = (
     
+    (((int32_t)(((GWTlo1[o2.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o2.phase>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[o2.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o2.phase>>23]*(GremMid))>>9)))*(mixMid+mixHi)))>>15;
+    
+    o2.nextwave = (
+    
+    (((int32_t)(((GWTlo1[(o2.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o2.phase+nextstep)>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[(o2.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o2.phase+nextstep)>>23]*(GremMid))>>9)))*(mixMid+mixHi)))>>15; 
         
     o3.wave = o3.wave+((((o3.nextwave - o3.wave)) * o3.phaseRemain) >>15); 
     
@@ -152,8 +165,8 @@ void FASTRUN outUpdateISR_PULSAR(void){
     //-----------------------------------------------------------------------
    
     if (o3.phase < 2147483647) {o3.phase = o3.phase + o3.phase_increment + (CZMix<<14);
-    o3.wave = (FMTable[o3.phase>>23]);    
-    o3.nextwave =  (FMTable[(o3.phase+nextstep)>>23]);}
+    o3.wave = (PENV[o3.phase>>23]);    
+    o3.nextwave =  (PENV[(o3.phase+nextstep)>>23]);}
     else {
     o3.wave = 0;    
     o3.nextwave =  0;}
@@ -162,8 +175,16 @@ void FASTRUN outUpdateISR_PULSAR(void){
         
    
     
-    o2.wave = (((waveTableLink[o2.phase>>23]*mixHi)+(waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*mixMid))>>4)>>11;
-    o2.nextwave = (((waveTableLink[(o2.phase+nextstep)>>23]*mixHi)+(waveTable2Link[(o2.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase+nextstep)>>23]*mixMid))>>4)>>11;
+    o2.wave = (
+    (((int32_t)(((GWThi1[o2.phase>>23]*(511-GremHi))>>9) + ((GWThi2[o2.phase>>23]*(GremHi))>>9)))*mixHi)+
+    (((int32_t)(((GWTlo1[o2.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o2.phase>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[o2.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o2.phase>>23]*(GremMid))>>9)))*mixMid))>>15;
+    
+    o2.nextwave = (
+    (((int32_t)(((GWThi1[(o2.phase+nextstep)>>23]*(511-GremHi))>>9)  +  ((GWThi2[(o2.phase+nextstep)>>23]*(GremHi))>>9)))*mixHi)+
+    (((int32_t)(((GWTlo1[(o2.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o2.phase+nextstep)>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[(o2.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o2.phase+nextstep)>>23]*(GremMid))>>9)))*mixMid))>>15;
+    
     
         
     o3.wave = o3.wave+((((o3.nextwave - o3.wave)) * o3.phaseRemain) >>15); 
@@ -196,7 +217,7 @@ void FASTRUN outUpdateISR_PULSAR(void){
    
    break; 
 
-//-----------------------------------------------ALT FM MODE OSCILLATORS-----------------------------------------------
+//-----------------------------------------------ALT CZ MODE OSCILLATORS-----------------------------------------------
   case 3:
   
      lfo.phase = lfo.phase + lfo.phase_increment;
@@ -218,8 +239,8 @@ void FASTRUN outUpdateISR_PULSAR(void){
    
     
     if (o3.phase < 2147483647) {o3.phase = o3.phase + o3.phase_increment + (CZMix<<14);
-    o3.wave = (FMTable[o3.phase>>23]);    
-    o3.nextwave =  (FMTable[(o3.phase+nextstep)>>23]);}
+    o3.wave = (PENV[o3.phase>>23]);    
+    o3.nextwave =  (PENV[(o3.phase+nextstep)>>23]);}
     else {
     o3.wave = 0;    
     o3.nextwave =  0;}
@@ -228,8 +249,16 @@ void FASTRUN outUpdateISR_PULSAR(void){
         
    
     
-    o2.wave = (((waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*(mixMid+mixHi)))>>4)>>11;
-    o2.nextwave = (((waveTable2Link[(o2.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase+nextstep)>>23]*(mixMid+mixHi)))>>4)>>11;
+    o2.wave = (
+    
+    (((int32_t)(((GWTlo1[o2.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o2.phase>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[o2.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o2.phase>>23]*(GremMid))>>9)))*(mixMid+mixHi)))>>15;
+    
+    o2.nextwave = (
+    
+    (((int32_t)(((GWTlo1[(o2.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o2.phase+nextstep)>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[(o2.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o2.phase+nextstep)>>23]*(GremMid))>>9)))*(mixMid+mixHi)))>>15; 
+        
     
         
     o3.wave = o3.wave+((((o3.nextwave - o3.wave)) * o3.phaseRemain) >>15); 

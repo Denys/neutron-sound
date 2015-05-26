@@ -27,9 +27,18 @@ void FASTRUN outUpdateISR_CRUSH(void){
      
     //-----------------------------------------------------------------------
 
-    o2.wave = (((waveTableLink[o2.phase>>23]*mixHi)+(waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*mixMid)))>>11;
+    o2.wave = (
+    (((int32_t)(((GWThi1[o2.phase>>23]*(511-GremHi))>>9) + ((GWThi2[o2.phase>>23]*(GremHi))>>9)))*mixHi)+
+    (((int32_t)(((GWTlo1[o2.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o2.phase>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[o2.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o2.phase>>23]*(GremMid))>>9)))*mixMid))>>11;
     
-    o2.nextwave = (((waveTableLink[(o2.phase + nextstep)>>23]*mixHi)+(waveTable2Link[(o2.phase + nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase + nextstep)>>23]*mixMid)))>>11;
+    o2.nextwave = (
+    (((int32_t)(((GWThi1[(o2.phase+nextstep)>>23]*(511-GremHi))>>9)  +  ((GWThi2[(o2.phase+nextstep)>>23]*(GremHi))>>9)))*mixHi)+
+    (((int32_t)(((GWTlo1[(o2.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o2.phase+nextstep)>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[(o2.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o2.phase+nextstep)>>23]*(GremMid))>>9)))*mixMid))>>11;
+    
+    
+    
     
     
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);     
@@ -64,9 +73,15 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     
     //-----------------------------------------------------------------------
 
-    o2.wave = (((waveTable2Link[o2.phase>>23]*mixLo)+(waveTableMidLink[o2.phase>>23]*(mixMid+mixHi))))>>11;    
-  
-    o2.nextwave = (((waveTable2Link[(o2.phase + nextstep)>>23]*mixLo)+(waveTableMidLink[(o2.phase + nextstep)>>23]*(mixMid+mixHi))))>>11;    
+    o2.wave = (
+    
+    (((int32_t)(((GWTlo1[o2.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o2.phase>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[o2.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o2.phase>>23]*(GremMid))>>9)))*(mixMid+mixHi)))>>11;
+    
+    o2.nextwave = (
+    
+    (((int32_t)(((GWTlo1[(o2.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o2.phase+nextstep)>>23]*(GremLo))>>9))) *mixLo)+
+    (((int32_t)(((GWTmid1[(o2.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o2.phase+nextstep)>>23]*(GremMid))>>9)))*(mixMid+mixHi)))>>11; 
     
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);   
     
@@ -98,8 +113,17 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o2.nextwave =  (FMTable[(o2.phase+nextstep)>>23]);    
    
     
-    o1.wave = (((waveTableLink[o1.phase>>23]*mixHi)+(waveTable2Link[o1.phase>>23]*mixLo)+(waveTableMidLink[o1.phase>>23]*mixMid))>>4)>>11;
-    o1.nextwave = (((waveTableLink[(o1.phase+nextstep)>>23]*mixHi)+(waveTable2Link[(o1.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o1.phase+nextstep)>>23]*mixMid))>>4)>>11;
+    o1.wave = ((
+    (((int32_t)(((GWThi1[o1.phase>>23]*(511-GremHi))>>9) + ((GWThi2[o1.phase>>23]*(GremHi))>>9)))*mixHi)   +
+    (((int32_t)(((GWTlo1[o1.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o1.phase>>23]*(GremLo))>>9)))*mixLo)   +
+    (((int32_t)(((GWTmid1[o1.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o1.phase>>23]*(GremMid))>>9)))*mixMid)
+    )>>4)>>11;
+    
+    o1.nextwave = ((
+    (((int32_t)(((GWThi1[(o1.phase+nextstep)>>23]*(511-GremHi))>>9)  +  ((GWThi2[(o1.phase+nextstep)>>23]*(GremHi))>>9)))*mixHi)   +
+    (((int32_t)(((GWTlo1[(o1.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o1.phase+nextstep)>>23]*(GremLo))>>9)))*mixLo)   +
+    (((int32_t)(((GWTmid1[(o1.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o1.phase+nextstep)>>23]*(GremMid))>>9)))*mixMid)
+    )>>4)>>11;
     
         
     o1.wave = o1.wave+((((o1.nextwave - o1.wave)) * o1.phaseRemain) >>15); 
@@ -150,8 +174,17 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
    
    
     
-    o1.wave = (((waveTable2Link[o1.phase>>23]*mixLo)+(waveTableMidLink[o1.phase>>23]*(mixMid+mixHi)))>>4)>>11;
-    o1.nextwave = (((waveTable2Link[(o1.phase+nextstep)>>23]*mixLo)+(waveTableMidLink[(o1.phase+nextstep)>>23]*(mixMid+mixHi)))>>4)>>11;
+    o1.wave = ((
+    
+    (((int32_t)(((GWTlo1[o1.phase>>23]*(511-GremLo))>>9) + ((GWTlo2[o1.phase>>23]*(GremLo))>>9)))*mixLo)   +
+    (((int32_t)(((GWTmid1[o1.phase>>23]*(511-GremMid))>>9) + ((GWTmid2[o1.phase>>23]*(GremMid))>>9)))*(mixMid+mixHi))
+    )>>4)>>11;
+    
+    o1.nextwave = ((
+    
+    (((int32_t)(((GWTlo1[(o1.phase+nextstep)>>23]*(511-GremLo))>>9)  +  ((GWTlo2[(o1.phase+nextstep)>>23]*(GremLo))>>9)))*mixLo)   +
+    (((int32_t)(((GWTmid1[(o1.phase+nextstep)>>23]*(511-GremMid))>>9)  +  ((GWTmid2[(o1.phase+nextstep)>>23]*(GremMid))>>9)))*(mixMid+mixHi))
+    )>>4)>>11;
     
         
     o1.wave = o1.wave+((((o1.nextwave - o1.wave)) * o1.phaseRemain) >>15); 

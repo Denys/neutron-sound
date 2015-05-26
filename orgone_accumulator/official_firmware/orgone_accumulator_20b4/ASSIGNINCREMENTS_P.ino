@@ -1,6 +1,6 @@
 void ASSIGNINCREMENTS_P(){
   
-  
+  PENV = PulsarEnv[analogControls[3]>>9];
 
   switch(oscMode){ //switches which oscs get changed by FM and how much multiplier ;
 
