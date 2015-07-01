@@ -1,5 +1,6 @@
 void UPDATECONTROLS_CZ(){
 
+  
   switch (ARC+1) {
 
   case 8:
@@ -8,8 +9,9 @@ void UPDATECONTROLS_CZ(){
 
   case 10:   
 
-    Serial.println(analogControls[0]);
+    //Serial.println((float)o1.phase_increment/51550); 
     //outputs the frequency on USB serial. tune lock, FM and X must be off
+    
 
     break;
 
@@ -98,20 +100,16 @@ waveTable2Link = CZWTselLo[analogControls[8]>>9];
   case 1:     
     mixPos = (analogControls[6]>>5)<<4;     
 
-    FMFixedOn = digitalReadFast(FMFixedSwitch);
+    OSC_MODE_TOGGLES();
     if (FMFixedOn){
       inputConverterF = 200000;
     } //sets fixed frequency to current frequency when fixed is pushed.
-
-
-    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);   
+      
     break; 
 
   case 7:
-    
-    detuneLoOn = digitalReadFast(detuneLoSwitch); 
-    detuneMidOn = !digitalReadFast(detuneMidSwitch); 
-    detuneHiOn = !digitalReadFast(detuneHiSwitch);    
+    FX_TOGGLES();  
+       
 
     break;
 
@@ -174,17 +172,15 @@ waveTable2Link = CZAltWTselLo[analogControls[8]>>9];
   case 1:     
     mixPos = (analogControls[6]>>5)<<4;     
     
-    FMFixedOn = digitalReadFast(FMFixedSwitch);
+    OSC_MODE_TOGGLES();
     if (FMFixedOn){inputConverterF = 20000;} //sets lowest fixed modulator frequency       
     
-    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);
+    
     break; 
 
   case 7:
-  
-    detuneLoOn = digitalReadFast(detuneLoSwitch); 
-    detuneMidOn = !digitalReadFast(detuneMidSwitch); 
-    detuneHiOn = !digitalReadFast(detuneHiSwitch);    
+  FX_TOGGLES();
+     
 
     break;
 
@@ -209,6 +205,8 @@ waveTable2Link = CZAltWTselLo[analogControls[8]>>9];
 
   }
 }
+
+
 //----------------------------------------------------------------FM--------------------------------------------------------
 void UPDATECONTROLS_FM(){     
 
@@ -299,18 +297,16 @@ waveTable2Link = FMWTselLo[analogControls[8]>>9];
   case 1:     
     mixPos = (analogControls[6]>>1); 
     
-    FMFixedOn = digitalReadFast(FMFixedSwitch);
+    OSC_MODE_TOGGLES();
     if (FMFixedOn){inputConverterF = 20000;} //sets fixed frequency to current frequency when fixed is pushed.
            
     
-    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);
+    
     break; 
 
   case 7:
   
-    detuneLoOn = digitalReadFast(detuneLoSwitch); 
-    detuneMidOn = !digitalReadFast(detuneMidSwitch); 
-    detuneHiOn = !digitalReadFast(detuneHiSwitch);    
+   FX_TOGGLES();   
 
     break;
 
@@ -442,18 +438,15 @@ waveTable2Link = FMAltWTselLo[analogControls[8]>>9];
   case 1:     
     mixPos = (analogControls[6]>>1); 
     
-    FMFixedOn = digitalReadFast(FMFixedSwitch);
-    if (FMFixedOn){inputConverterF = 10000;} //sets fixed frequency to suitable LFO.
-             
+    OSC_MODE_TOGGLES();
+    if (FMFixedOn){inputConverterF = 10000;} //sets fixed frequency to suitable LFO.  
     
-    oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch); 
+    
     break; 
 
   case 7:
   
-    detuneLoOn = digitalReadFast(detuneLoSwitch); 
-    detuneMidOn = !digitalReadFast(detuneMidSwitch); 
-    detuneHiOn = !digitalReadFast(detuneHiSwitch);    
+    FX_TOGGLES(); 
 
     break;
 
