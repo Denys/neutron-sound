@@ -30,7 +30,7 @@
 #define FX3 2
 #define FX4 4
 #define FX5 5
-#define FX6 6
+#define FX6 9
 #define FX7 8
 
 //0  original orgone detune 
@@ -42,6 +42,8 @@
 //6 modmod the modulation waveform can be changed with FX and FX CV
 //7 chords (equal temprement)
 //8 chords (just tuning)
+//9 Automatic Double Tracker (ADT)
+
 
 
 #define PWM_SUB 2
