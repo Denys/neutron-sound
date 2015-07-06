@@ -3,7 +3,7 @@
 // ==================================================================
 String COMx, COMlist = "";
 
-final int ASK_FOR_PORT = 0;
+final int ASK_FOR_PORT = 1;
 
 void selectSerialPort()
 {

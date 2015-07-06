@@ -13,17 +13,7 @@
 #include <EEPROM.h>
 #include "Config.h"
 
-const int chordTable[] = {
-  1, 3, 5,
-  1, 4, 7,
-  1, 3, 7,
-  1, 4, 6,
-  1, 3, 6,
-  1, 5, 9,
-  1, 4, 8,
-  1, 3, 8,
-  1, 4, 9,
-};
+
 
 const float equalTemprementTable[] = {1, 1, 1.05946, 1.12246, 1.18921, 1.25992, 1.33483, 1.41421, 1.49831, 1.58740, 1.68179, 1.78180, 1.88775, 2};
 const float justTable[] = {1, 1, 1.0417, 1.1250, 1.2, 1.25, 1.33333, 1.4063, 1.5, 1.6, 1.66666, 1.8, 1.875, 2};
@@ -1458,8 +1448,8 @@ uint16_t delayTimeShift3 = 0;
 uint16_t delayTimeShift4 = 0;
 int32_t delayFeedback = 0;
 
-uint32_t ADT1;
-uint32_t ADT2;
+int32_t ADT1;
+int32_t ADT2;
 
 uint32_t pcounter;
 uint32_t pcounterOld;

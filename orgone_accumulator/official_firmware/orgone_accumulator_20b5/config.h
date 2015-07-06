@@ -30,7 +30,7 @@
 #define FX3 2
 #define FX4 4
 #define FX5 5
-#define FX6 9
+#define FX6 6
 #define FX7 8
 
 //0  original orgone detune 
@@ -42,7 +42,8 @@
 //6 modmod the modulation waveform can be changed with FX and FX CV
 //7 chords (equal temprement)
 //8 chords (just tuning)
-//9 Automatic Double Tracker (ADT)
+//9 Automatic Double Tracker (Another type of detune) EXPERIMENTAL
+//10 self multiplication with mod wave. 
 
 
 
@@ -65,6 +66,19 @@
 // Broadcast ---------------------------
 extern int BROADCAST;
 // Broadcast ---------------------------
+
+//chord intervals each group of 3 numbers is the triplet. dont change the amount of entries!
+extern const int chordTable[] = {
+  1, 3, 5,
+  1, 4, 7,
+  1, 3, 7,
+  1, 4, 6,
+  1, 3, 6,
+  1, 5, 9,
+  1, 4, 8,
+  1, 3, 8,
+  1, 4, 9,
+};
 
 
 

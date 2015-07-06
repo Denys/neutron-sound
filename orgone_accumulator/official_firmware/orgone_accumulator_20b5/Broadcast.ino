@@ -96,7 +96,7 @@ void sendBroadcastPacket()
   bPacket.unused[0] = pcounter;
   bPacket.unused[1] = (uint32_t)inputConverter;
   bPacket.unused[2] = ISRrate;
-  bPacket.unused[3] = 0;
+  bPacket.unused[3] = ADT1;
 
   bPacket.effect = FX;
   bPacket.oscMode = oscMode;  

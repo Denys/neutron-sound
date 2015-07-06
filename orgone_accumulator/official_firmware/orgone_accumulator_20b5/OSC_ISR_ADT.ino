@@ -15,7 +15,20 @@ void FASTRUN outUpdateISR_ADT(void){
   case 0:
   
    noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
-    noiseTable[o1.phase>>23]= random(-32767,32767); //replace noise cells with random values.  
+    noiseTable[o1.phase>>23]= random(-32767,32767); //replace noise cells with random values. 
+   
+ //  LF oscs
+   o7.phase = o7.phase + o7.phase_increment; 
+   o7.phaseRemain = (o7.phase<<9)>>17;     
+   o7.wave = (sinTable[o7.phase>>WTShift]);
+   o7.nextwave =  (sinTable[(o7.phase+nextstep)>>WTShift]);
+   o7.wave = o7.wave+((((o7.nextwave - o7.wave)) * o7.phaseRemain) >>15); 
+   
+   o8.phase = o8.phase + o8.phase_increment; 
+   o8.phaseRemain = (o8.phase<<9)>>17;     
+   o8.wave = (sinTable[o8.phase>>WTShift]);
+   o8.nextwave =  (sinTable[(o8.phase+nextstep)>>WTShift]);
+   o8.wave = o8.wave+((((o8.nextwave - o8.wave)) * o8.phaseRemain) >>15);  
 
     //main oscillator
     o1.phase = o1.phase + o1.phase_increment; 
@@ -27,37 +40,27 @@ void FASTRUN outUpdateISR_ADT(void){
     o2.phase = o2.phase +  (o2.phase_increment+o1.index);
     o2.phaseRemain = (o2.phase<<9)>>17;    
     //unisone oscillators  ------------3-4---------
-    o3.phase = o3.phase + o3.phase_increment ;
+    o3.phase = o3.phase + o1.phase_increment ;
     o3.phaseRemain = (o3.phase<<9)>>17;       
     o3.wave = (FMTable[o3.phase>>WTShift]);
     o3.nextwave =  (FMTable[(o3.phase+nextstep)>>WTShift]);
     o3.wave = o3.wave+((((o3.nextwave - o3.wave)) * o3.phaseRemain) >>15); 
     o3.index = (FMIndex * o3.wave);  
-    o4.phase = o4.phase +  (o4.phase_increment+o3.index + noiseTable3[0]);
+    o4.phase = o4.phase +  (o2.phase_increment+o3.index + (o7.wave<<1));
     o4.phaseRemain = (o4.phase<<9)>>17;      
     //---------------------------------5-6------------ 
-    o5.phase = o5.phase + o5.phase_increment ; 
+    o5.phase = o5.phase + o1.phase_increment ; 
     o5.phaseRemain = (o5.phase<<9)>>17;     
     o5.wave = (FMTable[o5.phase>>WTShift]);
     o5.nextwave =  (FMTable[(o5.phase+nextstep)>>WTShift]);
     o5.wave = o5.wave+((((o5.nextwave - o5.wave)) * o5.phaseRemain) >>15); 
     o5.index = (FMIndex * o5.wave);  
-    o6.phase = o6.phase + (o6.phase_increment+o5.index - noiseTable3[0]); 
+    o6.phase = o6.phase + (o2.phase_increment+o5.index + (o8.wave<<1)); 
     o6.phaseRemain = (o6.phase<<9)>>17;     
     //-------------------------------7-8-------------- 
     
-//    LFO noiseoscs
-//    o7.phase = o7.phase + o7.phase_increment; 
-//    o7.phaseRemain = (o7.phase<<9)>>17;     
-//    o7.wave = (sinTable[o7.phase>>WTShift]);
-//    o7.nextwave =  (sinTable[(o7.phase+nextstep)>>WTShift]);
-//    o7.wave = o7.wave+((((o7.nextwave - o7.wave)) * o7.phaseRemain) >>15); 
 //    
-//    
-//    o7.index = (FMIndex * o7.wave);
-//    
-//    o8.phase = o8.phase +  (o8.phase_increment+o7.index);
-//    o8.phaseRemain = (o8.phase<<9)>>17;    
+  
     
    
     //-----------------------------------------------------------------------
@@ -177,17 +180,17 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o1.phaseRemain = (o1.phase<<9)>>17;
     
     //unisone oscillators  ------------3-4---------
-    o3.phase = o3.phase + o3.phase_increment;  
+    o3.phase = o3.phase + o1.phase_increment + ADT2;  
     if (o3.phaseOld > o3.phase) o4.phase = 0;
     o3.phaseOld = o3.phase;    
-    o4.phase = o4.phase +  o4.phase_increment; 
+    o4.phase = o4.phase +  o2.phase_increment; 
     o4.phaseRemain = (o4.phase<<9)>>17; //used for fake interpolation
     o3.phaseRemain = (o3.phase<<9)>>17;  
     //---------------------------------5-6------------ 
-    o5.phase = o5.phase + o5.phase_increment; 
+    o5.phase = o5.phase + o1.phase_increment + ADT1; 
     if (o5.phaseOld > o5.phase) o6.phase = 0;
     o5.phaseOld = o5.phase;     
-    o6.phase = o6.phase + o6.phase_increment; 
+    o6.phase = o6.phase + o2.phase_increment; 
     o6.phaseRemain = (o6.phase<<9)>>17; //used for fake interpolation
     o5.phaseRemain = (o5.phase<<9)>>17;  
     //-------------------------------7-8-------------- 
@@ -198,12 +201,7 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o8.phaseRemain = (o8.phase<<9)>>17; //used for fake interpolation
     o7.phaseRemain = (o7.phase<<9)>>17;
     //------------------------------9-10-------------------
-    o9.phase = o9.phase + o9.phase_increment; 
-    if (o9.phaseOld > o9.phase) o10.phase = 0;
-    o9.phaseOld = o9.phase;       
-    o10.phase = o10.phase + o10.phase_increment;  
-   o10.phaseRemain = (o10.phase<<9)>>17; //used for fake interpolation
-    o9.phaseRemain = (o9.phase<<9)>>17; 
+   
     
     //-----------------------------------------------------------------------
    
@@ -253,7 +251,7 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     
 
   //  AGCtest = o1.wave >>13; 
-   AGCtest = ((o3.wave+o5.wave+o7.wave)>>2);
+   AGCtest = ((o3.wave+o5.wave)>>1);
    o1.wave = ((AGCtest * ((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
    //o1.maxlev = max(AGCtest,o1.maxlev);
    

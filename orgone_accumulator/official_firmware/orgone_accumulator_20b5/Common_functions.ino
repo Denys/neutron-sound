@@ -150,6 +150,14 @@ void SELECT_ISRS(){
       outUpdateTimer.end();
       outUpdateTimer.begin(outUpdateISR_CHORD,ISRrate); 
       break; 
+      case 9: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_ADT,ISRrate); 
+      break; 
+       case 10: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_SELF,ISRrate); 
+      break; 
       
 }}
 

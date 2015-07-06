@@ -52,11 +52,12 @@ pcounterOld = micros();
   case 7: 
    
     break;
-
-
-
-  }
-}
+    case 10: //self mod
+    o1.amp = (constrain(((4095 - aInDetuneReading)+(analogControls[2])),0,8190));
+    GRADUALWAVE();
+    break;
+  
+}}
 
 
 

@@ -5,9 +5,10 @@ void loop() {
   if (LED_MCD > 0)LED_MCD = LED_MCD - 1;
   if (LED_MCD == 1)WRITE2EEPROM();
 
-
+  
   //slow generated signals
   noiseTable2[random(0, 512)] = random(-32767, 32767); //hypnotoad noise (noiseTable2)
+  
   if (loopReset == 1)goto evilGoto;
   SWC ++;
   fuh = analogControls[0] >> 6;
@@ -107,10 +108,11 @@ evilGoto:
   //----------------------------------------------------------------------
 
 
-  if (FX == 3) ASSIGNINCREMENTS_P();
-  else if (FX == 7 || FX == 8) ASSIGNINCREMENTS_C();
-  else if (FX == 2) ASSIGNINCREMENTS_D();
-  else ASSIGNINCREMENTS();
+  if (FX == 3) ASSIGNINCREMENTS_P();//pulsar
+  else if (FX == 7 || FX == 8) ASSIGNINCREMENTS_C();//chord
+  else if (FX == 2  ) ASSIGNINCREMENTS_D();//delay
+  else if (FX == 9  ) ASSIGNINCREMENTS_A();//ADT
+  else ASSIGNINCREMENTS();//default
 
 
 
