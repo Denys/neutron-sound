@@ -5,6 +5,8 @@
 //this is the base frequency. halving it will lower the entire oscillator by 1 octave 
 //real frequency is sent to the broadcast application for tuning
 
+extern const int tuneStep = 1;//this is how many semitones the tuning knob steps in.
+
 #define NOTESIZE 72.0 
 // note resolution. lower value will give wider oscillator range, higher will give better resolution
 //you will need to recalibrate the v/oct trimmer if you adjust this. decimal is important, even if zero.

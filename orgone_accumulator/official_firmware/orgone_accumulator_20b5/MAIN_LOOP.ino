@@ -30,7 +30,7 @@ void loop() {
   if (loopReset == 1)goto evilGoto;
   //______________TUNING OPTIONS
   //change notesize*1 to notesize*2 or notesize*3 you will have wider range tuning but 2 or 3 semitone steps
-  tuner = inCV + ((analogControls[9] >> 8) * (conf_NoteSize * 1)) + (analogControls[7] >> 4); //coarse and fine tuning
+  tuner = inCV + ((analogControls[9] >> 8) * (conf_NoteSize * tuneStep)) + (analogControls[7] >> 4); //coarse and fine tuning
   //comment out above line and uncomment following line for analog style non stepped tuning
   //int tuner = inCV+(analogControls[9]>>1)+(analogControls[7]>>4);
   //_____________END TUNINGOPTIONS
