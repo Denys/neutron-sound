@@ -1462,6 +1462,15 @@ int32_t nextstep = 8388609;
 int32_t clipping = 0;
 int32_t clippingTest = 0;
 
+//drum envelopes
+
+int32_t drum_envVal[] = {0,0,0,0,}; 
+int32_t drum_envTemp[] = {0,0,0,0,}; 
+int32_t drum_a = 0;  
+int32_t drum_d = 0;  
+int32_t drum_d2 = 0;  
+uint8_t drum_envStep[] = {0,0,0,0};
+int32_t ditherbit = 0;
 
 struct oscillatorSQUARE //PWM osc
 {
@@ -1656,9 +1665,9 @@ const uint8_t SEL_LED_ARRAY[] = {24,13,33,32,31,30,29,15};
 int aout2 = A14; //dac out
 //int ISRtestPin = 5;
 //int aReadTestPin = 6;
-int gate = 0;
-int gateOld = 0;
-int gateTest = 0;
+//int gate = 0;
+//int gateOld = 0;
+//int gateTest = 0;
 int table = 0;
 //int out = 0;
 //int muff = 0;
@@ -1686,9 +1695,9 @@ int32_t mixDetuneDnTMp;
 uint32_t detune[] = { //array holds detune amounts
   0, 0, 0, 0,
 };
-int32_t detuneP[] = { //array holds detune amounts
-  0, 0, 0, 0,
-};
+//int32_t detuneP[] = { //array holds detune amounts
+//  0, 0, 0, 0,
+//};
 float primes[] = {
   351.1, 442.3, 398.9, 327.1
 };//primes for detuning
@@ -1699,7 +1708,7 @@ uint8_t WTShift = 23;
 uint8_t modFMWaveOn;
 //uint8_t modRatioOn;
 int outsq = 0;
-int resetSwitch = 1; //switch to reset waves on new note
+//int resetSwitch = 1; //switch to reset waves on new note
 
 int32_t analogControls[10];
 
@@ -1906,7 +1915,9 @@ void setup() {
   analogWriteResolution(13);
   analogReadResolution(13);
   analogReadAveraging(16);
-  //analogWriteFrequency(14, 80000);
+  analogWriteFrequency(LED_Lo, 22000);
+  analogWriteFrequency(LED_Mid, 22000);
+  analogWriteFrequency(LED_Hi, 22000);
   
   digitalWrite(LED_TuneLock, HIGH);
   delay(50);

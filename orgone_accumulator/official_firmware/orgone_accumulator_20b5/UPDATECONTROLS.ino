@@ -477,4 +477,90 @@ waveTable2Link = FMAltWTselLo[analogControls[8]>>9];
   }
 }
 
+void UPDATECONTROLS_DRUM(){
+
+  
+  switch (ARC+1) {
+
+  case 8:
+
+    break;
+
+  case 10:   
+
+    Serial.print(drum_envVal[0]); 
+    Serial.print("    ");
+   Serial.println(drum_envStep[0]);  
+    
+    
+    
+
+    break;
+
+  case 3:
+   
+    detuneAmountCont = analogControls[2];
+    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0; 
+             
+          
+    break;
+
+  case 4:
+  
+  TUNELOCK_TOGGLE();
+
+ drum_d = (analogControls[5]<<2)+1;
+ //drum decay
+           
+    break;
+
+  case 5:
+  
+
+drum_a = analogControls[8]<<18; //drum attack
+  
+
+    break;
+
+  case 6: //select hi wave
+  
+drum_d2 = (analogControls[4]<<2)+1;
+    
+    break;  
+
+  case 1:     
+    mixPos = (analogControls[6]>>5)<<4;    //this is env > pitch control in drum mode 
+
+    OSC_MODE_TOGGLES();
+    if (FMFixedOn){
+      inputConverterF = 200000;
+    } //sets fixed frequency to current frequency when fixed is pushed.
+      
+    break; 
+
+  case 7:
+    FX_TOGGLES();  
+       
+
+    break;
+
+  case 2:
+    totalratio = totalratio - readingsratio[controlAveragingIndex]; 
+    readingsratio[controlAveragingIndex] = analogControls[0];
+    totalratio = totalratio + readingsratio[controlAveragingIndex];
+    controlAveragingIndex = controlAveragingIndex + 1;
+    if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
+    averageratio = totalratio / numreadingsratio;    
+    break; 
+
+  case 9:
+    FMIndexCont = (int)(analogControls[1]>>2);    
+    waveTableMidLink = CZWTselMid[analogControls[3]>>9];//drum uses mid wave from fm
+
+    break;   
+
+
+  }
+}
+
 

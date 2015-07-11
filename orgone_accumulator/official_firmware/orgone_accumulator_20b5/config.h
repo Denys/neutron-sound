@@ -11,7 +11,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 // note resolution. lower value will give wider oscillator range, higher will give better resolution
 //you will need to recalibrate the v/oct trimmer if you adjust this. decimal is important, even if zero.
 
-#define LED_COMP 1000 //dim the LEDSs higher number = lower brightness. (only for the position LEDs)
+#define LED_COMP 0 //dim the LEDSs higher number = lower brightness. (only for the position LEDs)
 
 #define LED_MODESWITCH_TIME 5000 //time LEDs stay on when mode is switched in main loop cycles, about 2-3000 per second depending on am/fm effects etc.
 
@@ -46,6 +46,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 //8 chords (just tuning)
 //9 Automatic Double Tracker (Another type of detune) EXPERIMENTAL
 //10 self multiplication with mod wave. 
+//11 drum voice
 
 
 

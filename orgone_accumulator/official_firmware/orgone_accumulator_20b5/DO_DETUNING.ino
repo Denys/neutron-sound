@@ -56,6 +56,16 @@ pcounterOld = micros();
     o1.amp = (constrain(((4095 - aInDetuneReading)+(analogControls[2])),0,8190));
     GRADUALWAVE();
     break;
+    case 11: //drum voice 
+ detuneScaler = aInModDetune;   
+    detune[0] =(uint32_t)((detuneScaler/32768.0)*(inputConverter));
+    detune[1] =(uint32_t)((detuneScaler/16384.0)*(inputConverter));
+    detune[2] =(uint32_t)((detuneScaler/8192.0)*(inputConverter));
+    detune[3] =(uint32_t)((detuneScaler/4096.0)*(inputConverter));
+    
+    o1.amp = (constrain(((4095 - aInDetuneReading)+(analogControls[2])),0,8190));
+    
+    break;
   
 }}
 
