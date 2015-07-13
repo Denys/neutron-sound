@@ -1472,6 +1472,11 @@ int32_t drum_d2 = 0;
 uint8_t drum_envStep[] = {0,0,0,0};
 int32_t ditherbit = 0;
 
+int32_t declickRampOut;
+int32_t declickRampIn;
+int32_t declickValue;
+const int declick = DECLICK;
+
 struct oscillatorSQUARE //PWM osc
 {
   uint32_t phase = 0;
@@ -1915,9 +1920,9 @@ void setup() {
   analogWriteResolution(13);
   analogReadResolution(13);
   analogReadAveraging(16);
-  analogWriteFrequency(LED_Lo, 22000);
-  analogWriteFrequency(LED_Mid, 22000);
-  analogWriteFrequency(LED_Hi, 22000);
+  analogWriteFrequency(LED_Lo, 46875);//LED PWM Hz
+  analogWriteFrequency(LED_Mid, 46875);
+  analogWriteFrequency(LED_Hi, 46875);
   
   digitalWrite(LED_TuneLock, HIGH);
   delay(50);

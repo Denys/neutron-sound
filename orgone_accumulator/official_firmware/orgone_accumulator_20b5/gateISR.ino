@@ -1,6 +1,10 @@
 void gateISR(){
 //  noInterrupts();
 //analogWrite(aout2,4000);
+
+declickRampOut = 4095;
+declickValue = AGCtest;
+
       o1.phase =        
       o2.phase =      
       o3.phase =     

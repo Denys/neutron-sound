@@ -1,6 +1,6 @@
 void ASSIGNINCREMENTS(){//--------------------------------------------------------default
   
-  
+  Serial.println(declickRampOut);
 
   switch(oscMode){ //switches which oscs get changed by FM and how much multiplier ;
   case 0://break intentionally ommited
