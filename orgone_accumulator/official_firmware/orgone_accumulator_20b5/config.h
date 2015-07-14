@@ -32,7 +32,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 #define FX3 2
 #define FX4 4
 #define FX5 5
-#define FX6 6
+#define FX6 11
 #define FX7 8
 
 //0  original orgone detune 
@@ -41,7 +41,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 //3 pulsar
 //4 bit crush
 //5 wave folding
-//6 modmod the modulation waveform can be changed with FX and FX CV
+//6 modmod the modulation waveform can be changed with FX and FX CV EXPERIMENTAL (clicks)
 //7 chords (equal temprement)
 //8 chords (just tuning)
 //9 Automatic Double Tracker (Another type of detune) EXPERIMENTAL

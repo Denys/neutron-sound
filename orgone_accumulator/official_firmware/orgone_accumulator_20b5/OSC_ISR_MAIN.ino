@@ -263,13 +263,13 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     
 
   //  AGCtest = o1.wave >>13; 
-   AGCtest = ((o3.wave+o1.wave+o5.wave+o7.wave+o9.wave)>>2);
-   o1.wave = ((AGCtest * ((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+   o2.wave = ((o3.wave+o1.wave+o5.wave+o7.wave+o9.wave)>>2);
+   o1.wave = ((o2.wave * ((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
    //o1.maxlev = max(AGCtest,o1.maxlev);
    
-    o1.wave = declickValue + ((AGCtest*declickRampIn)>>12);  
+    AGCtest = declickValue + ((o1.wave*declickRampIn)>>12);  
     
-    analogWrite(aout2,o1.wave+4000);
+    analogWrite(aout2,AGCtest+4000);
   
   
   break;

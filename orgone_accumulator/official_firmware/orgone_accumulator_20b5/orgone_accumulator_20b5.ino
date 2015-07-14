@@ -1415,23 +1415,14 @@ const int16_t *FMAltWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTabl
 //pulsar envelopes
 
 const int16_t *PulsarEnv[] =  { sawTable, AKWF_sinharm_0015, AKWF_blended_0009, AKWF_overtone_0001, AKWF_1503, sinTable, triTable, AKWF_symetric_0001 ,
-                              AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , FMTableS180 , FMTableSQR , distoTable , AKWF_0003 , FMTableFM98
+                                AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , FMTableS180 , FMTableSQR , distoTable , AKWF_0003 , FMTableFM98
                               };
 
-const int potPinTable_DIY[] = {2,3,4,5,6,7,8,9,10,11};
+const int potPinTable_DIY[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
-const int potPinTable_ret[] = {13,3,4,5,6,7,8,9,10,11}; //note these are "A**" pins not digital pin numbers
+const int potPinTable_ret[] = {13, 3, 4, 5, 6, 7, 8, 9, 10, 11}; //note these are "A**" pins not digital pin numbers
 
-const uint8_t LEDfxTable_ret[] = {24,16,33,32,31,30,29,15};//only for HW2 version DIY has less LEDs and is hardwired position LEDs are hardwired (second color of bicolor)
-
-#define LED_LoSel 24
-#define LED_FXSelDn 13
-#define LED_MidSel 33
-#define LED_FXSelUp 32
-#define LED_HiSel 31
-#define LED_xSel 30
-#define LED_CZSel 29
-#define LED_FixSel 15
+const uint8_t LEDfxTable_ret[] = {24, 16, 33, 32, 31, 30, 29, 15}; //only for HW2 version DIY has less LEDs and is hardwired position LEDs are hardwired (second color of bicolor)
 
 int IsHW2;
 
@@ -1464,12 +1455,12 @@ int32_t clippingTest = 0;
 
 //drum envelopes
 
-int32_t drum_envVal[] = {0,0,0,0,}; 
-int32_t drum_envTemp[] = {0,0,0,0,}; 
-int32_t drum_a = 0;  
-int32_t drum_d = 0;  
-int32_t drum_d2 = 0;  
-uint8_t drum_envStep[] = {0,0,0,0};
+int32_t drum_envVal[] = {0, 0, 0, 0,};
+int32_t drum_envTemp[] = {0, 0, 0, 0,};
+int32_t drum_a = 0;
+int32_t drum_d = 0;
+int32_t drum_d2 = 0;
+uint8_t drum_envStep[] = {0, 0, 0, 0};
 int32_t ditherbit = 0;
 
 int32_t declickRampOut;
@@ -1487,8 +1478,8 @@ oSQ;
 
 struct oscillator1
 {
-  uint32_t phase = 0; 
-  double freq = 0; 
+  uint32_t phase = 0;
+  double freq = 0;
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;
   uint32_t CRUSHwave = 0;
@@ -1504,7 +1495,7 @@ struct oscillator1
 o1;
 struct oscillator2
 {
-  uint32_t phase = 0;  
+  uint32_t phase = 0;
   int32_t phaseRemain = 0;
   uint32_t phaseOld = 0;
   int32_t index;
@@ -1613,23 +1604,21 @@ struct lfo
 }
 lfo;
 
-
-
-#define FXButton 3 
-#define FXButtonDn 16 
-#define CZmodeSwitch 6
-#define FMFixedSwitch 7
-#define detuneLoSwitch 1
-#define detuneMidSwitch 2
-#define detuneHiSwitch 4
-#define tuneLockSwitch 0
-#define xModeSwitch 5
-
 #ifdef __cplusplus
 #define cast_uint32_t static_cast<uint32_t>
 #else
 #define cast_uint32_t (uint32_t)
 #endif
+
+int FXButton = 3;
+int FXButtonDn = 16 ;
+int CZmodeSwitch = 6;
+int FMFixedSwitch = 7;
+int detuneLoSwitch = 1;
+int detuneMidSwitch = 2;
+int detuneHiSwitch = 4;
+int tuneLockSwitch = 0;
+int xModeSwitch = 5 ;
 
 
 #define oSQout 11 //square wave out
@@ -1664,7 +1653,7 @@ const int FX_Count = FX_N;
 const int FXa[] = {FX0, FX1, FX2, FX3, FX4, FX5, FX6, FX7};
 const int LED_MST = LED_MODESWITCH_TIME;
 int LED_MCD;
-const uint8_t SEL_LED_ARRAY[] = {24,13,33,32,31,30,29,15};
+const uint8_t SEL_LED_ARRAY[] = {24, 13, 33, 32, 31, 30, 29, 15};
 
 
 int aout2 = A14; //dac out
@@ -1834,7 +1823,7 @@ int ISRrate = 20;
 
 //int waveIncrement = 1;
 IntervalTimer outUpdateTimer;
-Bounce FXCycleButtonDn= Bounce(FXButtonDn, 20);
+Bounce FXCycleButtonDn = Bounce(FXButtonDn, 20);
 Bounce FXCycleButton = Bounce(FXButton, 20);
 Bounce CZmodeButton = Bounce(CZmodeSwitch, 20);
 Bounce FMFixedButton = Bounce(FMFixedSwitch, 20);
@@ -1849,26 +1838,66 @@ void setup() {
 
   pinMode(aout2, OUTPUT);
   pinMode(oSQout, OUTPUT);
-  pinMode(LED_FXSelUp, INPUT_PULLUP);
+  pinMode(32, INPUT_PULLUP);//turn this to an input to check for presence of LED. (hw2 detect)
   pinMode(13, OUTPUT);
-  
 
-  if (digitalRead(LED_FXSelUp) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
+
+  if (digitalRead(32) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
     IsHW2 = 1;
+
+    detuneLoSwitch = 2;
+    FXButtonDn = 5 ;
+    detuneMidSwitch = 7;
+    FXButton = 25;
+    detuneHiSwitch = 8;
+    xModeSwitch = 10 ;
+    CZmodeSwitch = 13;
+    FMFixedSwitch = 16;
+
+    tuneLockSwitch = 1;
+
     pinMode(A2, OUTPUT);
+   
+  //-------------these do not exist in 1x hardware 
     
+    pinMode(LED_LoSel, OUTPUT);
+
+  pinMode(LED_MidSel, OUTPUT);
+  pinMode(LED_FXSelUp, OUTPUT);
+  pinMode(LED_HiSel, OUTPUT);
+  pinMode(LED_xSel, OUTPUT);
+  pinMode(LED_CZSel, OUTPUT);
+  pinMode(LED_FixSel, OUTPUT);
+  
+  pinMode(FXButtonDn, INPUT_PULLUP);
+  digitalWrite(FXButtonDn, HIGH);
+  
+  //--------------------------------
+
   }
   else
-  { IsHW2 = 0;     
+  { IsHW2 = 0;
+
+    detuneLoSwitch = 1;
+
+    detuneMidSwitch = 2;
+    FXButton = 3;
+    detuneHiSwitch = 4;
+    xModeSwitch = 5 ;
+    CZmodeSwitch = 6;
+    FMFixedSwitch = 7;
+
+    tuneLockSwitch = 0;
+
     digitalWrite(13, HIGH);//illuminate onboard teensy LED in DIY mode
     pinMode(A2, INPUT);
-    
+
   }//turn on teensy LED on DIY modules}
 
 
   pinMode(A0, INPUT);
   pinMode(A1, OUTPUT);
-  
+
   pinMode(A3, INPUT);
   pinMode(A4, INPUT);
   pinMode(A5, INPUT);
@@ -1884,37 +1913,28 @@ void setup() {
   pinMode(A16, INPUT);
   pinMode(A17, INPUT);
 
-  pinMode(0, INPUT_PULLUP);
-  digitalWrite(0, HIGH);
-  pinMode(1, INPUT_PULLUP);
-  digitalWrite(1, HIGH);
-  pinMode(2, INPUT_PULLUP);
-  digitalWrite(2, HIGH);
-  pinMode(3, INPUT_PULLUP);
-  digitalWrite(3, HIGH);
-  pinMode(4, INPUT_PULLUP);
-  digitalWrite(4, HIGH);
-  pinMode(5, INPUT_PULLUP);
-  digitalWrite(5, HIGH);
-  pinMode(6, INPUT_PULLUP);
-  digitalWrite(6, HIGH);
-  pinMode(7, INPUT_PULLUP);
-  digitalWrite(7, HIGH);
+  pinMode(detuneLoSwitch, INPUT_PULLUP);
+  digitalWrite(detuneLoSwitch, HIGH);
+  pinMode(detuneMidSwitch, INPUT_PULLUP);
+  digitalWrite(detuneMidSwitch, HIGH);
+  pinMode(FXButton, INPUT_PULLUP);
+  digitalWrite(FXButton, HIGH);
+  pinMode(detuneHiSwitch, INPUT_PULLUP);
+  digitalWrite(detuneHiSwitch, HIGH);
+  pinMode(xModeSwitch, INPUT_PULLUP);
+  digitalWrite(xModeSwitch, HIGH);
+  pinMode(CZmodeSwitch, INPUT_PULLUP);
+  digitalWrite(CZmodeSwitch, HIGH);
+  pinMode(FMFixedSwitch, INPUT_PULLUP);
+  digitalWrite(FMFixedSwitch, HIGH);
+  pinMode(tuneLockSwitch, INPUT_PULLUP);
+  digitalWrite(tuneLockSwitch, HIGH);
   pinMode(gateIn, INPUT);
 
   pinMode(LED_TuneLock, OUTPUT);
   pinMode(LED_Lo, OUTPUT);
   pinMode(LED_Mid, OUTPUT);
-  pinMode(LED_Hi, OUTPUT); 
- 
-  pinMode(LED_LoSel, OUTPUT);
-  
-  pinMode(LED_MidSel, OUTPUT);
-  pinMode(LED_FXSelUp, OUTPUT);
-  pinMode(LED_HiSel, OUTPUT);
-   pinMode(LED_xSel, OUTPUT);  
-  pinMode(LED_CZSel, OUTPUT);  
-  pinMode(LED_FixSel, OUTPUT); 
+  pinMode(LED_Hi, OUTPUT);
 
   analogReference(EXTERNAL);
   analogWriteResolution(13);
@@ -1923,27 +1943,27 @@ void setup() {
   analogWriteFrequency(LED_Lo, 46875);//LED PWM Hz
   analogWriteFrequency(LED_Mid, 46875);
   analogWriteFrequency(LED_Hi, 46875);
-  
+
   digitalWrite(LED_TuneLock, HIGH);
   delay(50);
   analogWrite(LED_Lo, 4000);
   delay(50);
   analogWrite(LED_Mid, 4000);
   delay(50);
-  analogWrite(LED_Hi, 4000); 
+  analogWrite(LED_Hi, 4000);
   delay(50);
   digitalWrite(LED_LoSel, HIGH);
   delay(50);
   digitalWrite(LED_FXSelDn, HIGH);
   delay(50);
-  digitalWrite(LED_MidSel, LOW); //pin 33 is so fucking special!
+  digitalWrite(LED_MidSel, HIGH);
   delay(50);
-  digitalWrite(LED_FXSelUp, HIGH);
+  digitalWrite(LED_FXSelUp, LOW); //pin 33 is so fucking special!
   delay(50);
   digitalWrite(LED_HiSel, HIGH);
-  delay(50); 
- digitalWrite(LED_xSel, HIGH);
-  delay(50);   
+  delay(50);
+  digitalWrite(LED_xSel, HIGH);
+  delay(50);
   digitalWrite(LED_CZSel, HIGH);
   delay(50);
   digitalWrite(LED_FixSel, HIGH);
@@ -1951,20 +1971,20 @@ void setup() {
   digitalWrite(LED_FXSelDn, LOW);
   digitalWrite(LED_FXSelUp, LOW);
   digitalWrite(LED_TuneLock, LOW);
-  
+
   delay(20);
-  
+
   outUpdateTimer.begin(outUpdateISR_MAIN, ISRrate); //this is the oscillator and DAC output update rate in uS
-  
+
   delay(20);
 
   attachInterrupt(gateIn, gateISR, RISING);
-  
+
   delay(20);
 
   FXi = EEPROM.read(0);
   if (FXi > 7) FXi = 7;
-  
+
   if (IsHW2 == 1) {
     detuneLoOn = EEPROM.read(1);
     if (detuneLoOn > 1) detuneLoOn = 1;
@@ -1978,18 +1998,18 @@ void setup() {
     if (CZmodeOn > 1) CZmodeOn = 0;
     FMFixedOn = EEPROM.read(6);
     if (FMFixedOn > 1) FMFixedOn = 0;
-    
-    oscMode = ((!xModeOn)<<1)+(CZmodeOn);
-    
-    digitalWrite(LED_LoSel,detuneLoOn);
-    digitalWrite(LED_MidSel,!detuneMidOn);  //pin 33 invert LED output. 
-   digitalWrite(LED_HiSel,detuneHiOn);
-   digitalWrite(LED_FixSel,FMFixedOn);   
-   digitalWrite(LED_CZSel,CZmodeOn);  
-   digitalWrite(LED_xSel,xModeOn);
+
+    oscMode = ((!xModeOn) << 1) + (CZmodeOn);
+
+    digitalWrite(LED_LoSel, detuneLoOn);
+    digitalWrite(LED_MidSel, !detuneMidOn); //pin 33 invert LED output.
+    digitalWrite(LED_HiSel, detuneHiOn);
+    digitalWrite(LED_FixSel, FMFixedOn);
+    digitalWrite(LED_CZSel, CZmodeOn);
+    digitalWrite(LED_xSel, xModeOn);
 
   }
-  
+
   FX = FXa[FXi];
   SELECT_ISRS();
 
@@ -2010,10 +2030,10 @@ void setup() {
                   o9.phase =
                     o10.phase = 0;
 
-   // ---------------------------
-   
-    Serial.begin(115200);
-  
+  // ---------------------------
+
+  Serial.begin(115200);
+
   // ---------------------------
 }
 

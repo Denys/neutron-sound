@@ -20,7 +20,7 @@ pcounterOld = micros();
 
 
   case 1: //prime detune
-    detuneScaler = aInModDetune * mixDetune ;
+    detuneScaler = aInModDetune * mixDetune;
     for (int i=0; i <= 3; i++){  
       detune[i] = (uint32_t)((detuneScaler * primes[i])/3000000.0) ;
     }
