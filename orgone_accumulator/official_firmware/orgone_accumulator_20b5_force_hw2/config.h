@@ -13,8 +13,6 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 
 #define LED_COMP 0 //dim the LEDSs higher number = lower brightness. (only for the position LEDs)
 
-//DIY hardware 1.x boards--------------------------------------------------------------------start
-
 #define LED_MODESWITCH_TIME 5000 //time LEDs stay on when mode is switched in main loop cycles, about 2-3000 per second depending on am/fm effects etc.
 
 //LED compensation. adjusts how the LEDs fade across positions
@@ -50,7 +48,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 //10 self multiplication with mod wave. 
 //11 drum voice
 
-//DIY hardware 1.x boards--------------------------------------------------------------------end
+
 
 #define PWM_SUB 2
 
@@ -86,7 +84,7 @@ extern const int chordTable[] = {
 };
 
 #define DECLICK 32
-//declicking. 4000 = normal operation
+//experimental declicking. 4000 = normal operation
 //higher number is faster ramp
 //do not change the
 

@@ -488,7 +488,11 @@ void UPDATECONTROLS_DRUM(){
 
   case 10:   
 
-       
+    Serial.print(drum_envVal[0]); 
+    Serial.print("    ");
+   Serial.println(drum_envStep[0]);  
+    
+    
     
 
     break;
@@ -505,7 +509,7 @@ void UPDATECONTROLS_DRUM(){
   
   TUNELOCK_TOGGLE();
 
- drum_d = ((8191-analogControls[5])<<11)+1;
+ drum_d = ((8191-analogControls[5])<<2)+1;
  //drum decay
            
     break;
@@ -513,14 +517,14 @@ void UPDATECONTROLS_DRUM(){
   case 5:
   
 
-drum_a = analogControls[8]<<10; //drum hold time
+drum_a = analogControls[8]<<18; //drum attack
   
 
     break;
 
   case 6: //select hi wave
   
-drum_d2 = ((8191-analogControls[4])<<11)+1;
+drum_d2 = ((8191-analogControls[4])<<2)+1;
     
     break;  
 
@@ -541,14 +545,17 @@ drum_d2 = ((8191-analogControls[4])<<11)+1;
     break;
 
   case 2:
- o6.phase_increment = analogControls[0];
-      
+    totalratio = totalratio - readingsratio[controlAveragingIndex]; 
+    readingsratio[controlAveragingIndex] = analogControls[0];
+    totalratio = totalratio + readingsratio[controlAveragingIndex];
+    controlAveragingIndex = controlAveragingIndex + 1;
+    if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
+    averageratio = totalratio / numreadingsratio;    
     break; 
 
   case 9:
-    FMIndexCont = (int)(analogControls[1]>>1); 
-    
-    waveTableMidLink = drumWT[analogControls[3]>>9];//drum uses mid wave from fm
+    FMIndexCont = (int)(analogControls[1]>>2);    
+    waveTableMidLink = CZWTselMid[analogControls[3]>>9];//drum uses mid wave from fm
 
     break;   
 

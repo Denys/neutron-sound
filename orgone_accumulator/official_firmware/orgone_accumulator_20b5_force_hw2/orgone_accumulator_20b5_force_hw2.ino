@@ -1417,13 +1417,6 @@ const int16_t *FMAltWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTabl
 const int16_t *PulsarEnv[] =  { sawTable, AKWF_sinharm_0015, AKWF_blended_0009, AKWF_overtone_0001, AKWF_1503, sinTable, triTable, AKWF_symetric_0001 ,
                                 AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , FMTableS180 , FMTableSQR , distoTable , AKWF_0003 , FMTableFM98
                               };
-                              
-//drum waves
- const int16_t *drumWT[] = {sinTable, triTable, distoTable ,FMTableSQR ,FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 ,AKWF_symetric_0001 ,
-                           AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 ,AKWF_0003 , sawTable ,voiceTable , noiseTable2 ,noiseTable
-                            };
-                             
-
 
 const int potPinTable_DIY[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
@@ -1462,14 +1455,12 @@ int32_t clippingTest = 0;
 
 //drum envelopes
 
-int32_t drum_envVal[] = {0, 0, 0};
-int32_t drum_envTemp[] = {0, 0,0};
+int32_t drum_envVal[] = {0, 0, 0, 0,};
+int32_t drum_envTemp[] = {0, 0, 0, 0,};
 int32_t drum_a = 0;
-uint8_t drum_st = 0;
-uint8_t drum_st2 = 0;
 int32_t drum_d = 0;
 int32_t drum_d2 = 0;
-uint8_t drum_envStep[] = {0, 0,0};
+uint8_t drum_envStep[] = {0, 0, 0, 0};
 int32_t ditherbit = 0;
 
 int32_t declickRampOut;
@@ -1668,7 +1659,8 @@ const uint8_t SEL_LED_ARRAY[] = {24, 13, 33, 32, 31, 30, 29, 15};
 int aout2 = A14; //dac out
 //int ISRtestPin = 5;
 //int aReadTestPin = 6;
-int gateState = 0;
+//int gate = 0;
+//int gateOld = 0;
 //int gateTest = 0;
 int table = 0;
 //int out = 0;
@@ -1769,7 +1761,6 @@ uint32_t mixDetune;
 uint32_t mixDetuneUp;
 uint32_t mixDetuneDn;
 int32_t CZMix;
-int32_t CZMixDn;
 uint8_t detuneLoOn;
 uint8_t detuneMidOn;
 uint8_t detuneHiOn;
@@ -1850,8 +1841,8 @@ void setup() {
   pinMode(32, INPUT_PULLUP);//turn this to an input to check for presence of LED. (hw2 detect)
   pinMode(13, OUTPUT);
 
-
-  if (digitalRead(32) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
+if (1 == 1){//temp force hw2
+  //if (digitalRead(32) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
     IsHW2 = 1;
 
 //these are in the order they are on the panel
@@ -1999,8 +1990,7 @@ void setup() {
 
   delay(20);
 
-  attachInterrupt(gateIn, gateISR, CHANGE);
-  
+  attachInterrupt(gateIn, gateISR, RISING);
 
   delay(20);
 

@@ -1123,21 +1123,30 @@ case 1://cz
 
 void ASSIGNINCREMENTS_DRUM(){//--------------------------------------------------------default
   
-    UPDATECONTROLS_DRUM(); 
-//    Serial.print   (CZMix);
-//    Serial.print   ("      ");
-    //Serial.println(inputConverter);
+    UPDATECONTROLS_DRUM();    
+ 
      
-    CZMix = constrain((FMIndexCont+(2047-(averageaInIAv/2))),0,2047); 
-     CZMixDn = constrain(((4095-FMIndexCont)-(2047-(averageaInIAv/2))),0,2047); 
+    CZMix = constrain((FMIndexCont+(2047-(averageaInIAv/2.0))),0,2047);   
+    
+    FMIndexContCubing = FMIndexCont/256.0;  
+    FMIndex= (uint32_t((float)(((FMIndexContCubing*FMIndexContCubing*FMIndexContCubing)+(averageaInIAvCubing*averageaInIAvCubing*averageaInIAvCubing))*(inputVOct/4.0))));
+    
+    if (averageaInRAv > 4095) {
+      ModRatioCubing = (averageaInRAv-4095.0)/256.0;
+      aInModRatio = ((ModRatioCubing*ModRatioCubing*ModRatioCubing)/2048.0)+1.0;
+    }   
+    else aInModRatio = (averageaInRAv/4096.0); //down direction dont go past zero, or divide by zero could happen 
 
     mixDetune = (mixLo*detuneLoOn)+(mixMid*detuneMidOn)+(mixHi*detuneHiOn);  
     mixDetuneUp = mixDetune*0.787;//because there are 5 oscillators being mixed in the detune mix of ISR
     mixDetuneDn =  (2047-mixDetune)*0.97; 
-      o8.phase_increment =  ((uint32_t)(inputConverter))>>10;//borrow this for pitch>hold time
+
 
     if (FMFixedOn){
-      osc_mult[0]=4.0;
+      avgcubing = (float)(averageratio/500.0); //change to adjust "LFO" in fm fixed
+      FMMult = ((((float)(avgcubing*avgcubing*avgcubing)))+0.001)*(aInModRatio*8.0);  //FM+fixed mult control 
+      //Serial.println(FMMult);
+      osc_mult[0]=FMMult;
       osc_mult[1]=4.0;
       o1.phase_increment = inputConverter*osc_mult[1]  ;
       o2.phase_increment = inputConverterF + detune[0];
