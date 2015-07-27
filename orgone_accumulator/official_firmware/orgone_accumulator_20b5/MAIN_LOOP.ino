@@ -106,13 +106,35 @@ evilGoto:
   aInModIndex = analogRead(A15);
   //----------------------------------------------------------------------
 
-
-  if (FX == 3) ASSIGNINCREMENTS_P();//pulsar
-  else if (FX == 7 || FX == 8) ASSIGNINCREMENTS_C();//chord
-  else if (FX == 2  ) ASSIGNINCREMENTS_D();//delay
-  else if (FX == 9  ) ASSIGNINCREMENTS_A();//ADT
-  else if (FX == 11  ) ASSIGNINCREMENTS_DRUM();//drum voice
-  else ASSIGNINCREMENTS();//default
+   switch (FX){
+     
+  case 2:   
+  ASSIGNINCREMENTS_D();//delay 
+  break;  
+     
+  case 3:   
+  ASSIGNINCREMENTS_P();//pulsar
+  break;
+  
+  case 7:
+  ASSIGNINCREMENTS_C();//chord
+  break;
+  
+  case 8:
+  ASSIGNINCREMENTS_C();//chord
+  break;
+  
+  case 9:
+  ASSIGNINCREMENTS_A();//ADT
+  break;
+  
+  case 11:
+  ASSIGNINCREMENTS_DRUM();//drum voice
+  break;
+  
+  default:
+   ASSIGNINCREMENTS();
+   }
 
 
 

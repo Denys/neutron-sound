@@ -1,206 +1,208 @@
-void UPDATECONTROLS_CZ(){
+void UPDATECONTROLS_CZ() {
 
-  
-  switch (ARC+1) {
 
-  case 8:
+  switch (ARC + 1) {
 
-    break;
+    case 8:
 
-  case 10:   
-
-    //Serial.println((float)o1.phase_increment/51550); 
-    //outputs the frequency on USB serial. tune lock, FM and X must be off
-    
-
-    break;
-
-  case 3:
-   
-    detuneAmountCont = analogControls[2];
-    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0; 
-    
-    //modmod depreciate in to "range"
-     switch (analogControls[2]>>9){
-    case 0: 
-      FMTableMM = sinTable;      
       break;
-    case 1: 
-      FMTableMM = triTable;     
-      break;
-    case 2: 
-      FMTableMM = AKWF_symetric_0011;     
-      break;
-    case 3: 
-      FMTableMM = FMTableSQ;     
-      break;
-    case 4: 
-      FMTableMM = FMTableSQR;    
-      break;
-    case 5: 
-       FMTableMM = AKWF_symetric_0013;     
-      break;
-    case 6: 
-      FMTableMM = AKWF_symetric_0001;    
-      break;
-    case 7: 
-      FMTableMM = bassTable1;     
-      break;
-     case 8: 
-      FMTableMM = FMTableS180;     
-      break;
-    case 9: 
-      FMTableMM = celloTable;      
-      break;
-    case 10: 
-      FMTableMM = violTable;      
-      break;
-    case 11: 
-      FMTableMM = distoTable;     
-      break;
-    case 12: 
-      FMTableMM = blipTable;     
-      break;
-    case 13: 
-      FMTableMM = FMTableFM98;      
-      break;
-    case 14: 
-      FMTableMM = noiseTable2;       
-      break;
-    case 15: 
-      FMTableMM = noiseTable3;
-     
-      break;      
-    }
-    
-     
-    break;
 
-  case 4:
-  
-  TUNELOCK_TOGGLE();
+    case 10:
 
-  waveTableMidLink = CZWTselMid[analogControls[5]>>9];
-           
-    break;
+      //Serial.println((float)o1.phase_increment/51550);
+      //outputs the frequency on USB serial. tune lock, FM and X must be off
 
-  case 5:
-  
-waveTable2Link = CZWTselLo[analogControls[8]>>9];
-  
 
-    break;
+      break;
 
-  case 6: //select hi wave
-  
- waveTableLink = CZWTselHi[analogControls[4]>>9];   
-    
-    break;  
+    case 3:
 
-  case 1:     
-    mixPos = (analogControls[6]>>5)<<4;     
+      detuneAmountCont = analogControls[2];
+      //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;
 
-    OSC_MODE_TOGGLES();
-    if (FMFixedOn){
-      inputConverterF = 200000;
-    } //sets fixed frequency to current frequency when fixed is pushed.
-      
-    break; 
+      //modmod depreciate in to "range"
+      switch (analogControls[2] >> 9) {
+        case 0:
+          FMTableMM = sinTable;
+          break;
+        case 1:
+          FMTableMM = triTable;
+          break;
+        case 2:
+          FMTableMM = AKWF_symetric_0011;
+          break;
+        case 3:
+          FMTableMM = FMTableSQ;
+          break;
+        case 4:
+          FMTableMM = FMTableSQR;
+          break;
+        case 5:
+          FMTableMM = AKWF_symetric_0013;
+          break;
+        case 6:
+          FMTableMM = AKWF_symetric_0001;
+          break;
+        case 7:
+          FMTableMM = bassTable1;
+          break;
+        case 8:
+          FMTableMM = FMTableS180;
+          break;
+        case 9:
+          FMTableMM = celloTable;
+          break;
+        case 10:
+          FMTableMM = violTable;
+          break;
+        case 11:
+          FMTableMM = distoTable;
+          break;
+        case 12:
+          FMTableMM = blipTable;
+          break;
+        case 13:
+          FMTableMM = FMTableFM98;
+          break;
+        case 14:
+          FMTableMM = noiseTable2;
+          break;
+        case 15:
+          FMTableMM = noiseTable3;
 
-  case 7:
-    FX_TOGGLES();  
-       
+          break;
+      }
 
-    break;
 
-  case 2:
-    totalratio = totalratio - readingsratio[controlAveragingIndex]; 
-    readingsratio[controlAveragingIndex] = analogControls[0];
-    totalratio = totalratio + readingsratio[controlAveragingIndex];
-    controlAveragingIndex = controlAveragingIndex + 1;
-    if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
-    averageratio = totalratio / numreadingsratio;    
-    break; 
+      break;
 
-  case 9:
-    FMIndexCont = (int)(analogControls[1]>>2);    
-    FMTable = CZWTselFM[analogControls[3]>>9];
+    case 4:
 
-    break;   
+      TUNELOCK_TOGGLE();
+
+      waveTableMidLink = CZWTselMid[analogControls[5] >> 9];
+
+      break;
+
+    case 5:
+
+      waveTable2Link = CZWTselLo[analogControls[8] >> 9];
+
+
+      break;
+
+    case 6: //select hi wave
+
+      waveTableLink = CZWTselHi[analogControls[4] >> 9];
+
+      break;
+
+    case 1:
+      mixPos = (analogControls[6] >> 5) << 4;
+
+      OSC_MODE_TOGGLES();
+      if (FMFixedOn) {
+        inputConverterF = 200000;
+      } //sets fixed frequency to current frequency when fixed is pushed.
+
+      break;
+
+    case 7:
+      FX_TOGGLES();
+
+
+      break;
+
+    case 2:
+      totalratio = totalratio - readingsratio[controlAveragingIndex];
+      readingsratio[controlAveragingIndex] = analogControls[0];
+      totalratio = totalratio + readingsratio[controlAveragingIndex];
+      controlAveragingIndex = controlAveragingIndex + 1;
+      if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
+      averageratio = totalratio / numreadingsratio;
+      break;
+
+    case 9:
+      FMIndexCont = (int)(analogControls[1] >> 2);
+      FMTable = CZWTselFM[analogControls[3] >> 9];
+
+      break;
 
 
   }
 }
 //--------------------------------------------------------------------CZ-ALT--------------------------------------------------
-void UPDATECONTROLS_CZALT(){
+void UPDATECONTROLS_CZALT() {
 
-  switch (ARC+1) {
+  switch (ARC + 1) {
 
-  case 8:
-         
-    break;
+    case 8:
 
-  case 10:    
-    
-     
-    break;
+      break;
 
-  case 3:
-    TUNELOCK_TOGGLE();     
-    detuneAmountCont = analogControls[2];
-    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0; 
-    break;
+    case 10:
 
-  case 4:
 
- waveTableMidLink = CZAltWTselMid[analogControls[5]>>9];
-           
-    break;
+      break;
 
-  case 5:
-  
-waveTable2Link = CZAltWTselLo[analogControls[8]>>9];
-  
-    break;
+    case 3:
+      TUNELOCK_TOGGLE();
+      detuneAmountCont = analogControls[2];
+      //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;
+      break;
 
-  case 6: //no hi wave in alt(x) mode
-   
-   FMX_HiOffsetContCub = (analogControls[4]>>3)-512; 
-   FMX_HiOffsetCont = (int32_t)(FMX_HiOffsetContCub*FMX_HiOffsetContCub*FMX_HiOffsetContCub)>>20;
-    //FMX_HiOffsetCont = FMX_HiOffsetContCub*FMX_HiOffsetContCub*FMX_HiOffsetContCub  ;      
+    case 4:
 
-  case 1:     
-    mixPos = (analogControls[6]>>5)<<4;     
-    
-    OSC_MODE_TOGGLES();
-    if (FMFixedOn){inputConverterF = 20000;} //sets lowest fixed modulator frequency       
-    
-    
-    break; 
+      waveTableMidLink = CZAltWTselMid[analogControls[5] >> 9];
 
-  case 7:
-  FX_TOGGLES();
-     
+      break;
 
-    break;
+    case 5:
 
-  case 2:
-    totalratio = totalratio - readingsratio[controlAveragingIndex]; 
-    readingsratio[controlAveragingIndex] = analogControls[0];
-    totalratio = totalratio + readingsratio[controlAveragingIndex];
-    controlAveragingIndex = controlAveragingIndex + 1;
-    if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
-    averageratio = totalratio / numreadingsratio;    
-     break; 
+      waveTable2Link = CZAltWTselLo[analogControls[8] >> 9];
 
-  case 9:
-    FMIndexCont = (int)(analogControls[1]>>2);    
+      break;
 
- FMTable = CZAltWTselFM[analogControls[3]>>9]; 
- FMTableAMX = CZAltWTselFMAMX[analogControls[3]>>9]; //am mod on hi position   
-    
+    case 6: //no hi wave in alt(x) mode
 
-    break;   
+      FMX_HiOffsetContCub = (analogControls[4] >> 3) - 512;
+      FMX_HiOffsetCont = (int32_t)(FMX_HiOffsetContCub * FMX_HiOffsetContCub * FMX_HiOffsetContCub) >> 20;
+    //FMX_HiOffsetCont = FMX_HiOffsetContCub*FMX_HiOffsetContCub*FMX_HiOffsetContCub  ;
+
+    case 1:
+      mixPos = (analogControls[6] >> 5) << 4;
+
+      OSC_MODE_TOGGLES();
+      if (FMFixedOn) {
+        inputConverterF = 20000; //sets lowest fixed modulator frequency
+      }
+
+
+      break;
+
+    case 7:
+      FX_TOGGLES();
+
+
+      break;
+
+    case 2:
+      totalratio = totalratio - readingsratio[controlAveragingIndex];
+      readingsratio[controlAveragingIndex] = analogControls[0];
+      totalratio = totalratio + readingsratio[controlAveragingIndex];
+      controlAveragingIndex = controlAveragingIndex + 1;
+      if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
+      averageratio = totalratio / numreadingsratio;
+      break;
+
+    case 9:
+      FMIndexCont = (int)(analogControls[1] >> 2);
+
+      FMTable = CZAltWTselFM[analogControls[3] >> 9];
+      FMTableAMX = CZAltWTselFMAMX[analogControls[3] >> 9]; //am mod on hi position
+
+
+      break;
 
 
   }
@@ -208,349 +210,353 @@ waveTable2Link = CZAltWTselLo[analogControls[8]>>9];
 
 
 //----------------------------------------------------------------FM--------------------------------------------------------
-void UPDATECONTROLS_FM(){     
+void UPDATECONTROLS_FM() {
 
-  switch (ARC+1) {
-  case 8: //8 and 10 are skipped when tune lock is on, do not use.    
-    break;
-  case 10:      
-    break;
+  switch (ARC + 1) {
+    case 8: //8 and 10 are skipped when tune lock is on, do not use.
+      break;
+    case 10:
+      break;
 
-  case 3:
-    TUNELOCK_TOGGLE();
-    detuneAmountCont = analogControls[2];
-    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;  
-    
-//        Serial.print(FMIndex);
-//        Serial.print("    ");
-//        Serial.print(detuneAmountCont);
-//        
-//        Serial.print("    ");
-//        Serial.println(aInModDetune);
+    case 3:
+      TUNELOCK_TOGGLE();
+      detuneAmountCont = analogControls[2];
+      //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;
 
-   switch (analogControls[2]>>9){
-    case 0: 
-      FMTableMM = sinTable;      
-      break;
-    case 1: 
-      FMTableMM = triTable;     
-      break;
-    case 2: 
-      FMTableMM = AKWF_symetric_0011;     
-      break;
-    case 3: 
-      FMTableMM = FMTableSQ;     
-      break;
-    case 4: 
-      FMTableMM = FMTableSQR;    
-      break;
-    case 5: 
-       FMTableMM = AKWF_symetric_0013;     
-      break;
-    case 6: 
-      FMTableMM = AKWF_symetric_0001;    
-      break;
-    case 7: 
-      FMTableMM = bassTable1;     
-      break;
-     case 8: 
-      FMTableMM = FMTableS180;     
-      break;
-    case 9: 
-      FMTableMM = celloTable;      
-      break;
-    case 10: 
-      FMTableMM = violTable;      
-      break;
-    case 11: 
-      FMTableMM = distoTable;     
-      break;
-    case 12: 
-      FMTableMM = blipTable;     
-      break;
-    case 13: 
-      FMTableMM = FMTableFM98;      
-      break;
-    case 14: 
-      FMTableMM = noiseTable2;       
-      break;
-    case 15: 
-      FMTableMM = noiseTable3;
-     
-      break;      
-    }
-    break;
-    
-  case 4: //mid wave
-    waveTableMidLink = FMWTselMid[analogControls[5]>>9];           
-    break;
+      //        Serial.print(FMIndex);
+      //        Serial.print("    ");
+      //        Serial.print(detuneAmountCont);
+      //
+      //        Serial.print("    ");
+      //        Serial.println(aInModDetune);
 
-  case 5:  //lo wave
-waveTable2Link = FMWTselLo[analogControls[8]>>9];
-    break;
+      switch (analogControls[2] >> 9) {
+        case 0:
+          FMTableMM = sinTable;
+          break;
+        case 1:
+          FMTableMM = triTable;
+          break;
+        case 2:
+          FMTableMM = AKWF_symetric_0011;
+          break;
+        case 3:
+          FMTableMM = FMTableSQ;
+          break;
+        case 4:
+          FMTableMM = FMTableSQR;
+          break;
+        case 5:
+          FMTableMM = AKWF_symetric_0013;
+          break;
+        case 6:
+          FMTableMM = AKWF_symetric_0001;
+          break;
+        case 7:
+          FMTableMM = bassTable1;
+          break;
+        case 8:
+          FMTableMM = FMTableS180;
+          break;
+        case 9:
+          FMTableMM = celloTable;
+          break;
+        case 10:
+          FMTableMM = violTable;
+          break;
+        case 11:
+          FMTableMM = distoTable;
+          break;
+        case 12:
+          FMTableMM = blipTable;
+          break;
+        case 13:
+          FMTableMM = FMTableFM98;
+          break;
+        case 14:
+          FMTableMM = noiseTable2;
+          break;
+        case 15:
+          FMTableMM = noiseTable3;
 
-  case 6: //select hi wave  
- waveTableLink = FMWTselHi[analogControls[4]>>9]; 
+          break;
+      }
+      break;
 
-    break;  
+    case 4: //mid wave
+      waveTableMidLink = FMWTselMid[analogControls[5] >> 9];
+      break;
 
-  case 1:     
-    mixPos = (analogControls[6]>>1); 
-    
-    OSC_MODE_TOGGLES();
-    if (FMFixedOn){inputConverterF = 20000;} //sets fixed frequency to current frequency when fixed is pushed.
-           
-    
-    
-    break; 
+    case 5:  //lo wave
+      waveTable2Link = FMWTselLo[analogControls[8] >> 9];
+      break;
 
-  case 7:
-  
-   FX_TOGGLES();   
+    case 6: //select hi wave
+      waveTableLink = FMWTselHi[analogControls[4] >> 9];
 
-    break;
+      break;
 
-  case 2:
-    totalratio = totalratio - readingsratio[controlAveragingIndex]; 
-    readingsratio[controlAveragingIndex] = analogControls[0]; //fm ratio control smoothing in FM
-    totalratio = totalratio + readingsratio[controlAveragingIndex];
-    controlAveragingIndex = controlAveragingIndex + 1;
-    if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
-    averageratio = totalratio / numreadingsratio;    
-     break; 
+    case 1:
+      mixPos = (analogControls[6] >> 1);
 
-  case 9:
-    FMIndexCont = (int)(analogControls[1]>>2);    
-    
-//    else {
-//      FMIndexContCubing = (analogControls[8])/1024.0;
-//      FMIndexCont = (int) (FMIndexContCubing* FMIndexContCubing*FMIndexContCubing); 
-//    }
-    
-    FMTable = FMWTselFM[analogControls[3]>>9];
-    if ((analogControls[3]>>9) == 15) WTShift = 31;
-    else WTShift = 23;
-    
-     
-    break;   
+      OSC_MODE_TOGGLES();
+      if (FMFixedOn) {
+        inputConverterF = 20000; //sets fixed frequency to current frequency when fixed is pushed.
+      }
+
+
+
+      break;
+
+    case 7:
+
+      FX_TOGGLES();
+
+      break;
+
+    case 2:
+      totalratio = totalratio - readingsratio[controlAveragingIndex];
+      readingsratio[controlAveragingIndex] = analogControls[0]; //fm ratio control smoothing in FM
+      totalratio = totalratio + readingsratio[controlAveragingIndex];
+      controlAveragingIndex = controlAveragingIndex + 1;
+      if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
+      averageratio = totalratio / numreadingsratio;
+      break;
+
+    case 9:
+      FMIndexCont = (int)(analogControls[1] >> 2);
+
+      //    else {
+      //      FMIndexContCubing = (analogControls[8])/1024.0;
+      //      FMIndexCont = (int) (FMIndexContCubing* FMIndexContCubing*FMIndexContCubing);
+      //    }
+
+      FMTable = FMWTselFM[analogControls[3] >> 9];
+      if ((analogControls[3] >> 9) == 15) WTShift = 31;
+      else WTShift = 23;
+
+
+      break;
 
 
   }
 }
 //--------------------------------------------------------------------------FMALT--------------------------------------------------------------
 
-void UPDATECONTROLS_FMALT(){
-     
+void UPDATECONTROLS_FMALT() {
 
-  switch (ARC+1) {
 
-  case 8: //7 and 9 are skipped when tune lock is on, do not use.
-    
+  switch (ARC + 1) {
 
-    
-    break;
+    case 8: //7 and 9 are skipped when tune lock is on, do not use.
 
-  case 10:    
-    
-     
-    break;
 
-  case 3:
-    TUNELOCK_TOGGLE();
-    detuneAmountCont = analogControls[2];
-    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;  
-    
-//        Serial.print(FMIndex);
-//        Serial.print("    ");
-//        Serial.print(detuneAmountCont);
-//        
-//        Serial.print("    ");
-//        Serial.println(aInModDetune);
 
- switch (analogControls[2]>>9){
-    case 0: 
-      FMTableMM = nothingTable;      
       break;
-    case 1: 
-      FMTableMM = triTable;     
-      break;
-    case 2: 
-      FMTableMM = AKWF_symetric_0011;     
-      break;
-    case 3: 
-      FMTableMM = FMTableSQ;     
-      break;
-    case 4: 
-      FMTableMM = FMTableSQR;    
-      break;
-    case 5: 
-       FMTableMM = AKWF_symetric_0013;     
-      break;
-    case 6: 
-      FMTableMM = AKWF_symetric_0001;    
-      break;
-    case 7: 
-      FMTableMM = bassTable1;     
-      break;
-     case 8: 
-      FMTableMM = FMTableS180;     
-      break;
-    case 9: 
-      FMTableMM = celloTable;      
-      break;
-    case 10: 
-      FMTableMM = violTable;      
-      break;
-    case 11: 
-      FMTableMM = distoTable;     
-      break;
-    case 12: 
-      FMTableMM = blipTable;     
-      break;
-    case 13: 
-      FMTableMM = FMTableFM98;      
-      break;
-    case 14: 
-      FMTableMM = noiseTable2;       
-      break;
-    case 15: 
-      FMTableMM = noiseTable3;
-     
-      break;      
-    }
 
-    break;
+    case 10:
 
-  case 4:
-   waveTableMidLink = FMAltWTselMid[analogControls[5]>>9];           
-    break;
 
-  case 5:  
-waveTable2Link = FMAltWTselLo[analogControls[8]>>9];
-    break;
+      break;
 
-  case 6: //select hi pitch offset
-    FMX_HiOffsetContCub = ((analogControls[4])-2048)/164.0 ;
-    FMX_HiOffsetCont = FMX_HiOffsetContCub*FMX_HiOffsetContCub*FMX_HiOffsetContCub  ; 
+    case 3:
+      TUNELOCK_TOGGLE();
+      detuneAmountCont = analogControls[2];
+      //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;
 
-    break;  
+      //        Serial.print(FMIndex);
+      //        Serial.print("    ");
+      //        Serial.print(detuneAmountCont);
+      //
+      //        Serial.print("    ");
+      //        Serial.println(aInModDetune);
 
-  case 1:     
-    mixPos = (analogControls[6]>>1); 
-    
-    OSC_MODE_TOGGLES();
-    if (FMFixedOn){inputConverterF = 10000;} //sets fixed frequency to suitable LFO.  
-    
-    
-    break; 
+      switch (analogControls[2] >> 9) {
+        case 0:
+          FMTableMM = nothingTable;
+          break;
+        case 1:
+          FMTableMM = triTable;
+          break;
+        case 2:
+          FMTableMM = AKWF_symetric_0011;
+          break;
+        case 3:
+          FMTableMM = FMTableSQ;
+          break;
+        case 4:
+          FMTableMM = FMTableSQR;
+          break;
+        case 5:
+          FMTableMM = AKWF_symetric_0013;
+          break;
+        case 6:
+          FMTableMM = AKWF_symetric_0001;
+          break;
+        case 7:
+          FMTableMM = bassTable1;
+          break;
+        case 8:
+          FMTableMM = FMTableS180;
+          break;
+        case 9:
+          FMTableMM = celloTable;
+          break;
+        case 10:
+          FMTableMM = violTable;
+          break;
+        case 11:
+          FMTableMM = distoTable;
+          break;
+        case 12:
+          FMTableMM = blipTable;
+          break;
+        case 13:
+          FMTableMM = FMTableFM98;
+          break;
+        case 14:
+          FMTableMM = noiseTable2;
+          break;
+        case 15:
+          FMTableMM = noiseTable3;
 
-  case 7:
-  
-    FX_TOGGLES(); 
+          break;
+      }
 
-    break;
+      break;
 
-  case 2:
-    totalratio = totalratio - readingsratio[controlAveragingIndex]; 
-    readingsratio[controlAveragingIndex] = analogControls[0]; //fm ratio control smoothing in FM
-    totalratio = totalratio + readingsratio[controlAveragingIndex];
-    controlAveragingIndex = controlAveragingIndex + 1;
-    if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
-    averageratio = totalratio / numreadingsratio;    
-     break; 
+    case 4:
+      waveTableMidLink = FMAltWTselMid[analogControls[5] >> 9];
+      break;
 
-  case 9:
-    FMIndexCont = (int)(analogControls[1]>>2);    
-    
-//    else {
-//      FMIndexContCubing = (analogControls[8])/1024.0;
-//      FMIndexCont = (int) (FMIndexContCubing* FMIndexContCubing*FMIndexContCubing); 
-//    }
-    
-     FMTable = FMWTselFM[analogControls[3]>>9];
-    if ((analogControls[3]>>9) == 15) WTShift = 31;
-    else WTShift = 23;
+    case 5:
+      waveTable2Link = FMAltWTselLo[analogControls[8] >> 9];
+      break;
 
-    break;   
+    case 6: //select hi pitch offset
+      FMX_HiOffsetContCub = ((analogControls[4]) - 2048) / 164.0 ;
+      FMX_HiOffsetCont = FMX_HiOffsetContCub * FMX_HiOffsetContCub * FMX_HiOffsetContCub  ;
+
+      break;
+
+    case 1:
+      mixPos = (analogControls[6] >> 1);
+
+      OSC_MODE_TOGGLES();
+      if (FMFixedOn) {
+        inputConverterF = 10000; //sets fixed frequency to suitable LFO.
+      }
+
+
+      break;
+
+    case 7:
+
+      FX_TOGGLES();
+
+      break;
+
+    case 2:
+      totalratio = totalratio - readingsratio[controlAveragingIndex];
+      readingsratio[controlAveragingIndex] = analogControls[0]; //fm ratio control smoothing in FM
+      totalratio = totalratio + readingsratio[controlAveragingIndex];
+      controlAveragingIndex = controlAveragingIndex + 1;
+      if (controlAveragingIndex >= numreadingsratio) controlAveragingIndex = 0;
+      averageratio = totalratio / numreadingsratio;
+      break;
+
+    case 9:
+      FMIndexCont = (int)(analogControls[1] >> 2);
+
+      //    else {
+      //      FMIndexContCubing = (analogControls[8])/1024.0;
+      //      FMIndexCont = (int) (FMIndexContCubing* FMIndexContCubing*FMIndexContCubing);
+      //    }
+
+      FMTable = FMWTselFM[analogControls[3] >> 9];
+      if ((analogControls[3] >> 9) == 15) WTShift = 31;
+      else WTShift = 23;
+
+      break;
 
 
   }
 }
 
-void UPDATECONTROLS_DRUM(){
+void UPDATECONTROLS_DRUM() {
 
-  
-  switch (ARC+1) {
 
-  case 8:
+  switch (ARC + 1) {
 
-    break;
+    case 8:
 
-  case 10:   
+      break;
 
-       
-    
+    case 10:
 
-    break;
 
-  case 3:
-   
-    detuneAmountCont = analogControls[2];
-    //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0; 
-             
-          
-    break;
 
-  case 4:
-  
-  TUNELOCK_TOGGLE();
 
- drum_d = ((8191-analogControls[5])<<11)+1;
- //drum decay
-           
-    break;
+      break;
 
-  case 5:
-  
+    case 3:
 
-drum_a = analogControls[8]<<10; //drum hold time
-  
+      detuneAmountCont = analogControls[2];
+      //detuneAmountCont = (detuneAmountContCubing*detuneAmountContCubing*detuneAmountContCubing)/1024.0;
 
-    break;
 
-  case 6: //select hi wave
-  
-drum_d2 = ((8191-analogControls[4])<<11)+1;
-    
-    break;  
+      break;
 
-  case 1:     
-    mixPos = (analogControls[6]>>5)<<4;    //this is env > pitch control in drum mode 
+    case 4:
 
-    OSC_MODE_TOGGLES();
-    if (FMFixedOn){
-      inputConverterF = 200000;
-    } //sets fixed frequency to current frequency when fixed is pushed.
-      
-    break; 
+      TUNELOCK_TOGGLE();
 
-  case 7:
-    FX_TOGGLES();  
-       
+      drum_d = ((8191 - analogControls[5]) << 11) + 1;
+      //drum decay
 
-    break;
+      break;
 
-  case 2:
- o6.phase_increment = analogControls[0];
-      
-    break; 
+    case 5:
 
-  case 9:
-    FMIndexCont = (int)(analogControls[1]>>1); 
-    
-    waveTableMidLink = drumWT[analogControls[3]>>9];//drum uses mid wave from fm
 
-    break;   
+      drum_a = analogControls[8] << 10; //drum hold time
+
+
+      break;
+
+    case 6: //select hi wave
+
+      drum_d2 = ((8191 - analogControls[4]) << 11) + 1;
+
+      break;
+
+    case 1:
+      mixPos = (analogControls[6] >> 5) << 4; //this is env > pitch control in drum mode
+
+      OSC_MODE_TOGGLES();
+      if (FMFixedOn) {
+        inputConverterF = 200000;
+      } //sets fixed frequency to current frequency when fixed is pushed.
+
+      break;
+
+    case 7:
+      FX_TOGGLES();
+
+
+      break;
+
+    case 2:
+      o6.phase_increment = analogControls[0];
+
+      break;
+
+    case 9:
+      FMIndexCont = (int)(analogControls[1] >> 1);
+
+      waveTableMidLink = drumWT[analogControls[3] >> 9]; //drum uses mid wave from fm
+
+      break;
 
 
   }

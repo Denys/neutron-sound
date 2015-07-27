@@ -24,14 +24,14 @@ void TUNELOCK_TOGGLE()
  buh = digitalReadFast(tuneLockSwitch);
     if (tuneLockOn != buh){
       tuneLockOn = buh;
-      LED_MCD = LED_MST;
+      
       digitalWriteFast(LED_TuneLock,tuneLockOn);}}
       
  else{
    if (tuneLockButton.update()) {
    if (tuneLockButton.fallingEdge()){
      tuneLockOn = !tuneLockOn;
-     LED_MCD = LED_MST;
+     
      }}     
  }   
     
@@ -70,6 +70,7 @@ void OSC_MODE_TOGGLES(){
   FMFixedOn = digitalReadFast(FMFixedSwitch);
   oscMode = (!digitalReadFast(xModeSwitch)<<1)+ digitalReadFast(CZmodeSwitch);   
 }
+
 else{
   if (FMFixedButton.update()) {
    if (FMFixedButton.fallingEdge()){
@@ -161,6 +162,10 @@ void SELECT_ISRS(){
       case 11: 
       outUpdateTimer.end();
       outUpdateTimer.begin(outUpdateISR_DRUM,ISRrate); 
+      break; 
+      case 12: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_XOR,ISRrate); 
       break; 
       
 }}
@@ -285,3 +290,7 @@ void GRADUALWAVE_M(){ //same as above but wavetable is modulated by effects cv. 
   }
 //zorro  Serial.println(loWM15);
 }
+
+
+
+

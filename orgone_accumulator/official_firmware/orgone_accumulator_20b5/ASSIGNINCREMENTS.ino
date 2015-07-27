@@ -22,7 +22,7 @@ void ASSIGNINCREMENTS(){//------------------------------------------------------
     else aInModRatio = (averageaInRAv/4096.0); //down direction dont go past zero, or divide by zero could happen 
 
     mixDetune = (mixLo*detuneLoOn)+(mixMid*detuneMidOn)+(mixHi*detuneHiOn);  
-    mixDetuneUp = mixDetune*0.787;//because there are 5 oscillators being mixed in the detune mix of ISR
+    mixDetuneUp = mixDetune*0.7;//because there are 5 oscillators being mixed in the detune mix of ISR
     mixDetuneDn =  (2047-mixDetune)*0.97; 
 
 
@@ -79,7 +79,7 @@ void ASSIGNINCREMENTS(){//------------------------------------------------------
     else aInModRatio = (averageaInRAv/4096.0); //down direction dont go past zero, or divide by zero could happen 
 
     mixDetune = (mixLo*detuneLoOn)+(mixMid*detuneMidOn)+(mixHi*detuneHiOn); 
-    mixDetuneUp = mixDetune*0.787;//because there are 5 oscillators being mixed in the detune mix of ISR 
+    mixDetuneUp = mixDetune*0.78;//because there are 5 oscillators being mixed in the detune mix of ISR 
     mixDetuneDn =  (2047-mixDetune)*0.97; //keep away from "rails"
 
 
@@ -1121,7 +1121,7 @@ case 1://cz
 
 }
 
-void ASSIGNINCREMENTS_DRUM(){//--------------------------------------------------------default
+void ASSIGNINCREMENTS_DRUM(){//--------------------------------------------------------drum effect
   
     UPDATECONTROLS_DRUM(); 
 //    Serial.print   (CZMix);

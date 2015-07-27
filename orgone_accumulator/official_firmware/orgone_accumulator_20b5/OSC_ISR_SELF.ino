@@ -5,7 +5,12 @@ void FASTRUN outUpdateISR_SELF(void){
  
   
   oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
-  digitalWriteFast (oSQout,(oSQ.phase < oSQ.PW)); //pulse out   
+  digitalWriteFast (oSQout,(oSQ.phase < oSQ.PW)); //pulse out  
+ 
+ if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
+  else declickRampOut = 0;
+  declickValue = (declickValue * declickRampOut)>>12;
+  declickRampIn = abs(4095 - declickRampOut); 
 
   switch(oscMode){
     
@@ -53,9 +58,9 @@ void FASTRUN outUpdateISR_SELF(void){
     
     
     
-   AGCtest = o2.wave>>4;
-    
-    analogWrite(aout2,AGCtest+4000);
+   FinalOut = o2.wave>>3;
+    FinalOut = declickValue + ((FinalOut*declickRampIn)>>12); 
+    analogWrite(aout2,FinalOut+4000);
     
     
     break;  
@@ -102,9 +107,9 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
 
     
     
-   AGCtest = o2.wave>>4;
-    
-    analogWrite(aout2,AGCtest+4000);    
+   FinalOut = o2.wave>>3;
+    FinalOut = declickValue + ((FinalOut*declickRampIn)>>12); 
+    analogWrite(aout2,FinalOut+4000);    
         
     break;  
      
@@ -156,16 +161,16 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
    
 
     
-    o1.wave = ((o1.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>11))>>15));    
+    o1.wave = ((o1.wave *(2047-CZMix))>>10)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>10))>>15));    
        
      
      
     
-   AGCtest = o1.wave;
+   FinalOut = o1.wave;
      
-      
+      FinalOut = declickValue + ((FinalOut*declickRampIn)>>12); 
     
-    analogWrite(aout2,AGCtest+4000);
+    analogWrite(aout2,FinalOut+4000);
   
   
   break;
@@ -223,13 +228,13 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     
     o2.wave = o2.wave +((((o2.nextwave - o2.wave))* o2.phaseRemain)>>15);
        
-    o1.wave = ((o1.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>11))>>15));    
+    o1.wave = ((o1.wave *(2047-CZMix))>>10)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>10))>>15));    
      
     
-   AGCtest = o1.wave;
+   FinalOut = o1.wave;
       
-    
-    analogWrite(aout2,AGCtest+4000);
+    FinalOut = declickValue + ((FinalOut*declickRampIn)>>12); 
+    analogWrite(aout2,FinalOut+4000);
   
     break;   
   

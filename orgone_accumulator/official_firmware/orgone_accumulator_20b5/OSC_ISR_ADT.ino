@@ -81,9 +81,9 @@ void FASTRUN outUpdateISR_ADT(void){
     o8.wave = o8.wave+((((o8.nextwave - o8.wave)) * o8.phaseRemain) >>15); 
     
 
-    AGCtest = ((((o4.wave+o6.wave)>>1)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
+    FinalOut = ((((o4.wave+o6.wave)>>1)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
     
-    analogWrite(aout2,AGCtest+4000);
+    analogWrite(aout2,FinalOut+4000);
     
     
     break;  
@@ -160,9 +160,9 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o8.wave = o8.wave+((((o8.nextwave - o8.wave)) * o8.phaseRemain) >>15); 
     o10.wave = o10.wave+((((o10.nextwave - o10.wave)) * o10.phaseRemain) >>15); 
 
-    AGCtest = ((((o4.wave+o6.wave+o8.wave)>>2)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
+    FinalOut = ((((o4.wave+o6.wave+o8.wave)>>2)*((int)mixDetuneUp))>>14)  +  (((o2.wave*((int)mixDetuneDn))>>14)); //main out and mix detune
             
-    analogWrite(aout2,AGCtest+4000);     
+    analogWrite(aout2,FinalOut+4000);     
    
         
     break;  
@@ -250,10 +250,10 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
    
     
 
-  //  AGCtest = o1.wave >>13; 
-   AGCtest = ((o3.wave+o5.wave)>>1);
-   o1.wave = ((AGCtest * ((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
-   //o1.maxlev = max(AGCtest,o1.maxlev);
+  //  FinalOut = o1.wave >>13; 
+   FinalOut = ((o3.wave+o5.wave)>>1);
+   o1.wave = ((FinalOut * ((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+   //o1.maxlev = max(FinalOut,o1.maxlev);
    
       
     
@@ -358,11 +358,11 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o9.wave = ((o9.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o9.wave) * ((o10.wave*CZMix)>>11))>>15));  
     
 
-  //  AGCtest = o1.wave >>13; 
-   AGCtest = ((((o7.wave+o5.wave+o3.wave)>>2)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
+  //  FinalOut = o1.wave >>13; 
+   FinalOut = ((((o7.wave+o5.wave+o3.wave)>>2)*((int)mixDetuneUp))>>10)  +  (((o1.wave *((int)mixDetuneDn))>>10)); //main out and mix detune
       
     
-    analogWrite(aout2,AGCtest+4000);
+    analogWrite(aout2,FinalOut+4000);
   
     break;   
   

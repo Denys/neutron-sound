@@ -4,7 +4,7 @@ if (digitalReadFast(gateIn)){
   gateState = 1;
 
   declickRampOut = 4095;
-  declickValue = AGCtest;
+  declickValue = FinalOut;
 
   o1.phase =
     o2.phase =

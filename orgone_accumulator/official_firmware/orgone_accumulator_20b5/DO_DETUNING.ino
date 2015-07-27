@@ -52,6 +52,12 @@ void DODETUNING() {
     case 7:
 
       break;
+      case 8:
+
+      break;
+      case 9:
+
+      break;
     case 10: //self mod
       o1.amp = (constrain(((4095 - aInDetuneReading) + (analogControls[2])), 0, 8190));
       GRADUALWAVE();
@@ -62,9 +68,10 @@ void DODETUNING() {
       detune[1] = (uint32_t)((detuneScaler * primes[1]) );
       detune[2] = (uint32_t)((detuneScaler * primes[2]));
       detune[3] = (uint32_t)((detuneScaler * primes[3]));
-
-      ;
-
+      break;
+      case 12: //XOR
+      o1.amp = (constrain(((4095 - aInDetuneReading) + (analogControls[2])), 0, 8190));
+      GRADUALWAVE();
       break;
 
   }

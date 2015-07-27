@@ -1429,7 +1429,6 @@ const int potPinTable_DIY[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
 const int potPinTable_ret[] = {13, 3, 4, 5, 6, 7, 8, 9, 10, 11}; //note these are "A**" pins not digital pin numbers
 
-const uint8_t LEDfxTable_ret[] = {24, 16, 33, 32, 31, 30, 29, 15}; //only for HW2 version DIY has less LEDs and is hardwired position LEDs are hardwired (second color of bicolor)
 
 int IsHW2;
 
@@ -1619,15 +1618,16 @@ lfo;
 #define cast_uint32_t (uint32_t)
 #endif
 
+int detuneLoSwitch = 2;//there are pre configured for HW2 because the debounce of momentary switches is initiated before setup
+int FXButtonDn = 5 ;
+int detuneMidSwitch = 7;
 int FXButton = 3;
-int FXButtonDn = 16 ;
-int CZmodeSwitch = 6;
-int FMFixedSwitch = 7;
-int detuneLoSwitch = 1;
-int detuneMidSwitch = 2;
-int detuneHiSwitch = 4;
-int tuneLockSwitch = 0;
-int xModeSwitch = 5 ;
+int detuneHiSwitch = 8;
+int xModeSwitch = 10 ;
+int CZmodeSwitch = 13;
+int FMFixedSwitch = 16;
+
+int tuneLockSwitch = 1;
 
 
 #define oSQout 11 //square wave out
@@ -1639,14 +1639,15 @@ int LED_Mid = 0;
 int LED_Hi = 0;
 //#define LED_PWM 32
 
-#define LED_LoSel 24
-#define LED_FXSelDn 13
-#define LED_MidSel 33
-#define LED_FXSelUp 32
+#define LED_LoSel 3
+#define LED_FXSelDn 32
+#define LED_MidSel 24
+#define LED_FXSelUp 33
 #define LED_HiSel 31
 #define LED_xSel 30
 #define LED_CZSel 29
 #define LED_FixSel 15
+
 
 
 //from config file
@@ -1662,7 +1663,7 @@ const int FX_Count = FX_N;
 const int FXa[] = {FX0, FX1, FX2, FX3, FX4, FX5, FX6, FX7};
 const int LED_MST = LED_MODESWITCH_TIME;
 int LED_MCD;
-const uint8_t SEL_LED_ARRAY[] = {24, 13, 33, 32, 31, 30, 29, 15};
+const uint8_t SEL_LED_ARRAY[] = {3, 32, 24, 33, 31, 30, 29, 15};
 
 
 int aout2 = A14; //dac out
@@ -1779,6 +1780,9 @@ int32_t envVal;
 int tuner;
 
 int32_t AGCtest;
+int32_t AGCtestPeriod;
+int32_t AGCtestSmooth;
+int32_t FinalOut;
 int32_t FMX_HiOffset;
 int32_t FMX_HiOffsetCont;
 int32_t FMX_HiOffsetContCub;
@@ -1803,7 +1807,6 @@ float FMIndexContCubing;
 int32_t FMModCont;
 uint16_t FMIndex; //FM index (not scaled like a real fm synth)
 uint32_t AMIndex;
-//uint8_t CZmodeOn;
 uint8_t oscMode;
 uint8_t FMFixedOn;
 uint8_t FMFixedOnToggle;
@@ -1832,6 +1835,7 @@ int ISRrate = 20;
 
 //int waveIncrement = 1;
 IntervalTimer outUpdateTimer;
+
 Bounce FXCycleButtonDn = Bounce(FXButtonDn, 20);
 Bounce FXCycleButton = Bounce(FXButton, 20);
 Bounce CZmodeButton = Bounce(CZmodeSwitch, 20);
@@ -1847,11 +1851,11 @@ void setup() {
 
   pinMode(aout2, OUTPUT);
   pinMode(oSQout, OUTPUT);
-  pinMode(32, INPUT_PULLUP);//turn this to an input to check for presence of LED. (hw2 detect)
-  pinMode(13, OUTPUT);
+  pinMode(31, INPUT_PULLUP);//turn this to an input to check for presence of LED. (hw2 detect)
+  
 
 
-  if (digitalRead(32) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
+  if (digitalRead(31) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
     IsHW2 = 1;
 
 //these are in the order they are on the panel
@@ -1876,7 +1880,7 @@ void setup() {
     //-------------these do not exist in 1x hardware
 
     pinMode(LED_LoSel, OUTPUT);
-
+    pinMode(LED_FXSelDn, OUTPUT); 
     pinMode(LED_MidSel, OUTPUT);
     pinMode(LED_FXSelUp, OUTPUT);
     pinMode(LED_HiSel, OUTPUT);
@@ -1884,7 +1888,7 @@ void setup() {
     pinMode(LED_CZSel, OUTPUT);
     pinMode(LED_FixSel, OUTPUT);
 
-    pinMode(FXButtonDn, INPUT_PULLUP);
+    pinMode(FXButtonDn, INPUT_PULLUP);    
     digitalWrite(FXButtonDn, HIGH);
 
     //--------------------------------
@@ -1909,11 +1913,11 @@ void setup() {
     LED_Mid = 9;
     LED_Hi = 10;
 
-
+     pinMode(13, OUTPUT);
     digitalWrite(13, HIGH);//illuminate onboard teensy LED in DIY mode
     pinMode(A2, INPUT);
 
-  }//turn on teensy LED on DIY modules}
+  }
 
 
   pinMode(A0, INPUT);

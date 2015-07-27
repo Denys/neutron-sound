@@ -30,25 +30,26 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 
 #define FX0 0
 #define FX1 1
-#define FX2 3
-#define FX3 2
-#define FX4 4
-#define FX5 5
-#define FX6 11
-#define FX7 8
+#define FX2 5
+#define FX3 10
+#define FX4 12
+#define FX5 4
+#define FX6 2
+#define FX7 11
 
-//0  original orgone detune 
-//1 original orgone detune with prime
-//2 delay effect
-//3 pulsar
-//4 bit crush
-//5 wave folding
+//0 original orgone detune (D)eclick 
+//1 original orgone detune with prime (D)
+//2 delay effect (s)
+//3 pulsar (D) (s)
+//4 bit crush (D)(s)mooth waveselect
+//5 wave folding (D) (s)
 //6 modmod the modulation waveform can be changed with FX and FX CV EXPERIMENTAL (clicks)
 //7 chords (equal temprement)
 //8 chords (just tuning)
-//9 Automatic Double Tracker (Another type of detune) EXPERIMENTAL
-//10 self multiplication with mod wave. 
-//11 drum voice
+//9 Automatic Double Tracker (Another type of detune) EXPERIMENTAL no worky
+//10 self multiplication with mod wave.  (D)(s)
+//11 drum voice (D)
+//12 XORible  (D)(s)
 
 //DIY hardware 1.x boards--------------------------------------------------------------------end
 
@@ -89,17 +90,6 @@ extern const int chordTable[] = {
 //declicking. 4000 = normal operation
 //higher number is faster ramp
 //do not change the
-
-
-
-
-
-
-
-
-
- 
-
 
 
 

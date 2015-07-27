@@ -146,9 +146,9 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o8.wave = ((o5.wave + o2.wave + o3.wave + o4.wave) >> 2);
   
 
-  AGCtest = (o1.wave + o8.wave)>>1;
-  AGCtest = declickValue + ((AGCtest * declickRampIn) >> 12);
-  analogWrite(aout2, AGCtest + 4000);
+  FinalOut = (o1.wave + o8.wave)>>1;
+  FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12);
+  analogWrite(aout2, FinalOut + 4000);
 
 
 }

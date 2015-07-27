@@ -1,4 +1,4 @@
-void FASTRUN outUpdateISR_FOLD(void) {
+void FASTRUN outUpdateISR_XOR(void) {
   //noInterrupts();
 
   //digitalWriteFast (oSQout,0);//temp testing OC
@@ -11,7 +11,6 @@ void FASTRUN outUpdateISR_FOLD(void) {
   else declickRampOut = 0;
   declickValue = (declickValue * declickRampOut) >> 12;
   declickRampIn = abs(4095 - declickRampOut);
-
 
   switch (oscMode) {
 
@@ -43,22 +42,16 @@ void FASTRUN outUpdateISR_FOLD(void) {
                       (((int32_t)(((GWTlo1[(o2.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o2.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo) +
                       (((int32_t)(((GWTmid1[(o2.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o2.phase + nextstep) >> 23] * (GremMid)) >> 9))) * mixMid)) >> 11;
 
+
+
+
+
       o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
 
-      o3.wave = (((((o2.wave * o1.amp) >> 8) * ((int)mixDetuneUp)) >> 14) + o2.wave) >> 3; //main out and mix effect
+      o1.wave = ((o1.wave * o1.amp) >> 12) ^ o2.wave;
 
-      o4.wave = (o3.wave << 19) >> 19;
-
-
-      if (o3.wave > 0) {
-        if ((((o3.wave) >> 12) & 0x01) == 0) o4.wave = -o4.wave;
-      }
-      else {
-        if ((((o3.wave) >> 12) & 0x01) == 1) o4.wave = -o4.wave;
-      }
-
-      FinalOut = declickValue + ((o4.wave * declickRampIn) >> 12);
-
+      FinalOut = (((o1.wave) * ((int)mixDetuneUp)) >> 14) +  (((o2.wave * ((int)mixDetuneDn)) >> 14)); //main out
+      FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12);
       analogWrite(aout2, FinalOut + 4000);
 
 
@@ -96,17 +89,11 @@ void FASTRUN outUpdateISR_FOLD(void) {
 
       o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
 
-      o3.wave = (((((o2.wave * o1.amp) >> 8) * ((int)mixDetuneUp)) >> 14) + o2.wave) >> 3; //main out and mix detune
 
-      o4.wave = (o3.wave << 19) >> 19;
+      o1.wave = ((o1.wave * o1.amp) >> 12) ^ o2.wave;
 
-      if (o3.wave > 0) {
-        if ((((o3.wave) >> 12) & 0x01) == 0) o4.wave = -o4.wave;
-      }
-      else {
-        if ((((o3.wave) >> 12) & 0x01) == 1) o4.wave = -o4.wave;
-      }
-      FinalOut = declickValue + ((o4.wave * declickRampIn) >> 12);
+      FinalOut = (((o1.wave) * ((int)mixDetuneUp)) >> 14) +  (((o2.wave * ((int)mixDetuneDn)) >> 14)); //main out
+      FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12);
       analogWrite(aout2, FinalOut + 4000);
 
       break;
@@ -142,30 +129,24 @@ void FASTRUN outUpdateISR_FOLD(void) {
                        (((int32_t)(((GWTmid1[(o1.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o1.phase + nextstep) >> 23] * (GremMid)) >> 9))) * mixMid)
                      ) >> 4) >> 11;
 
-      o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
-
-      o1.wave = ((o1.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 10)) >> 15));
-      o1.nextwave = ((o1.nextwave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o1.nextwave) * ((o2.wave * CZMix) >> 10)) >> 15));
-
-
-      o1.wave = ((((o1.wave * o1.amp) >> 12) * ((int)mixDetuneUp)) >> 10)  +  o1.wave; //main out and mix detune
-      o1.nextwave = ((((o1.nextwave * o1.amp) >> 12) * ((int)mixDetuneUp)) >> 10)  +  o1.nextwave;
 
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
-      //
 
 
-      o4.wave = (o1.wave << 19) >> 19;
-
-      if (o1.wave > 0) {
-        if ((((o1.wave) >> 12) & 0x01) == 0) o4.wave = -o4.wave;
-      }
-      else {
-        if ((((o1.wave) >> 12) & 0x01) == 1) o4.wave = -o4.wave;
-      }
+      o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
+      o4.wave = o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15);
 
 
-      FinalOut = declickValue + ((o4.wave * declickRampIn) >> 12);
+
+      o1.wave = ((o1.wave * (2047 - CZMix)) >> 11)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 11)) >> 15));
+
+
+      o2.wave = ((o2.wave * o1.amp) >> 16) ^ o1.wave;
+
+      FinalOut = (((o2.wave) * ((int)mixDetuneUp)) >> 10) +  (((o1.wave * ((int)mixDetuneDn)) >> 10)); //main out
+
+      FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12);
+
       analogWrite(aout2, FinalOut + 4000);
 
 
@@ -189,10 +170,12 @@ void FASTRUN outUpdateISR_FOLD(void) {
       o1.phaseRemain = (o1.phase << 9) >> 17;
 
 
+
       //-----------------------------------------------------------------------
 
       o2.wave = (FMTable[o2.phase >> 23]);
       o2.nextwave =  (FMTable[(o2.phase + nextstep) >> 23]);
+
 
 
       o1.wave = ((
@@ -208,30 +191,17 @@ void FASTRUN outUpdateISR_FOLD(void) {
                      ) >> 4) >> 11;
 
 
+      o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
+
+
       o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
 
-      o1.wave = ((o1.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 10)) >> 15));
-      o1.nextwave = ((o1.nextwave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o1.nextwave) * ((o2.wave * CZMix) >> 10)) >> 15));
+      o1.wave = ((o1.wave * (2047 - CZMix)) >> 11)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 11)) >> 15));
+      o2.wave = ((o2.wave * o1.amp) >> 16) ^ o1.wave;
 
+      FinalOut = (((o2.wave) * ((int)mixDetuneUp)) >> 10) +  (((o1.wave * ((int)mixDetuneDn)) >> 10)); //main out
 
-      o1.wave = ((((o1.wave * o1.amp) >> 12) * ((int)mixDetuneUp)) >> 10)  +  o1.wave; //main out and mix detune
-      o1.nextwave = ((((o1.nextwave * o1.amp) >> 12) * ((int)mixDetuneUp)) >> 10)  +  o1.nextwave;
-
-      o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
-      //
-
-
-      o4.wave = (o1.wave << 19) >> 19;
-
-      if (o1.wave > 0) {
-        if ((((o1.wave) >> 12) & 0x01) == 0) o4.wave = -o4.wave;
-      }
-      else {
-        if ((((o1.wave) >> 12) & 0x01) == 1) o4.wave = -o4.wave;
-      }
-
-
-      FinalOut = declickValue + ((o4.wave * declickRampIn) >> 12);
+      FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12);
       analogWrite(aout2, FinalOut + 4000);
 
       break;

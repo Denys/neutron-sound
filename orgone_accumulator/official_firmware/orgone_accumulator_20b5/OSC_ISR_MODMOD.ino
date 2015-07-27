@@ -43,9 +43,9 @@ void FASTRUN outUpdateISR_MODMOD(void){
     
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);     
 
-   AGCtest = o2.wave>>3;
+   FinalOut = o2.wave>>3;
     
-    analogWrite(aout2,AGCtest+4000);
+    analogWrite(aout2,FinalOut+4000);
     
     
     break;  
@@ -82,9 +82,9 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     
     o2.wave = o2.wave+((((o2.nextwave - o2.wave)) * o2.phaseRemain) >>15);   
         
-   AGCtest = o2.wave>>3;
+   FinalOut = o2.wave>>3;
     
-    analogWrite(aout2,AGCtest+4000);    
+    analogWrite(aout2,FinalOut+4000);    
         
     break;  
      
@@ -133,11 +133,11 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
      
      
     
-   AGCtest = o1.wave<<1;
+   FinalOut = o1.wave<<1;
      
       
     
-    analogWrite(aout2,AGCtest+4000);
+    analogWrite(aout2,FinalOut+4000);
   
   
   break;
@@ -189,10 +189,10 @@ noiseTable3[0]=noiseTable3[1]=(noiseTable3[0]+NT3Rate);
     o1.wave = ((o1.wave *(2047-CZMix))>>11)  +  ((int32_t)(((o1.wave) * ((o2.wave*CZMix)>>11))>>15));    
     
     
-   AGCtest = o1.wave<<1;
+   FinalOut = o1.wave<<1;
       
     
-    analogWrite(aout2,AGCtest+4000);
+    analogWrite(aout2,FinalOut+4000);
   
     break;   
   
