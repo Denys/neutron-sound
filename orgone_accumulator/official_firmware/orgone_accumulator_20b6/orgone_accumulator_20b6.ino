@@ -19,7 +19,7 @@ const float equalTemprementTable[] = {1, 1, 1.05946, 1.12246, 1.18921, 1.25992, 
 const float justTable[] = {1, 1, 1.0417, 1.1250, 1.2, 1.25, 1.33333, 1.4063, 1.5, 1.6, 1.66666, 1.8, 1.875, 2};
 
 const uint16_t HARM_LEVELS[] = { //for spectrum FX each row of 9 must add to around 4095 they are ROOT FIFTH OCTAVE 3RDHARM 4thHARM 5thHARM 6thHARM 7thHARM 8thHARM
-  2047,1027,509,257,127,65,31,17,5, //use odd numbers because the number also determines the detune rate for that oscillator.
+  2047,1027,509,257,127,65,31,17,5, //used odd numbers because the number also determines the detune rate for that oscillator.
   2047,0,1027,0,509,0,0,0,512, //octaves
   2040,0,0,0,1023,513,511,0,7, 
   1023,0,0,0,0,1024,1025,1021,0,
@@ -1376,7 +1376,7 @@ lfo;
 int detuneLoSwitch = 2;//there are pre configured for HW2 because the debounce of momentary switches is initiated before setup
 int FXButtonDn = 5 ;
 int detuneMidSwitch = 7;
-int FXButton = 3;
+int FXButton = 3; //3 DIY 25 HW2
 int detuneHiSwitch = 8;
 int xModeSwitch = 10 ;
 int CZmodeSwitch = 13;
