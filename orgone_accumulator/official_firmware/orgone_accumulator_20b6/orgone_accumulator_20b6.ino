@@ -1,5 +1,5 @@
 //Neutron-sound.com
-//Orgone Accumulator 2 beta5
+//Orgone Accumulator 2 beta6
 
 //pre 2.0 firmware orgones
 //use config.h tab to change FX function button to toggle
