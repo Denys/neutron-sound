@@ -171,6 +171,10 @@ void SELECT_ISRS(){
       outUpdateTimer.end();
       outUpdateTimer.begin(outUpdateISR_SPECTRUM,ISRrate); 
       break; 
+      case 14: 
+      outUpdateTimer.end();
+      outUpdateTimer.begin(outUpdateISR_SPECTRUM,ISRrate); 
+      break; 
       
 }}
 

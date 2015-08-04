@@ -133,7 +133,11 @@ evilGoto:
   break;
   
   case 13:
-  ASSIGNINCREMENTS_SPECTRUM();//drum voice
+  ASSIGNINCREMENTS_SPECTRUM();//spectrum detune
+  break;
+  
+   case 14:
+  ASSIGNINCREMENTS_SPECTRUM();//spectrum xmod
   break;
   
   default:

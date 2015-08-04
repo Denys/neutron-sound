@@ -75,7 +75,20 @@ void DODETUNING() {
       break;
       
        case 13: //spectrume detune
+        o1.amp = 0;
       detuneScaler = (aInModDetune * mixDetune)/1000000;
+//      for (int i = 0; i <= 3; i++) {
+//        detune[i] = (uint32_t)((detuneScaler * primes[i]) / 3000000.0) ;
+//      }
+      Lbuh = (analogControls[8]>>9)*9;
+      Mbuh =  (analogControls[5]>>9)*9;
+      Hbuh =  (analogControls[4]>>9)*9;  
+           
+      
+      break;      
+       case 14: //spectrum xmod
+       o1.amp = ((constrain(((4095 - aInDetuneReading) + (analogControls[2])), 0, 8190))*mixDetune)>>10;
+      detuneScaler = 0;
 //      for (int i = 0; i <= 3; i++) {
 //        detune[i] = (uint32_t)((detuneScaler * primes[i]) / 3000000.0) ;
 //      }

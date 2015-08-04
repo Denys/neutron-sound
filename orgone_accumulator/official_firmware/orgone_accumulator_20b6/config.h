@@ -1,7 +1,7 @@
 //neutron orgone accumulator config file. 
 
 
-#define TUNEMULT 73750  
+#define TUNEMULT 147500 
 //this is the base frequency. halving it will lower the entire oscillator by 1 octave 
 //real frequency is sent to the broadcast application for tuning
 
@@ -31,7 +31,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 #define FX0 0
 #define FX1 1
 #define FX2 13
-#define FX3 10
+#define FX3 14
 #define FX4 12
 #define FX5 4
 #define FX6 2
@@ -51,6 +51,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 //11 drum voice (D)
 //12 XORible  (D)(s)
 //13 Spectral detune (D)
+//13 Spectral xmod (D)
 
 //DIY hardware 1.x boards--------------------------------------------------------------------end
 

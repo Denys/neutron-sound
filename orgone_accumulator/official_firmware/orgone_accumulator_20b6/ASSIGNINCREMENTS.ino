@@ -1361,10 +1361,9 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
 
       if (FMFixedOn) {
         FMMult = (float)((((averageratio >> 4) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
-        osc_mult[0] = FMMult;
-        osc_mult[1] = 4.0;
+        osc_mult[0] = FMMult;        
         o1.phase_increment = inputConverterF * osc_mult[0] ;
-        o2.phase_increment = inputConverter * osc_mult[1] ;
+        o2.phase_increment = inputConverter * 4.0 ;
         o3.phase_increment = inputConverter * 6.0 + (detuneScaler * o3.index );
         o4.phase_increment = inputConverter * 8.0 + (detuneScaler * o4.index );
         o5.phase_increment = inputConverter * 12.0 + (detuneScaler * o5.index );
@@ -1377,9 +1376,9 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
       else {
         FMMult = (float)((((averageratio >> 4) / 5.1)) + 1.0) * aInModRatio;
         osc_mult[0] = FMMult;
-        osc_mult[1] = 4.0;
+        
         o1.phase_increment = inputConverter * osc_mult[0] ;
-        o2.phase_increment = inputConverter * osc_mult[1] ;
+        o2.phase_increment = inputConverter * 4.0 ;
         o3.phase_increment = inputConverter * 6.0 + (detuneScaler * o3.index );
         o4.phase_increment = inputConverter * 8.0 + (detuneScaler * o4.index );
         o5.phase_increment = inputConverter * 12.0 + (detuneScaler * o5.index );
@@ -1423,11 +1422,10 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
 
       if (FMFixedOn) {
         FMMult = (float)((((averageratio >> 4) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
-        osc_mult[0] = FMMult;
-        osc_mult[1] = 4.0;
+        osc_mult[0] = FMMult;        
         FMX_HiOffset = mixHi * FMX_HiOffsetCont<<6;
         o1.phase_increment = inputConverterF * osc_mult[0] ;
-        o2.phase_increment = inputConverter * osc_mult[1] + FMX_HiOffset ;
+        o2.phase_increment = inputConverter * 4.0 + FMX_HiOffset ;
         o3.phase_increment = inputConverter * 6.0 + (detuneScaler * o3.index ) + FMX_HiOffset;
         o4.phase_increment = inputConverter * 8.0 + (detuneScaler * o4.index ) + FMX_HiOffset;
         o5.phase_increment = inputConverter * 12.0 + (detuneScaler * o5.index ) + FMX_HiOffset;
@@ -1439,11 +1437,10 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
       }
       else {
         FMMult = (float)((((averageratio >> 4) / 5.1)) + 1.0) * aInModRatio;
-        osc_mult[0] = FMMult;
-        osc_mult[1] = 4.0;
+        osc_mult[0] = FMMult;        
         FMX_HiOffset = mixHi * FMX_HiOffsetCont<<6;
         o1.phase_increment = inputConverter * osc_mult[0] ;
-        o2.phase_increment = inputConverter * osc_mult[1] + FMX_HiOffset ;
+        o2.phase_increment = inputConverter * 4.0 + FMX_HiOffset ;
         o3.phase_increment = inputConverter * 6.0 + (detuneScaler * o3.index ) + FMX_HiOffset;
         o4.phase_increment = inputConverter * 8.0 + (detuneScaler * o4.index ) + FMX_HiOffset;
         o5.phase_increment = inputConverter * 12.0 + (detuneScaler * o5.index ) + FMX_HiOffset;

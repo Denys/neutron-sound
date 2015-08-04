@@ -31,28 +31,28 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       o2.phaseRemain = (o2.phase << 9) >> 17; //ROOT
 
       //unisone oscillators  ------------3-4---------
-      o3.phase = o3.phase +  (o3.phase_increment + o1.index);
+      o3.phase = o3.phase +  (o3.phase_increment + o1.index) + (o1.amp * o2.wave);
       o3.phaseRemain = (o3.phase << 9) >> 17; //5th
 
-      o4.phase = o4.phase +  (o4.phase_increment + o1.index);
+      o4.phase = o4.phase +  (o4.phase_increment + o1.index) + (o1.amp * o3.wave);
       o4.phaseRemain = (o4.phase << 9) >> 17; //OCT
 
-      o5.phase = o5.phase +  (o5.phase_increment + o1.index);
+      o5.phase = o5.phase +  (o5.phase_increment + o1.index) + (o1.amp * o4.wave);
       o5.phaseRemain = (o5.phase << 9) >> 17; //3rd harm
 
-      o6.phase = o6.phase + (o6.phase_increment + o1.index);
+      o6.phase = o6.phase + (o6.phase_increment + o1.index) + (o1.amp * o5.wave);
       o6.phaseRemain = (o6.phase << 9) >> 17; //4th harm
 
-      o7.phase = o7.phase +  (o7.phase_increment + o1.index);
+      o7.phase = o7.phase +  (o7.phase_increment + o1.index) + (o1.amp * o6.wave);
       o7.phaseRemain = (o7.phase << 9) >> 17; //5th harm
 
-      o8.phase = o8.phase +  (o8.phase_increment + o1.index);
+      o8.phase = o8.phase +  (o8.phase_increment + o1.index) + (o1.amp * o7.wave);
       o8.phaseRemain = (o8.phase << 9) >> 17; //6th harm
 
-      o9.phase = o9.phase +  (o9.phase_increment + o1.index);
+      o9.phase = o9.phase +  (o9.phase_increment + o1.index) + (o1.amp * o8.wave);
       o9.phaseRemain = (o9.phase << 9) >> 17; //7th harm
 
-      o10.phase = o10.phase + (o10.phase_increment + o1.index);
+      o10.phase = o10.phase + (o10.phase_increment + o1.index) + (o1.amp * o9.wave);
       o10.phaseRemain = (o10.phase << 9) >> 17;//8th harm
       //-----------------------------------------------------------------------
 
@@ -123,32 +123,32 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       o1.index = (FMIndex * o1.wave);
 
 
-      o2.phase = o2.phase +  (o2.phase_increment + o1.index);
+      o2.phase = o2.phase +  (o2.phase_increment + o1.index) ;
       o2.phaseRemain = (o2.phase << 9) >> 17; //ROOT
 
       //unisone oscillators  ------------3-4---------
-      o3.phase = o3.phase +  (o3.phase_increment + o1.index);
+      o3.phase = o3.phase +  (o3.phase_increment + o1.index) + (o1.amp * o2.wave);
       o3.phaseRemain = (o3.phase << 9) >> 17; //5th
 
-      o4.phase = o4.phase +  (o4.phase_increment + o1.index);
+      o4.phase = o4.phase +  (o4.phase_increment + o1.index) + (o1.amp * o3.wave);
       o4.phaseRemain = (o4.phase << 9) >> 17; //OCT
 
-      o5.phase = o5.phase +  (o5.phase_increment + o1.index);
+      o5.phase = o5.phase +  (o5.phase_increment + o1.index) + (o1.amp * o4.wave);
       o5.phaseRemain = (o5.phase << 9) >> 17; //3rd harm
 
-      o6.phase = o6.phase + (o6.phase_increment + o1.index);
+      o6.phase = o6.phase + (o6.phase_increment + o1.index) + (o1.amp * o5.wave);
       o6.phaseRemain = (o6.phase << 9) >> 17; //4th harm
 
-      o7.phase = o7.phase +  (o7.phase_increment + o1.index);
+      o7.phase = o7.phase +  (o7.phase_increment + o1.index) + (o1.amp * o6.wave);
       o7.phaseRemain = (o7.phase << 9) >> 17; //5th harm
 
-      o8.phase = o8.phase +  (o8.phase_increment + o1.index);
+      o8.phase = o8.phase +  (o8.phase_increment + o1.index) + (o1.amp * o7.wave);
       o8.phaseRemain = (o8.phase << 9) >> 17; //6th harm
 
-      o9.phase = o9.phase +  (o9.phase_increment + o1.index);
+      o9.phase = o9.phase +  (o9.phase_increment + o1.index) + (o1.amp * o8.wave);
       o9.phaseRemain = (o9.phase << 9) >> 17; //7th harm
 
-      o10.phase = o10.phase + (o10.phase_increment + o1.index);
+      o10.phase = o10.phase + (o10.phase_increment + o1.index) + (o1.amp * o9.wave);
       o10.phaseRemain = (o10.phase << 9) >> 17;//8th harm
       //-----------------------------------------------------------------------
 
@@ -224,28 +224,28 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       o2.phaseOld = o2.phase;
       o2.phaseRemain = (o2.phase << 9) >> 17; //ROOT
       
-      o3.phase = o3.phase +  (o3.phase_increment );
+      o3.phase = o3.phase +  (o3.phase_increment ) + (o1.amp * o2.wave);
       o3.phaseRemain = (o3.phase << 9) >> 17; //5th
 
-      o4.phase = o4.phase +  (o4.phase_increment );
+      o4.phase = o4.phase +  (o4.phase_increment ) + (o1.amp * o3.wave);
       o4.phaseRemain = (o4.phase << 9) >> 17; //OCT
 
-      o5.phase = o5.phase +  (o5.phase_increment);
+      o5.phase = o5.phase +  (o5.phase_increment) + (o1.amp * o4.wave);
       o5.phaseRemain = (o5.phase << 9) >> 17; //3rd harm
 
-      o6.phase = o6.phase + (o6.phase_increment );
+      o6.phase = o6.phase + (o6.phase_increment ) + (o1.amp * o5.wave);
       o6.phaseRemain = (o6.phase << 9) >> 17; //4th harm
 
-      o7.phase = o7.phase +  (o7.phase_increment );
+      o7.phase = o7.phase +  (o7.phase_increment ) + (o1.amp * o6.wave);
       o7.phaseRemain = (o7.phase << 9) >> 17; //5th harm
 
-      o8.phase = o8.phase +  (o8.phase_increment );
+      o8.phase = o8.phase +  (o8.phase_increment ) + (o1.amp * o7.wave);
       o8.phaseRemain = (o8.phase << 9) >> 17; //6th harm
 
-      o9.phase = o9.phase +  (o9.phase_increment );
+      o9.phase = o9.phase +  (o9.phase_increment ) + (o1.amp * o8.wave);
       o9.phaseRemain = (o9.phase << 9) >> 17; //7th harm
 
-      o10.phase = o10.phase + (o10.phase_increment );
+      o10.phase = o10.phase + (o10.phase_increment ) + (o1.amp * o9.wave);
       o10.phaseRemain = (o10.phase << 9) >> 17;//8th harm
       //-----------------------------------------------------------------------
 
@@ -328,28 +328,28 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       o2.phaseOld = o2.phase;
       o2.phaseRemain = (o2.phase << 9) >> 17; //ROOT
       
-      o3.phase = o3.phase +  (o3.phase_increment );
+      o3.phase = o3.phase +  (o3.phase_increment ) + (o1.amp * o2.wave);
       o3.phaseRemain = (o3.phase << 9) >> 17; //5th
 
-      o4.phase = o4.phase +  (o4.phase_increment );
+      o4.phase = o4.phase +  (o4.phase_increment ) + (o1.amp * o3.wave);
       o4.phaseRemain = (o4.phase << 9) >> 17; //OCT
 
-      o5.phase = o5.phase +  (o5.phase_increment);
+      o5.phase = o5.phase +  (o5.phase_increment) + (o1.amp * o4.wave);
       o5.phaseRemain = (o5.phase << 9) >> 17; //3rd harm
 
-      o6.phase = o6.phase + (o6.phase_increment );
+      o6.phase = o6.phase + (o6.phase_increment ) + (o1.amp * o5.wave);
       o6.phaseRemain = (o6.phase << 9) >> 17; //4th harm
 
-      o7.phase = o7.phase +  (o7.phase_increment );
+      o7.phase = o7.phase +  (o7.phase_increment ) + (o1.amp * o6.wave);
       o7.phaseRemain = (o7.phase << 9) >> 17; //5th harm
 
-      o8.phase = o8.phase +  (o8.phase_increment );
+      o8.phase = o8.phase +  (o8.phase_increment ) + (o1.amp * o7.wave);
       o8.phaseRemain = (o8.phase << 9) >> 17; //6th harm
 
-      o9.phase = o9.phase +  (o9.phase_increment );
+      o9.phase = o9.phase +  (o9.phase_increment ) + (o1.amp * o8.wave);
       o9.phaseRemain = (o9.phase << 9) >> 17; //7th harm
 
-      o10.phase = o10.phase + (o10.phase_increment );
+      o10.phase = o10.phase + (o10.phase_increment ) + (o1.amp * o9.wave);
       o10.phaseRemain = (o10.phase << 9) >> 17;//8th harm
       //-----------------------------------------------------------------------
 
