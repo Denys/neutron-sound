@@ -28,7 +28,8 @@ void DODETUNING() {
     case 1: //twin
       GRADUALWAVE();
 
-      o1.phaseOffset = (uint32_t)( constrain(((4095 - aInDetuneReading) + (analogControls[2])), 0, 8190)) << 20;
+      o1.phaseOffset = (uint32_t)( constrain(((4095 - aInDetuneReading) + (analogControls[2])), 0, 8190))<<20;//difference between the waves.
+      //o1.phaseOffset = (map(o1.phaseOffset,0,8190,7000,100))<<20;
       o1.amp = 0;//turn off folding, using same ISR
       detune[0] = 0; //while in wavetwin dont want detuning
       break;

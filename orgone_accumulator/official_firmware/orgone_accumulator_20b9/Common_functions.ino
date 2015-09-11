@@ -6,7 +6,7 @@ void WRITE2EEPROM() { //only write if it is different
     if (detuneHiOn != EEPROM.read(3))EEPROM.write(3, detuneHiOn);
     if (xModeOn != EEPROM.read(4))EEPROM.write(4, xModeOn);
     if (FMmodeOn != EEPROM.read(5))EEPROM.write(5, FMmodeOn);
-    //if (FMFixedOn != EEPROM.read(6))EEPROM.write(6, FMFixedOn);
+    if (FMFixedOn != EEPROM.read(6))EEPROM.write(6, FMFixedOn);
     if (pulsarOn != EEPROM.read(7))EEPROM.write(7, pulsarOn);
   }
 }
@@ -153,7 +153,8 @@ void FX_TOGGLES() {
 void OSC_MODE_TOGGLES() {
   if (IsHW2 == 0) {
     FMFixedOn = digitalReadFast(FMFixedSwitch);
-    oscMode = (!digitalReadFast(xModeSwitch) << 1) + digitalReadFast(FMmodeSwitch);
+    xModeOn = digitalReadFast(xModeSwitch);
+    FMmodeOn = !(digitalReadFast(FMmodeSwitch));
   }
 
   else if (FXSelArmed[0] == 0) {
@@ -178,10 +179,9 @@ void OSC_MODE_TOGGLES() {
       }
     }
 
-    oscMode = ((xModeOn) << 1) + (!FMmodeOn);
-
-
+    
   }
+  oscMode = ((xModeOn) << 1) + (!FMmodeOn);
 }
 
 void SELECT_ISRS() {

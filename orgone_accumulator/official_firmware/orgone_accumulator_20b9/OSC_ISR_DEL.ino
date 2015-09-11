@@ -280,7 +280,7 @@ void FASTRUN outUpdateISR_PULSAR_DELAY(void) {
      
 
       if (o3.phase >> 31 == 0) {
-        o3.phase = o3.phase + o3.phase_increment + (CZMix << 14);
+        o3.phase = o3.phase + o3.phase_increment + o1.pulseAdd;
         o3.wave = (sinTable[o3.phase >> 23]);
         o3.nextwave =  (sinTable[(o3.phase + nextstep) >> 23]);
       }

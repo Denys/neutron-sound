@@ -1249,6 +1249,7 @@ struct oscillator1
   double freq = 0;
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;
+  int32_t pulseAdd = 0;
   uint32_t CRUSHwave = 0;
   uint32_t maxlev;
   int32_t amp;

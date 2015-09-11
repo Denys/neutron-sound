@@ -393,7 +393,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
 
   if (o3.phase >> 31 == 0) { //make the pulse stop at half wave.
-    o3.phase = o3.phase + o3.phase_increment + (CZMix << 14);
+    o3.phase = o3.phase + o3.phase_increment + (o1.pulseAdd);
     o3.wave = (PENV[o3.phase >> 23]);
     o3.nextwave =  (PENV[(o3.phase + nextstep) >> 23]);
   }
@@ -414,7 +414,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o5.phaseRemain = (o5.phase << 9) >> 17;
 
   if (o6.phase >> 31 == 0) {
-    o6.phase = o6.phase + o6.phase_increment + (CZMix << 14);
+    o6.phase = o6.phase + o6.phase_increment + (o1.pulseAdd);
     o6.wave = (PENV[o6.phase >> 23]);
     o6.nextwave =  (PENV[(o6.phase + nextstep) >> 23]);
   }
@@ -435,7 +435,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o8.phaseRemain = (o8.phase << 9) >> 17; //used for fake interpolation
 
   if (o9.phase >> 31 == 0) {
-    o9.phase = o9.phase + o9.phase_increment + (CZMix << 14);
+    o9.phase = o9.phase + o9.phase_increment + (o1.pulseAdd);
     o9.wave = (PENV[o9.phase >> 23]);
     o9.nextwave =  (PENV[(o9.phase + nextstep) >> 23]);
   }
@@ -478,21 +478,20 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o8.wave = o8.wave + ((((o8.nextwave - o8.wave)) * o8.phaseRemain) >> 15);
   o9.wave = o9.wave + ((((o9.nextwave - o9.wave)) * o9.phaseRemain) >> 15);
 
-  o1.wave =   (o2.wave * o3.wave) >> 11;
-  o4.wave =   (o5.wave * o6.wave) >> 11;
-  o7.wave =   (o8.wave * o9.wave) >> 11;
+  o9.nextwave = (o9.wave * min((32767 - abs(o6.wave)),(32767 - abs(o3.wave))))>>15;  //borrowed nextwave for gain enveloping
+  o6.nextwave = (o6.wave * min((32767 - abs(o9.wave)),(32767 - abs(o3.wave))))>>15;
   
-
-  //o2.wave = (4095 - abs(o3.wave >> 3)); //get remaining headroom from pulse envelope 1
-  //o3.wave = o1.wave + ((o4.wave * o2.wave) >> 15); //add in second pulse in remaining  headroom
-  //o5.wave = (4095 - abs(o3.wave >> 3)); //get remaining headroom after 2 pulses
-
+  o1.wave =   (o2.wave * o3.wave) >> 15;
+  o4.wave =   (o5.wave * o6.nextwave) >> 15;
+  o7.wave =   (o8.wave * o9.nextwave) >> 15;
+   
  
 
-  o8.wave = (o4.wave +o1.wave + o7.wave) >> 8; //add delayed wave in remaining headroom.
+  o8.wave = (o4.wave +o1.wave + o7.wave) >> 4; //add delayed wave in remaining headroom.
+  o8.wave = ((int32_t)(o8.wave * mixDetune)>>10) + (((int32_t)(o1.wave * mixDetuneDn))>>14);
 
   FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
-  analogWrite(aout2, FinalOut + 4000);
+  analogWrite(aout2, o8.wave + 4000);
  
 
 }
