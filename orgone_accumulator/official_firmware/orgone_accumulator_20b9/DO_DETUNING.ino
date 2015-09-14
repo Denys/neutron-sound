@@ -4,7 +4,7 @@ void DODETUNING() {
   pcounter = millis() - pcounterOld;//used for LED flash
   pcounterOld = millis();
 
-//Serial.println(delayFeedback);
+//Serial.println(detune[0]);
   switch (FX) {
     case 0: //symetrical detune - primes (bipolar)
       bipolarFX = (constrain((((4095 - aInDetuneReading )<< 1) + (analogControls[2] - 4095)), -4095, 4095));
@@ -130,21 +130,21 @@ void DODETUNING() {
       drum_d2 = signed_multiply_32x16t((drum_d2 * drum_d2), drum_d2 << 12) + (32 << 10);
       
       bipolarFX = (constrain((((4095 - aInDetuneReading) << 1) + (analogControls[2] - 4095)), -4095, 4095));
-      aInModDetuneCubing = bipolarFX / 55.0;      
-      detuneScaler = (abs)((aInModDetuneCubing * aInModDetuneCubing * aInModDetuneCubing));      
-      //detuneScaler = abs(bipolarFX)<<7;       
+      aInModDetuneCubing = (float)((abs(bipolarFX) / 55.0));      
+      detuneScaler = (aInModDetuneCubing * aInModDetuneCubing * aInModDetuneCubing);      
+      //detuneScaler = 0;       
       
       if (bipolarFX > 0) {
-        detune[0] = (uint32_t)((detuneScaler * primes[0]) );
-        detune[1] = (uint32_t)((detuneScaler * primes[1]) );
-        detune[2] = (uint32_t)((detuneScaler * primes[2]));
-        detune[3] = (uint32_t)((detuneScaler * primes[3]));
+        detune[0] = (int32_t)((detuneScaler * primes[0]) );
+        detune[1] = (int32_t)((detuneScaler * primes[1]) );
+        detune[2] = (int32_t)((detuneScaler * primes[2]));
+        detune[3] = (int32_t)((detuneScaler * primes[3]));
       }
       else {
-        detune[0] = (uint32_t)((detuneScaler * fibi[0] * 55.0) );
-        detune[1] = (uint32_t)((detuneScaler * fibi[1]* 55.0) );
-        detune[2] = (uint32_t)((detuneScaler * fibi[2]* 55.0));
-        detune[3] = (uint32_t)((detuneScaler * fibi[3]* 55.0));
+        detune[0] = (int32_t)((detuneScaler * fibi[0] * 55.0) );
+        detune[1] = (int32_t)((detuneScaler * fibi[1]* 55.0) );
+        detune[2] = (int32_t)((detuneScaler * fibi[2]* 55.0));
+        detune[3] = (int32_t)((detuneScaler * fibi[3]* 55.0));
       }
       break;
   }

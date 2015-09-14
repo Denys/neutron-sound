@@ -566,10 +566,10 @@ void ASSIGNINCREMENTS_DRUM() { //-----------------------------------------------
     osc_mult[0] = FMMult;
     osc_mult[1] = 4.0;
     o1.phase_increment = inputConverter * osc_mult[1]  ;
-    o2.phase_increment = inputConverter * osc_mult[1] + detune[0];
-    o3.phase_increment = inputConverter * osc_mult[1] + detune[1];
-    o4.phase_increment = inputConverter * osc_mult[1] + detune[2];
-    o5.phase_increment = inputConverter * osc_mult[1] + detune[3];
+    o2.phase_increment = (inputConverter * osc_mult[1]) + detune[0];
+    o3.phase_increment = (inputConverter * osc_mult[1]) + detune[1];
+    o4.phase_increment = (inputConverter * osc_mult[1]) + detune[2];
+    o5.phase_increment = (inputConverter * osc_mult[1]) + detune[3];
   }
 
   oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
