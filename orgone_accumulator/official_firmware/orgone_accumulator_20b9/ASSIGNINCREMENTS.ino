@@ -553,23 +553,23 @@ void ASSIGNINCREMENTS_DRUM() { //-----------------------------------------------
   o8.phase_increment =  ((uint32_t)(inputConverter)) >> 10; //borrow this for pitch>hold time
 
   if (FMFixedOn) {
-    osc_mult[0] = 4.0;
+    osc_mult[0] = 250.0;
     osc_mult[1] = 4.0;
     o1.phase_increment = inputConverter * osc_mult[1]  ;
-    o2.phase_increment = inputConverterF + detune[0];
-    o3.phase_increment = inputConverterF + detune[1];
-    o4.phase_increment = inputConverterF + detune[2];
-    o5.phase_increment = inputConverterF + detune[3];
+    o2.phase_increment = inputConverterF * osc_mult[0] * detune[0];
+    o3.phase_increment = inputConverterF * osc_mult[0] * detune[1];
+    o4.phase_increment = inputConverterF * osc_mult[0] * detune[2];
+    o5.phase_increment = inputConverterF * osc_mult[0] * detune[3];
   }
   else {
     FMMult = ((int)((averageratio >> 9) + 1)) * aInModRatio; //FM + free
     osc_mult[0] = FMMult;
     osc_mult[1] = 4.0;
     o1.phase_increment = inputConverter * osc_mult[1]  ;
-    o2.phase_increment = (inputConverter * osc_mult[1]) + detune[0];
-    o3.phase_increment = (inputConverter * osc_mult[1]) + detune[1];
-    o4.phase_increment = (inputConverter * osc_mult[1]) + detune[2];
-    o5.phase_increment = (inputConverter * osc_mult[1]) + detune[3];
+    o2.phase_increment = (inputConverter * osc_mult[1]) * detune[0];
+    o3.phase_increment = (inputConverter * osc_mult[1]) * detune[1];
+    o4.phase_increment = (inputConverter * osc_mult[1]) * detune[2];
+    o5.phase_increment = (inputConverter * osc_mult[1]) * detune[3];
   }
 
   oSQ.phase_increment = (inputConverter / PWM_Div) * 4;

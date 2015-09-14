@@ -26,13 +26,13 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   if (drum_envStep[0] == 0) {
     if (drum_st == 0) {
-      drum_envVal[0] = drum_envVal[2] = o6.wave << 14; //use front of wave as attack
-      drum_envTemp[2] =drum_envTemp[0] = drum_envVal[0] >> 14;
+      drum_envTemp[0] = drum_envVal[0] = drum_envVal[2] = o6.wave << 14; //use front of wave as attack
+      drum_envTemp[2] = drum_envVal[0] >> 14;
       o7.phase_increment = 0;
     }
     else {      
-        drum_envVal[0] = drum_envVal[2] = 1 << 30;
-        drum_envTemp[2] = drum_envTemp[0] = drum_envVal[0] >> 14;
+        drum_envTemp[0] = drum_envVal[0] = drum_envVal[2] = 1 << 30;
+        drum_envTemp[2] = drum_envVal[0] >> 14;
         drum_envStep[0] = 1;
       
     }
@@ -43,7 +43,8 @@ void FASTRUN outUpdateISR_DRUM(void) {
     
     int32_t tempt = multiply_32x32_rshift32(drum_envVal[0], drum_d<<1);
     drum_envVal[0] = drum_envVal[0] - tempt;
-    if (!detuneLoOn)drum_envTemp[0] = drum_envVal[0] >> 14;    
+    if (!detuneLoOn)drum_envTemp[0] = drum_envVal[0]; 
+    else drum_envTemp[0] = 1 << 30;   
 
     if (o7.phase_increment > drum_a && drum_envStep[2] == 0)drum_envStep[2] = 1;
 
@@ -52,6 +53,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   if (drum_envStep[0] == 2) {
     drum_envVal[0] = 0;
+    if (!detuneLoOn)drum_envTemp[0] = 0;
     
     if (o7.phase_increment > drum_a && drum_envStep[2] == 0)drum_envStep[2] = 1;//o7 phase counts up the hold on the amplitude envelope.
   }
@@ -64,7 +66,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
     int32_t temph = multiply_32x32_rshift32(drum_envVal[2], drum_d);
     drum_envVal[2] = drum_envVal[2] - temph;
     drum_envTemp[2] = drum_envVal[2] >> 14;
-    if (detuneLoOn)drum_envTemp[0] = drum_envTemp[2] ;
+    if (detuneLoOn)drum_envTemp[0] = drum_envVal[2] ;
 
     if (drum_envVal[2] <= 16390) drum_envStep[2] = 2;
   }
@@ -99,31 +101,33 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   if (drum_envStep[1] == 2) drum_envVal[1] = 0;
 
-  
+  drum_envTemp[0]= multiply_32x32_rshift32(o1.phase_increment, drum_envTemp[0]>>4);
    
   //oscs
-  o1.phase = o1.phase + o1.phase_increment + o10.phase + (o1.amp * drum_envTemp[0]) + o10.phase_increment;
+  o1.phase = o1.phase + o1.phase_increment + o10.phase + (o1.amp * drum_envTemp[0]);
   o1.phaseRemain = (o1.phase << 9) >> 17;
-  o6.wave = (waveTableMidLink[o1.phase >> WTShift]);
+  o6.wave = (waveTableMidLink[o1.phase >> WTShift]); 
   o6.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShift]);
   if (o6.wave > 30000) drum_st = 1;//trigger decay styat at peak of wave 1
   o1.wave = multiply_32x32_rshift32(drum_envVal[2], o6.wave);
   o1.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShift]);
   o1.nextwave = multiply_32x32_rshift32(drum_envVal[2], o1.nextwave);
   o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
+   if (o1.phase >> 31 == 0) o1.pulseAdd = o6.wave;
+  else o1.pulseAdd = 0;
+  o1.pulseAdd = multiply_32x32_rshift32(drum_envVal[1], o1.pulseAdd);
   o6.wave = o6.wave + ((((o6.nextwave - o6.wave)) * o1.phaseRemain) >> 15);
   //o1.wave = o1.wave * (drum_envVal[0] >> 14) >> 15;
 
-  //if (detuneLoOn) o10.phase_increment = (signed_multiply_32x16t(drum_envTemp[2],o6.wave))<<8;//a bit of selfmod osc for osc1 via hold env
+  
   o6.phase =  detuneHiOn * ((envVal * drum_envTemp[1]) >> 2); //borrowed unused osc 6 variable for drum pitch. turns on env 2 > pitch > oscs 2
-  o7.phase = detuneMidOn * ((envVal * drum_envTemp[0]) >> 2); // turns on ev1 > pitch > oscs2
   
   if (FMmodeOn) o9.phase_increment = multiply_32x32_rshift32(drum_envVal[1], (o6.phase_increment<<2)); //make the envelope modulate the complexity amount with FM pressed.
   else o9.phase_increment = o6.phase_increment;
 
   //oscs 2------------------------------------------
 
-  o2.phase = o2.phase + o2.phase_increment + o6.phase + o7.phase +(o9.phase_increment * o6.wave);
+  o2.phase = o2.phase + o2.phase_increment + o6.phase  +(o9.phase_increment * o6.wave);
   o2.phaseRemain = (o2.phase << 9) >> 17;
   o8.wave = (waveTableMidLink[o2.phase >> WTShift]);
   o2.wave = multiply_32x32_rshift32(drum_envVal[1], o8.wave);//volume control vy envelope
@@ -132,7 +136,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
 
 
-  o3.phase = o3.phase + o3.phase_increment + o6.phase + o7.phase+(o9.phase_increment * o8.wave);
+  o3.phase = o3.phase + o3.phase_increment + o6.phase +(o9.phase_increment * o8.wave);
   o3.phaseRemain = (o3.phase << 9) >> 17;
   o9.wave = (waveTableMidLink[o3.phase >> WTShift]);
   o3.wave = multiply_32x32_rshift32(drum_envVal[1], o9.wave);
@@ -141,7 +145,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
 
 
-  o4.phase = o4.phase + o4.phase_increment + o6.phase +  o7.phase+(o9.phase_increment * o9.wave);
+  o4.phase = o4.phase + o4.phase_increment + o6.phase +(o9.phase_increment * o9.wave);
   o4.phaseRemain = (o4.phase << 9) >> 17;
   o10.wave = (waveTableMidLink[o4.phase >> WTShift]);
   o4.wave = multiply_32x32_rshift32(drum_envVal[1], o10.wave);
@@ -150,7 +154,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o4.wave = o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15);
 
 
-  o5.phase = o5.phase + o5.phase_increment + o6.phase + o7.phase +(o9.phase_increment * o10.wave);
+  o5.phase = o5.phase + o5.phase_increment + o6.phase +(o9.phase_increment * o10.wave);
   o5.phaseRemain = (o5.phase << 9) >> 17;
   o7.wave = (waveTableMidLink[o5.phase >> WTShift]);
   if (o7.wave > 30000) drum_st = 1; //start envelope at top of wave, o5 is the highest pitch so will get there first..
@@ -163,7 +167,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   o8.wave = ((o5.wave + o2.wave + o3.wave + o4.wave) >> 2);
 
-  if (pulsarOn) o8.wave = (o8.wave * o6.wave)>>15; //turn on AM osc1 oscs 2
+  if (pulsarOn) o8.wave = (o8.wave * o1.pulseAdd)>>12; //turn on AM osc1 oscs 2. o9.phase is borrowed. it is pulsar of osc 1
   if (xModeOn) o8.wave = o8.wave * (8191 - abs(o1.wave))>>13; 
 
 

@@ -124,27 +124,28 @@ void DODETUNING() {
       o1.amp = (constrain(((!detuneMidOn * aInPos) + mixPos), 0, 4095))>>2;//amount of pbend on position scan pot
 
       drum_d = map(((detuneMidOn * aInPos) + analogControls[5]), 1, 8191, 24000, 24); //decaY 1
+      if (detuneMidOn) drum_d = drum_d + (o1.phase_increment>>12);
       drum_d = signed_multiply_32x16t((drum_d * drum_d), drum_d << 13) + (32 << 10);
-
+      
       drum_d2 = (map((detuneHiOn * aInPos) + analogControls[4], 1, 8191, 32000, 24)); //decay 2
       drum_d2 = signed_multiply_32x16t((drum_d2 * drum_d2), drum_d2 << 12) + (32 << 10);
       
       bipolarFX = (constrain((((4095 - aInDetuneReading) << 1) + (analogControls[2] - 4095)), -4095, 4095));
-      aInModDetuneCubing = (float)((abs(bipolarFX) / 55.0));      
+      aInModDetuneCubing = (float)((abs(bipolarFX) / 9000.0));      
       detuneScaler = (aInModDetuneCubing * aInModDetuneCubing * aInModDetuneCubing);      
       //detuneScaler = 0;       
       
       if (bipolarFX > 0) {
-        detune[0] = (int32_t)((detuneScaler * primes[0]) );
-        detune[1] = (int32_t)((detuneScaler * primes[1]) );
-        detune[2] = (int32_t)((detuneScaler * primes[2]));
-        detune[3] = (int32_t)((detuneScaler * primes[3]));
+        detune[0] = (int32_t)((detuneScaler * primes[0])+1 );
+        detune[1] = (int32_t)((detuneScaler * primes[1])+1 );
+        detune[2] = (int32_t)((detuneScaler * primes[2])+1);
+        detune[3] = (int32_t)((detuneScaler * primes[3])+1);
       }
       else {
-        detune[0] = (int32_t)((detuneScaler * fibi[0] * 55.0) );
-        detune[1] = (int32_t)((detuneScaler * fibi[1]* 55.0) );
-        detune[2] = (int32_t)((detuneScaler * fibi[2]* 55.0));
-        detune[3] = (int32_t)((detuneScaler * fibi[3]* 55.0));
+        detune[0] = (int32_t)((detuneScaler * fibi[0] * 55.0) +1);
+        detune[1] = (int32_t)((detuneScaler * fibi[1]* 55.0)+1 );
+        detune[2] = (int32_t)((detuneScaler * fibi[2]* 55.0)+1);
+        detune[3] = (int32_t)((detuneScaler * fibi[3]* 55.0)+1);
       }
       break;
   }
