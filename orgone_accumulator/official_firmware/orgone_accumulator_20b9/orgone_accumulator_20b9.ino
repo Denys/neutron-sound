@@ -1099,6 +1099,9 @@ const int16_t AKWF_sinharm_0015[] = {
 int16_t noiseTable[512]; //generated in program, uses SRAM
 int16_t noiseTable2[512]; //generated in program, uses SRAM
 int16_t noiseTable3[2]; //array of 2, for program generated LF noise
+int16_t noiseLive1[1];
+int16_t noiseLive1Val;
+int16_t noiseLive1ValOld;
 
 //Arrays assign wavetables to wave slots on low, medium and high positions
 //CZ
@@ -1166,7 +1169,7 @@ const int16_t *FMAltWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_
 
 
 const int16_t *FMAltWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTableSQ , FMTableSQR , AKWF_symetric_0013 , AKWF_symetric_0010 , bassTable1
-                                 , FMTableS180 , celloTable , violTable , distoTable , blipTable , FMTableFM98 , noiseTable2 , noiseTable3
+                                 , FMTableS180 , celloTable , violTable , distoTable , blipTable , FMTableFM98 , noiseTable2 , noiseLive1
                                 };
 
 //pulsar envelopes

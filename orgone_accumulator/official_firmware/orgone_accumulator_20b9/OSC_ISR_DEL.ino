@@ -80,7 +80,7 @@ void FASTRUN outUpdateISR_WAVE_DELAY(void) {
       noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
 
       //main oscillator
-      o1.phase = o1.phase + o1.phase_increment;
+      o1.phase = o1.phase + o1.phase_increment;       
       o1.phaseRemain = (o1.phase << 9) >> 17;
       o1.wave = (sinTable[o1.phase >> WTShiftFM]);
       o1.nextwave =  (sinTable[(o1.phase + nextstep) >> WTShiftFM]);

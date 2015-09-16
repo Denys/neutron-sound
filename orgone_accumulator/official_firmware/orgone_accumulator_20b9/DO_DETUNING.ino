@@ -118,11 +118,11 @@ void DODETUNING() {
 
     case 7: //drum voice
 
-      o8.phase_increment =  ((uint32_t)(inputConverter)) >> 10; //borrow this for pitch>hold time
+      o8.phase_increment =  ((int32_t)(inputConverter)) >> 10; //borrow this for pitch>hold time
     
-      floats[0] = (constrain(((4095-aInModIndex ) + (analogControls[1])), 0, 8191))/8192.0; //make a log pot of index.
-      floats[0] =  (floats[0]*floats[0]*floats[0])*8192.0;
-      o6.phase_increment = (uint32_t)floats[0]; //the amount of xmod
+      floats[0] = (float)((constrain(((4095-aInModIndex ) + (analogControls[1])), 0.0, 8191.0))/8192.0); //make a log pot of index.
+      floats[0] =  (floats[0]*floats[0]*floats[0])*524288.0;
+      o6.phase_increment = ((int32_t)floats[0])>>6; //the amount of xmod
 
       o1.amp = (constrain(((AInRawFilter-4095) + analogControls[0]), 0, 8191))>>3;//amount of pbend on fm freq pot
 

@@ -273,7 +273,7 @@ void UPDATECONTROLS_FMALT() {
     case 9:
       FMIndexCont = (int)(analogControls[1] >> 2);     
 
-      FMTable = FMWTselFM[analogControls[3] >> 9];
+      FMTable = FMAltWTselFM[analogControls[3] >> 9];
       if ((analogControls[3] >> 9) == 15) WTShiftFM = 31;
       else WTShiftFM = 23;
 

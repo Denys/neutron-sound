@@ -270,6 +270,10 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
 
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
+       if (o1.phaseOld > o1.phase) {
+        noiseLive1[0] = random(-32767, 32767);       
+      }
+      o1.phaseOld = o1.phase;      
       o1.phaseRemain = (o1.phase << 9) >> 17;
       o1.wave = (FMTable[o1.phase >> WTShiftFM]);
       o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
