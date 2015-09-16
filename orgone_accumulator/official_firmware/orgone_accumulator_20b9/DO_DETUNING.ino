@@ -117,20 +117,23 @@ void DODETUNING() {
       break;
 
     case 7: //drum voice
-      floats[0] = (constrain(((AInRawFilter - 4095) + (analogControls[0])), 0, 8191))/8192.0; //make a log pot of freq.
+
+      o8.phase_increment =  ((uint32_t)(inputConverter)) >> 10; //borrow this for pitch>hold time
+    
+      floats[0] = (constrain(((4095-aInModIndex ) + (analogControls[1])), 0, 8191))/8192.0; //make a log pot of index.
       floats[0] =  (floats[0]*floats[0]*floats[0])*8192.0;
-      o6.phase_increment = (uint32_t)floats[0];
+      o6.phase_increment = (uint32_t)floats[0]; //the amount of xmod
 
-      o1.amp = (constrain(((!detuneMidOn * aInPos) + mixPos), 0, 4095))>>2;//amount of pbend on position scan pot
+      o1.amp = (constrain(((AInRawFilter-4095) + analogControls[0]), 0, 8191))>>3;//amount of pbend on fm freq pot
 
-      drum_d = map(((detuneMidOn * aInPos) + analogControls[5]), 1, 8191, 24000, 24); //decaY 1
-      if (detuneMidOn) drum_d = drum_d + (o1.phase_increment>>12);
+      drum_d = map(( analogControls[8]), 1, 8191, 24000, 24); //decaY 1
+      if (detuneLoOn) drum_d = drum_d + (o1.phase_increment>>12);
       drum_d = signed_multiply_32x16t((drum_d * drum_d), drum_d << 13) + (32 << 10);
       
-      drum_d2 = (map((detuneHiOn * aInPos) + analogControls[4], 1, 8191, 32000, 24)); //decay 2
+      drum_d2 = (map( analogControls[4], 1, 8191, 32000, 24)); //decay 2
       drum_d2 = signed_multiply_32x16t((drum_d2 * drum_d2), drum_d2 << 12) + (32 << 10);
       
-      bipolarFX = (constrain((((4095 - aInDetuneReading) << 1) + (analogControls[2] - 4095)), -4095, 4095));
+      bipolarFX = (constrain((((4095 - aInDetuneReading) << 1) + (analogControls[2] - 4095)), -4095, 4095));//detune amounts
       aInModDetuneCubing = (float)((abs(bipolarFX) / 9000.0));      
       detuneScaler = (aInModDetuneCubing * aInModDetuneCubing * aInModDetuneCubing);      
       //detuneScaler = 0;       

@@ -16,8 +16,8 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       //FM oscillator spectrum mode has only 1.
       o1.phase = o1.phase + o1.phase_increment;     
       o1.phaseRemain = (o1.phase << 9) >> 17;
-      o1.wave = (FMTable[o1.phase >> WTShift]);
-      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShift]);
+      o1.wave = (FMTable[o1.phase >> WTShiftFM]);
+      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
       
 

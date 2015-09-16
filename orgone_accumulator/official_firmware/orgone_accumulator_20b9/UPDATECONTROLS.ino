@@ -207,8 +207,8 @@ void UPDATECONTROLS_FM() {
       FMIndexCont = (int)(analogControls[1] >> 2);     
 
       FMTable = FMWTselFM[analogControls[3] >> 9];
-      if ((analogControls[3] >> 9) == 15) WTShift = 31;
-      else WTShift = 23;
+      if ((analogControls[3] >> 9) == 15) WTShiftFM = 31;
+      else WTShiftFM = 23;
 
 
       break;
@@ -274,8 +274,8 @@ void UPDATECONTROLS_FMALT() {
       FMIndexCont = (int)(analogControls[1] >> 2);     
 
       FMTable = FMWTselFM[analogControls[3] >> 9];
-      if ((analogControls[3] >> 9) == 15) WTShift = 31;
-      else WTShift = 23;
+      if ((analogControls[3] >> 9) == 15) WTShiftFM = 31;
+      else WTShiftFM = 23;
 
       break;
 
@@ -317,7 +317,7 @@ void UPDATECONTROLS_DRUM() {
 
     case 5:
 
-      drum_a = analogControls[8] << 10; //drum hold time
+      drum_a = analogControls[5] << 10; //drum hold time
 
       break;
 

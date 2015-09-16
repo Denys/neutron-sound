@@ -544,14 +544,13 @@ void ASSIGNINCREMENTS_DRUM() { //-----------------------------------------------
   //    Serial.print   ("      ");
   //Serial.println(inputConverter);
 
-  CZMix = constrain(((FMIndexCont) + (2047 - (averageaInIAv / 2.0))), 0, 2047); 
-  //CZMixDn = constrain(((4095 - FMIndexCont) - (2047 - (averageaInIAv / 2))), 0, 2047);
+  //CZMix = constrain(((FMIndexCont) + (2047 - (averageaInIAv / 2.0))), 0, 2047); 
+  CZMix = envVal>>1;
 
 
   mixDetuneUp = mixDetune * 0.787; //because there are 5 oscillators being mixed in the detune mix of ISR
   mixDetuneDn =  (2047 - mixDetune) * 0.97;
-  o8.phase_increment =  ((uint32_t)(inputConverter)) >> 10; //borrow this for pitch>hold time
-
+  
   if (FMFixedOn) {
     osc_mult[0] = 250.0;
     osc_mult[1] = 4.0;

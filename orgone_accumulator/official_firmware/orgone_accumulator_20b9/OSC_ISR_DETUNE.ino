@@ -24,8 +24,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
       o1.phaseRemain = (o1.phase << 9) >> 17;
-      o1.wave = (FMTable[o1.phase >> WTShift]);
-      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShift]);
+      o1.wave = (FMTable[o1.phase >> WTShiftFM]);
+      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
       o1.index = (FMIndex * o1.wave);
       o2.phase = o2.phase +  (o2.phase_increment + o1.index);
@@ -33,8 +33,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //unisone oscillators  ------------3-4---------
       o3.phase = o3.phase + o3.phase_increment;
       o3.phaseRemain = (o3.phase << 9) >> 17;
-      o3.wave = (FMTable[o3.phase >> WTShift]);
-      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShift]);
+      o3.wave = (FMTable[o3.phase >> WTShiftFM]);
+      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShiftFM]);
       o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
       o3.index = (FMIndex * o3.wave);
       o4.phase = o4.phase +  (o4.phase_increment + o3.index);
@@ -42,8 +42,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //---------------------------------5-6------------
       o5.phase = o5.phase + o5.phase_increment;
       o5.phaseRemain = (o5.phase << 9) >> 17;
-      o5.wave = (FMTable[o5.phase >> WTShift]);
-      o5.nextwave =  (FMTable[(o5.phase + nextstep) >> WTShift]);
+      o5.wave = (FMTable[o5.phase >> WTShiftFM]);
+      o5.nextwave =  (FMTable[(o5.phase + nextstep) >> WTShiftFM]);
       o5.wave = o5.wave + ((((o5.nextwave - o5.wave)) * o5.phaseRemain) >> 15);
       o5.index = (FMIndex * o5.wave);
       o6.phase = o6.phase + (o6.phase_increment + o5.index);
@@ -51,8 +51,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //-------------------------------7-8--------------
       o7.phase = o7.phase + o7.phase_increment;
       o7.phaseRemain = (o7.phase << 9) >> 17;
-      o7.wave = (FMTable[o7.phase >> WTShift]);
-      o7.nextwave =  (FMTable[(o7.phase + nextstep) >> WTShift]);
+      o7.wave = (FMTable[o7.phase >> WTShiftFM]);
+      o7.nextwave =  (FMTable[(o7.phase + nextstep) >> WTShiftFM]);
       o7.wave = o7.wave + ((((o7.nextwave - o7.wave)) * o7.phaseRemain) >> 15);
       o7.index = (FMIndex * o7.wave);
       o8.phase = o8.phase +  (o8.phase_increment + o7.index);
@@ -60,8 +60,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //------------------------------9-10-------------------
       o9.phase = o9.phase + o9.phase_increment;
       o9.phaseRemain = (o9.phase << 9) >> 17;
-      o9.wave = (FMTable[o9.phase >> WTShift]);
-      o9.nextwave =  (FMTable[(o9.phase + nextstep) >> WTShift]);
+      o9.wave = (FMTable[o9.phase >> WTShiftFM]);
+      o9.nextwave =  (FMTable[(o9.phase + nextstep) >> WTShiftFM]);
       o9.wave = o9.wave + ((((o9.nextwave - o9.wave)) * o9.phaseRemain) >> 15);
       o9.index = (FMIndex * o9.wave);
       o10.phase = o10.phase + (o10.phase_increment + o9.index);
@@ -99,8 +99,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
       o1.phaseRemain = (o1.phase << 9) >> 17;
-      o1.wave = (FMTable[o1.phase >> WTShift]);
-      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShift]);
+      o1.wave = (FMTable[o1.phase >> WTShiftFM]);
+      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
       o1.index = (FMIndex * o1.wave);
       o2.phase = o2.phase +  (o2.phase_increment + o1.index);           
@@ -108,8 +108,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //unisone oscillators  ------------3-4---------
       o3.phase = o3.phase + o3.phase_increment;
       o3.phaseRemain = (o3.phase << 9) >> 17;
-      o3.wave = (FMTable[o3.phase >> WTShift]);
-      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShift]);
+      o3.wave = (FMTable[o3.phase >> WTShiftFM]);
+      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShiftFM]);
       o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
       o3.index = (FMIndex * o3.wave);
       o4.phase = o4.phase +  (o4.phase_increment + o3.index);
@@ -117,8 +117,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //---------------------------------5-6------------
       o5.phase = o5.phase + o5.phase_increment;
       o5.phaseRemain = (o5.phase << 9) >> 17;
-      o5.wave = (FMTable[o5.phase >> WTShift]);
-      o5.nextwave =  (FMTable[(o5.phase + nextstep) >> WTShift]);
+      o5.wave = (FMTable[o5.phase >> WTShiftFM]);
+      o5.nextwave =  (FMTable[(o5.phase + nextstep) >> WTShiftFM]);
       o5.wave = o5.wave + ((((o5.nextwave - o5.wave)) * o5.phaseRemain) >> 15);
       o5.index = (FMIndex * o5.wave);
       o6.phase = o6.phase + (o6.phase_increment + o5.index);
@@ -126,8 +126,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //-------------------------------7-8--------------
       o7.phase = o7.phase + o7.phase_increment;
       o7.phaseRemain = (o7.phase << 9) >> 17;
-      o7.wave = (FMTable[o7.phase >> WTShift]);
-      o7.nextwave =  (FMTable[(o7.phase + nextstep) >> WTShift]);
+      o7.wave = (FMTable[o7.phase >> WTShiftFM]);
+      o7.nextwave =  (FMTable[(o7.phase + nextstep) >> WTShiftFM]);
       o7.wave = o7.wave + ((((o7.nextwave - o7.wave)) * o7.phaseRemain) >> 15);
       o7.index = (FMIndex * o7.wave);
       o8.phase = o8.phase +  (o8.phase_increment + o7.index);
@@ -135,8 +135,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       //------------------------------9-10-------------------
       o9.phase = o9.phase + o9.phase_increment;
       o9.phaseRemain = (o9.phase << 9) >> 17;
-      o9.wave = (FMTable[o9.phase >> WTShift]);
-      o9.nextwave =  (FMTable[(o9.phase + nextstep) >> WTShift]);
+      o9.wave = (FMTable[o9.phase >> WTShiftFM]);
+      o9.nextwave =  (FMTable[(o9.phase + nextstep) >> WTShiftFM]);
       o9.wave = o9.wave + ((((o9.nextwave - o9.wave)) * o9.phaseRemain) >> 15);
       o9.index = (FMIndex * o9.wave);
       o10.phase = o10.phase + (o10.phase_increment + o9.index);

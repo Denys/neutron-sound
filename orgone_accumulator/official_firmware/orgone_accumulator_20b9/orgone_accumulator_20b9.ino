@@ -1429,7 +1429,7 @@ const uint8_t SEL_LED_ARRAY[] = {3, 32, 24, 33, 31, 30, 29, 15};
 //const uint8_t HW2_FXa[] = {0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0}; //hw2 effects order
 const float primes[] = {351.1,442.3,398.9,327.1,};
 const float fibi[] = {2.0,3.0,5.0,8.0,13.0};
-uint8_t WTShift = 23;
+uint8_t WTShiftFM = 23;
 uint8_t FXSelArmed[] = {0, 0};
 uint8_t FXchangedSAVE;
 

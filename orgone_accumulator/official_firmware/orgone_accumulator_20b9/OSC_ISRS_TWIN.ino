@@ -218,8 +218,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
       o1.phaseRemain = (o1.phase << 9) >> 17;
-      o1.wave = (FMTable[o1.phase >> WTShift]);
-      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShift]);
+      o1.wave = (FMTable[o1.phase >> WTShiftFM]);
+      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
       o1.index = (FMIndex * o1.wave);
       o2.phase = o2.phase +  (o2.phase_increment + o1.index);
@@ -227,8 +227,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
       
       o3.phase = o3.phase + o3.phase_increment;
       o3.phaseRemain = (o3.phase << 9) >> 17;
-      o3.wave = (FMTable[o3.phase >> WTShift]);
-      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShift]);
+      o3.wave = (FMTable[o3.phase >> WTShiftFM]);
+      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShiftFM]);
       o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
       o3.index = (FMIndex * o3.wave);
       o4.phase = o2.phase +  o3.index + o1.phaseOffset;
@@ -271,8 +271,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
       o1.phaseRemain = (o1.phase << 9) >> 17;
-      o1.wave = (FMTable[o1.phase >> WTShift]);
-      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShift]);
+      o1.wave = (FMTable[o1.phase >> WTShiftFM]);
+      o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
       o1.index = (FMIndex * o1.wave);
       o2.phase = o2.phase +  (o2.phase_increment + o1.index );
@@ -280,8 +280,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
       
        o3.phase = o3.phase + o3.phase_increment;
       o3.phaseRemain = (o3.phase << 9) >> 17;
-      o3.wave = (FMTable[o3.phase >> WTShift]);
-      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShift]);
+      o3.wave = (FMTable[o3.phase >> WTShiftFM]);
+      o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShiftFM]);
       o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
       o3.index = (FMIndex * o3.wave);
       o4.phase = o2.phase +  o3.index + o1.phaseOffset;
