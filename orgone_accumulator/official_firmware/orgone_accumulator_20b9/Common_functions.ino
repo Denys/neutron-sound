@@ -153,7 +153,7 @@ void FX_TOGGLES() {
 void OSC_MODE_TOGGLES() {
   if (IsHW2 == 0) {
     FMFixedOn = digitalReadFast(FMFixedSwitch);
-    xModeOn = (digitalReadFast(xModeSwitch));
+    xModeOn = !(digitalReadFast(xModeSwitch));
     FMmodeOn = !(digitalReadFast(FMmodeSwitch));
   }
 

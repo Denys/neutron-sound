@@ -1099,7 +1099,8 @@ const int16_t AKWF_sinharm_0015[] = {
 int16_t noiseTable[512]; //generated in program, uses SRAM
 int16_t noiseTable2[512]; //generated in program, uses SRAM
 int16_t noiseTable3[2]; //array of 2, for program generated LF noise
-int16_t noiseLive1[1];
+int16_t noiseLive1[2];
+int16_t noiseLive0[2];
 int16_t noiseLive1Val;
 int16_t noiseLive1ValOld;
 
@@ -1115,11 +1116,11 @@ const int16_t *CZWTselMid[] = {sinTable, triTable, sawTable , scarabTable1 , sca
                               };
 
 const int16_t *CZWTselHi[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                              , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , noiseTable2 , noiseTable
+                              , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , noiseTable2 , noiseLive0
                              };
 
 const int16_t *CZWTselFM[] = {sinTable, triTable, FMTableS180 , FMTableSQ , FMTableSQR , AKWF_0003 , pnoTable , bassTable1
-                              , bassTable2 , celloTable , violTable , FMTableFM98 , FMTablehvoice26 , AKWF_squ_0011 , noiseTable2 , noiseTable
+                              , bassTable2 , celloTable , violTable , FMTableFM98 , FMTablehvoice26 , AKWF_squ_0011 , noiseTable2 , noiseLive1
                              };
 
 //CZALT
@@ -1128,11 +1129,11 @@ const int16_t *CZAltWTselLo[] = { nothingTable, sinTable, triTable, sawTable , s
                                 };
 
 const int16_t *CZAltWTselMid[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                                  , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , noiseTable2 , noiseTable
+                                  , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , noiseTable2 , noiseLive0
                                  };
 
 const int16_t *CZAltWTselFM[] = {sinTable, sinTable, triTable , FMTableSQ , FMTableSQR , AKWF_0003 , pnoTable , bassTable1
-                                 , bassTable2 , celloTable , violTable , FMTableFM98 , FMTablehvoice26 , AKWF_squ_0011 , noiseTable2 , noiseTable
+                                 , bassTable2 , celloTable , violTable , FMTableFM98 , FMTablehvoice26 , AKWF_squ_0011 , noiseTable2 , noiseLive1
                                 };
 
 const int16_t *CZAltWTselFMAMX[] = {DCTable, sinTable, FMTableSQ , FMTableSQ , FMTableSQR , AKWF_0003 , pnoTable , bassTable1
@@ -1150,11 +1151,11 @@ const int16_t *FMWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_sym
                               };
 
 const int16_t *FMWTselHi[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , bassTable1
-                              , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , AKWF_squ_0011
+                              , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , noiseLive1
                              };
 
 const int16_t *FMWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTableSQ , FMTableSQR , AKWF_symetric_0013 , AKWF_symetric_0010 , bassTable1
-                              , FMTableS180 , celloTable , violTable , distoTable , blipTable , FMTableFM98 , noiseTable2 , noiseTable3
+                              , FMTableS180 , celloTable , violTable , distoTable , blipTable , FMTableFM98 , noiseTable2 , noiseLive0
                              };
 
 //FMALT
@@ -1164,12 +1165,12 @@ const int16_t *FMAltWTselLo[] = { nothingTable, sinTable, triTable, AKWF_symetri
                                 };
 
 const int16_t *FMAltWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
-                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , AKWF_squ_0011
+                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , noiseLive1
                                  };
 
 
 const int16_t *FMAltWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTableSQ , FMTableSQR , AKWF_symetric_0013 , AKWF_symetric_0010 , bassTable1
-                                 , FMTableS180 , celloTable , violTable , distoTable , blipTable , FMTableFM98 , noiseTable2 , noiseLive1
+                                 , FMTableS180 , celloTable , violTable , distoTable , blipTable , FMTableFM98 , noiseTable2 , noiseLive0
                                 };
 
 //pulsar envelopes
@@ -1378,6 +1379,38 @@ struct lfo
 }
 lfo;
 
+struct noiseosc0 //live BW noise oscs. o1.increment
+{
+  uint32_t phase = 0;
+  uint32_t phaseOld;
+  int32_t wave;
+  int32_t nextwave;
+  int32_t envBreak = 0;
+  int32_t phase_increment = 0;
+  int32_t envVal;
+  int32_t decay;
+  uint8_t trig;
+  
+}
+nosc0;
+
+struct noiseosc1 // BW noise osc o2.increment
+{
+  uint32_t phase = 0;
+  uint32_t phaseOld;
+  int32_t wave;
+  int32_t nextwave;
+  int32_t envBreak = 0;
+  int32_t phase_increment = 0;
+  int32_t envVal;
+  int32_t decay;
+  uint8_t trig;
+  
+}
+nosc1;
+
+int noscReadings[4];
+
 #ifdef __cplusplus
 #define cast_uint32_t static_cast<uint32_t>
 #else
@@ -1433,6 +1466,9 @@ const uint8_t SEL_LED_ARRAY[] = {3, 32, 24, 33, 31, 30, 29, 15};
 const float primes[] = {351.1,442.3,398.9,327.1,};
 const float fibi[] = {2.0,3.0,5.0,8.0,13.0};
 uint8_t WTShiftFM = 23;
+uint8_t WTShiftHi = 23;
+uint8_t WTShiftLo = 23;
+uint8_t WTShiftMid = 23;
 uint8_t FXSelArmed[] = {0, 0};
 uint8_t FXchangedSAVE;
 

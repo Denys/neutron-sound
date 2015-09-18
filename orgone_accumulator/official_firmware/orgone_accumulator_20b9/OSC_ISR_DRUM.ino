@@ -106,11 +106,11 @@ void FASTRUN outUpdateISR_DRUM(void) {
   //oscs
   o1.phase = o1.phase + o1.phase_increment + o10.phase + (o1.amp * drum_envTemp[0]);
   o1.phaseRemain = (o1.phase << 9) >> 17;
-  o6.wave = (waveTableMidLink[o1.phase >> WTShiftFM]); 
-  o6.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShiftFM]);
+  o6.wave = (waveTableMidLink[o1.phase >> WTShiftMid]); 
+  o6.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShiftMid]);
   if (o6.wave > 30000) drum_st = 1;//trigger decay styat at peak of wave 1
   o1.wave = multiply_32x32_rshift32(drum_envVal[2], o6.wave);
-  o1.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShiftFM]);
+  o1.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShiftMid]);
   o1.nextwave = multiply_32x32_rshift32(drum_envVal[2], o1.nextwave);
   o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
    if (o1.phase >> 31 == 0) o1.pulseAdd = o6.wave;
@@ -129,37 +129,37 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   o2.phase = o2.phase + o2.phase_increment + o6.phase  +(o9.phase_increment * o6.wave);
   o2.phaseRemain = (o2.phase << 9) >> 17;
-  o8.wave = (waveTableMidLink[o2.phase >> WTShiftFM]);
+  o8.wave = (waveTableMidLink[o2.phase >> WTShiftMid]);
   o2.wave = multiply_32x32_rshift32(drum_envVal[1], o8.wave);//volume control vy envelope
-  o2.nextwave =  (waveTableMidLink[(o2.phase + nextstep) >> WTShiftFM]);
+  o2.nextwave =  (waveTableMidLink[(o2.phase + nextstep) >> WTShiftMid]);
   o2.nextwave = multiply_32x32_rshift32(drum_envVal[1], o2.nextwave);
   o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
 
 
   o3.phase = o3.phase + o3.phase_increment + o6.phase +(o9.phase_increment * o8.wave);
   o3.phaseRemain = (o3.phase << 9) >> 17;
-  o9.wave = (waveTableMidLink[o3.phase >> WTShiftFM]);
+  o9.wave = (waveTableMidLink[o3.phase >> WTShiftMid]);
   o3.wave = multiply_32x32_rshift32(drum_envVal[1], o9.wave);
-  o3.nextwave =  (waveTableMidLink[(o3.phase + nextstep) >> WTShiftFM]);
+  o3.nextwave =  (waveTableMidLink[(o3.phase + nextstep) >> WTShiftMid]);
   o3.nextwave = multiply_32x32_rshift32(drum_envVal[1], o3.nextwave);
   o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
 
 
   o4.phase = o4.phase + o4.phase_increment + o6.phase +(o9.phase_increment * o9.wave);
   o4.phaseRemain = (o4.phase << 9) >> 17;
-  o10.wave = (waveTableMidLink[o4.phase >> WTShiftFM]);
+  o10.wave = (waveTableMidLink[o4.phase >> WTShiftMid]);
   o4.wave = multiply_32x32_rshift32(drum_envVal[1], o10.wave);
-  o4.nextwave =  (waveTableMidLink[(o4.phase + nextstep) >> WTShiftFM]);
+  o4.nextwave =  (waveTableMidLink[(o4.phase + nextstep) >> WTShiftMid]);
   o4.nextwave = multiply_32x32_rshift32(drum_envVal[1], o4.nextwave);
   o4.wave = o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15);
 
 
   o5.phase = o5.phase + o5.phase_increment + o6.phase +(o9.phase_increment * o10.wave);
   o5.phaseRemain = (o5.phase << 9) >> 17;
-  o7.wave = (waveTableMidLink[o5.phase >> WTShiftFM]);
+  o7.wave = (waveTableMidLink[o5.phase >> WTShiftMid]);
   if (o7.wave > 30000) drum_st = 1; //start envelope at top of wave, o5 is the highest pitch so will get there first..
   o5.wave = multiply_32x32_rshift32(drum_envVal[1], o7.wave);
-  o5.nextwave =  (waveTableMidLink[(o5.phase + nextstep) >> WTShiftFM]);
+  o5.nextwave =  (waveTableMidLink[(o5.phase + nextstep) >> WTShiftMid]);
   o5.nextwave = multiply_32x32_rshift32(drum_envVal[1], o5.nextwave);
   o5.wave = o5.wave + ((((o5.nextwave - o5.wave)) * o5.phaseRemain) >> 15);
 

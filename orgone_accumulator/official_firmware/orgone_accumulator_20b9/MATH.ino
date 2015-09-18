@@ -47,9 +47,13 @@ fastpow2 (float p)
   float clipp = (p < -126) ? -126.0f : p;
   int w = clipp;
   float z = clipp - w + offset;
-  union { uint32_t i; float f; } v = { cast_uint32_t ( (1 << 23) *
-(clipp + 121.2740575f + 27.7280233f / (4.84252568f - z) - 1.49012907f
-* z) ) };
+  union {
+    uint32_t i;
+    float f;
+  } v = { cast_uint32_t ( (1 << 23) *
+                          (clipp + 121.2740575f + 27.7280233f / (4.84252568f - z) - 1.49012907f
+                           * z) )
+        };
 
   return v.f;
 }
@@ -58,28 +62,79 @@ fastpow2 (float p)
 static inline int32_t signed_multiply_32x16b(int32_t a, uint32_t b) __attribute__((always_inline, unused));
 static inline int32_t signed_multiply_32x16b(int32_t a, uint32_t b)
 {
-int32_t out;
-asm volatile("smulwb %0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
-return out;
+  int32_t out;
+  asm volatile("smulwb %0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
+  return out;
 }
 
 // computes ((a[31:0] * b[31:16]) >> 16)
 static inline int32_t signed_multiply_32x16t(int32_t a, uint32_t b) __attribute__((always_inline, unused));
 static inline int32_t signed_multiply_32x16t(int32_t a, uint32_t b)
 {
-int32_t out;
-asm volatile("smulwt %0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
-return out;
+  int32_t out;
+  asm volatile("smulwt %0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
+  return out;
 }
 
 // computes (((int64_t)a[31:0] * (int64_t)b[31:0]) >> 32)
 static inline int32_t multiply_32x32_rshift32(int32_t a, int32_t b) __attribute__((always_inline, unused));
 static inline int32_t multiply_32x32_rshift32(int32_t a, int32_t b)
 {
-int32_t out;
-asm volatile("smmul %0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
-return out;
+  int32_t out;
+  asm volatile("smmul %0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
+  return out;
 }
+
+
+static void inline NOISELIVE0() {
+
+  nosc0.decay  = o1.phase_increment >> 4; //mod on FM, main on cz and puls
+
+
+  if (nosc0.trig) {
+    nosc0.envVal = nosc0.envVal + nosc0.decay;
+    if (nosc0.envVal >= nosc0.envBreak) nosc0.trig = 0;
+  }
+  else {
+    nosc0.envVal = nosc0.envVal - nosc0.decay;
+  }
+  if (nosc0.envVal < 10)
+  {
+    nosc0.wave = (random(-32767, 32767));
+    nosc0.envBreak = (random(0, 32767)) << 10 ;
+    nosc0.trig = 1;
+  }
+  nosc0.nextwave = nosc0.envVal >> 10;
+  nosc0.nextwave = (nosc0.nextwave * nosc0.wave) >> 15;
+  noiseLive0[1] = noiseLive0[0] =  nosc0.nextwave;
+}
+
+static void inline NOISELIVE1() {
+
+  nosc1.decay  = o2.phase_increment >> 6; //main on FM, mod on cz and puls
+
+
+  if (nosc1.trig) {
+    nosc1.envVal = nosc1.envVal + nosc1.decay;
+    if (nosc1.envVal >= nosc1.envBreak) {
+      nosc1.trig = 0; nosc1.envVal = nosc1.envBreak;
+    }
+  }
+  else {
+    nosc1.envVal = nosc1.envVal - nosc1.decay;
+    if (nosc1.envVal < 0 ) nosc1.envVal = 0;
+  }
+  if (nosc1.envVal < 10)
+  {
+    nosc1.wave = (random(-32767, 32767));
+    nosc1.envBreak = (random(0, 32767)) << 10 ;
+    nosc1.trig = 1;
+  }
+  nosc1.nextwave = nosc1.envVal >> 10;
+  nosc1.nextwave = (nosc1.nextwave * nosc1.wave) >> 15;
+  noiseLive1[1] = noiseLive1[0] =  nosc1.nextwave;
+}
+
 
 
 

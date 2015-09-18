@@ -1,25 +1,27 @@
 void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave selection.
-  
-  oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc  
+
+  oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
   digitalWriteFast (oSQout, (oSQ.phase < oSQ.PW)); //pulse out
-  
+
   noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
+
 
   if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
   else declickRampOut = 0;
   declickValue = (declickValue * declickRampOut) >> 12;
   declickRampIn = abs(4095 - declickRampOut);
-  
-  
-  
-  
+
+  NOISELIVE0();
+  NOISELIVE1();
+
+
   switch (oscMode) {
 
     //-----------------------------------------------FM MODE OSCILLATORS-----------------------------------------------
     case 0:
 
       noiseTable3[0] = noiseTable3[1] = (noiseTable3[0] + NT3Rate);
-      
+
 
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
@@ -68,23 +70,23 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       o10.phaseRemain = (o10.phase << 9) >> 17;
       //-----------------------------------------------------------------------
 
-      o1.wave = (((waveTableLink[o2.phase >> 23] * mixHi) + (waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * mixMid))) >> 11;
-      o3.wave = (((waveTableLink[o4.phase >> 23] * mixHi) + (waveTable2Link[o4.phase >> 23] * mixLo) + (waveTableMidLink[o4.phase >> 23] * mixMid))) >> 11;
-      o5.wave = (((waveTableLink[o6.phase >> 23] * mixHi) + (waveTable2Link[o6.phase >> 23] * mixLo) + (waveTableMidLink[o6.phase >> 23] * mixMid))) >> 11;
-      o7.wave = (((waveTableLink[o8.phase >> 23] * mixHi) + (waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * mixMid))) >> 11;
-      o9.wave = (((waveTableLink[o10.phase >> 23] * mixHi) + (waveTable2Link[o10.phase >> 23] * mixLo) + (waveTableMidLink[o10.phase >> 23] * mixMid))) >> 11;
+      o1.wave = (((waveTableLink[o2.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * mixMid))) >> 11;
+      o3.wave = (((waveTableLink[o4.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o4.phase >> 23] * mixLo) + (waveTableMidLink[o4.phase >> 23] * mixMid))) >> 11;
+      o5.wave = (((waveTableLink[o6.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o6.phase >> 23] * mixLo) + (waveTableMidLink[o6.phase >> 23] * mixMid))) >> 11;
+      o7.wave = (((waveTableLink[o8.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * mixMid))) >> 11;
+      o9.wave = (((waveTableLink[o10.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o10.phase >> 23] * mixLo) + (waveTableMidLink[o10.phase >> 23] * mixMid))) >> 11;
 
-      o1.nextwave = (((waveTableLink[(o2.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * mixMid))) >> 11;
-      o3.nextwave = (((waveTableLink[(o4.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o4.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o4.phase + nextstep) >> 23] * mixMid))) >> 11;
-      o5.nextwave = (((waveTableLink[(o6.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o6.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o6.phase + nextstep) >> 23] * mixMid))) >> 11;
-      o7.nextwave = (((waveTableLink[(o8.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * mixMid))) >> 11;
-      o9.nextwave = (((waveTableLink[(o10.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o10.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o10.phase + nextstep) >> 23] * mixMid))) >> 11;
+      o1.nextwave = (((waveTableLink[(o2.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * mixMid))) >> 11;
+      o3.nextwave = (((waveTableLink[(o4.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o4.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o4.phase + nextstep) >> 23] * mixMid))) >> 11;
+      o5.nextwave = (((waveTableLink[(o6.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o6.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o6.phase + nextstep) >> 23] * mixMid))) >> 11;
+      o7.nextwave = (((waveTableLink[(o8.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * mixMid))) >> 11;
+      o9.nextwave = (((waveTableLink[(o10.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o10.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o10.phase + nextstep) >> 23] * mixMid))) >> 11;
 
-      o1.wave = (o1.wave + ((((o1.nextwave - o1.wave)) * o2.phaseRemain) >> 15))>>3;
-      o3.wave = (o3.wave + ((((o3.nextwave - o3.wave)) * o4.phaseRemain) >> 15))>>3;
-      o5.wave = (o5.wave + ((((o5.nextwave - o5.wave)) * o6.phaseRemain) >> 15))>>3;
-      o7.wave = (o7.wave + ((((o7.nextwave - o7.wave)) * o8.phaseRemain) >> 15))>>3;
-      o9.wave = (o9.wave + ((((o9.nextwave - o9.wave)) * o10.phaseRemain) >> 15))>>3;       
+      o1.wave = (o1.wave + ((((o1.nextwave - o1.wave)) * o2.phaseRemain) >> 15)) >> 3;
+      o3.wave = (o3.wave + ((((o3.nextwave - o3.wave)) * o4.phaseRemain) >> 15)) >> 3;
+      o5.wave = (o5.wave + ((((o5.nextwave - o5.wave)) * o6.phaseRemain) >> 15)) >> 3;
+      o7.wave = (o7.wave + ((((o7.nextwave - o7.wave)) * o8.phaseRemain) >> 15)) >> 3;
+      o9.wave = (o9.wave + ((((o9.nextwave - o9.wave)) * o10.phaseRemain) >> 15)) >> 3;
 
 
       break;
@@ -96,20 +98,14 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       noiseTable3[0] = noiseTable3[1] = (noiseTable3[0] + NT3Rate);
 
       
-      
-
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
-        if (o1.phaseOld > o1.phase) {
-        noiseLive1[0] = random(-32767, 32767);       
-      }
-      o1.phaseOld = o1.phase;      
       o1.phaseRemain = (o1.phase << 9) >> 17;
       o1.wave = (FMTable[o1.phase >> WTShiftFM]);
       o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
       o1.index = (FMIndex * o1.wave);
-      o2.phase = o2.phase +  (o2.phase_increment + o1.index);           
+      o2.phase = o2.phase +  (o2.phase_increment + o1.index);
       o2.phaseRemain = (o2.phase << 9) >> 17;
       //unisone oscillators  ------------3-4---------
       o3.phase = o3.phase + o3.phase_increment;
@@ -149,33 +145,33 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       o10.phaseRemain = (o10.phase << 9) >> 17;
       //-----------------------------------------------------------------------
 
-      o1.wave = (((waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * (mixMid + mixHi)))) >> 11;
-      o3.wave = (((waveTable2Link[o4.phase >> 23] * mixLo) + (waveTableMidLink[o4.phase >> 23] * (mixMid + mixHi)))) >> 11;
-      o5.wave = (((waveTable2Link[o6.phase >> 23] * mixLo) + (waveTableMidLink[o6.phase >> 23] * (mixMid + mixHi)))) >> 11;
-      o7.wave = (((waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * (mixMid + mixHi)))) >> 11;
-      o9.wave = (((waveTable2Link[o10.phase >> 23] * mixLo) + (waveTableMidLink[o10.phase >> 23] * (mixMid + mixHi)))) >> 11;
+      o1.wave = (((waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o3.wave = (((waveTable2Link[o4.phase >> 23] * mixLo) + (waveTableMidLink[o4.phase >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o5.wave = (((waveTable2Link[o6.phase >> 23] * mixLo) + (waveTableMidLink[o6.phase >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o7.wave = (((waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o9.wave = (((waveTable2Link[o10.phase >> 23] * mixLo) + (waveTableMidLink[o10.phase >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
 
-      o1.nextwave = (((waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
-      o3.nextwave = (((waveTable2Link[(o4.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o4.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
-      o5.nextwave = (((waveTable2Link[(o6.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o6.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
-      o7.nextwave = (((waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
-      o9.nextwave = (((waveTable2Link[(o10.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o10.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
+      o1.nextwave = (((waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o3.nextwave = (((waveTable2Link[(o4.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o4.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o5.nextwave = (((waveTable2Link[(o6.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o6.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o7.nextwave = (((waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
+      o9.nextwave = (((waveTable2Link[(o10.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o10.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi)))) >> 11;
 
-     o1.wave = (o1.wave + ((((o1.nextwave - o1.wave)) * o2.phaseRemain) >> 15))>>3;
-      o3.wave = (o3.wave + ((((o3.nextwave - o3.wave)) * o4.phaseRemain) >> 15))>>3;
-      o5.wave = (o5.wave + ((((o5.nextwave - o5.wave)) * o6.phaseRemain) >> 15))>>3;
-      o7.wave = (o7.wave + ((((o7.nextwave - o7.wave)) * o8.phaseRemain) >> 15))>>3;
-      o9.wave = (o9.wave + ((((o9.nextwave - o9.wave)) * o10.phaseRemain) >> 15))>>3;       
-     
+      o1.wave = (o1.wave + ((((o1.nextwave - o1.wave)) * o2.phaseRemain) >> 15)) >> 3;
+      o3.wave = (o3.wave + ((((o3.nextwave - o3.wave)) * o4.phaseRemain) >> 15)) >> 3;
+      o5.wave = (o5.wave + ((((o5.nextwave - o5.wave)) * o6.phaseRemain) >> 15)) >> 3;
+      o7.wave = (o7.wave + ((((o7.nextwave - o7.wave)) * o8.phaseRemain) >> 15)) >> 3;
+      o9.wave = (o9.wave + ((((o9.nextwave - o9.wave)) * o10.phaseRemain) >> 15)) >> 3;
+
       break;
 
 
     case 1://-------------------------------------------CZ MODE OSCILLATORS-----------------------------------------------
 
 
-      o1.phase = o1.phase + o1.phase_increment;      
+      o1.phase = o1.phase + o1.phase_increment;
       if (o1.phaseOld > o1.phase) {
-        o2.phase = 0;  //check for sync reset osc in CZ mode.        
+        o2.phase = 0;  //check for sync reset osc in CZ mode.
       }
       o1.phaseOld = o1.phase;
       o2.phase = o2.phase +  o2.phase_increment;
@@ -224,16 +220,16 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       o10.wave = (FMTable[o10.phase >> 23]);
       o10.nextwave =  (FMTable[(o10.phase + nextstep) >> 23]);
 
-      o1.wave = (((waveTableLink[o1.phase >> 23] * mixHi) + (waveTable2Link[o1.phase >> 23] * mixLo) + (waveTableMidLink[o1.phase >> 23] * mixMid)) >> 4) >> 11;
-      o1.nextwave = (((waveTableLink[(o1.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o1.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o1.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
-      o3.wave = (((waveTableLink[o3.phase >> 23] * mixHi) + (waveTable2Link[o3.phase >> 23] * mixLo) + (waveTableMidLink[o3.phase >> 23] * mixMid)) >> 4) >> 11;
-      o3.nextwave = (((waveTableLink[(o3.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o3.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o3.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
-      o5.wave = (((waveTableLink[o5.phase >> 23] * mixHi) + (waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * mixMid)) >> 4) >> 11;
-      o5.nextwave = (((waveTableLink[(o5.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
-      o7.wave = (((waveTableLink[o7.phase >> 23] * mixHi) + (waveTable2Link[o7.phase >> 23] * mixLo) + (waveTableMidLink[o7.phase >> 23] * mixMid)) >> 4) >> 11;
-      o7.nextwave = (((waveTableLink[(o7.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o7.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o7.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
-      o9.wave = (((waveTableLink[o9.phase >> 23] * mixHi) + (waveTable2Link[o9.phase >> 23] * mixLo) + (waveTableMidLink[o9.phase >> 23] * mixMid)) >> 4) >> 11;
-      o9.nextwave = (((waveTableLink[(o9.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o9.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o9.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
+      o1.wave = (((waveTableLink[o1.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o1.phase >> 23] * mixLo) + (waveTableMidLink[o1.phase >> 23] * mixMid)) >> 4) >> 11;
+      o1.nextwave = (((waveTableLink[(o1.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o1.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o1.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
+      o3.wave = (((waveTableLink[o3.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o3.phase >> 23] * mixLo) + (waveTableMidLink[o3.phase >> 23] * mixMid)) >> 4) >> 11;
+      o3.nextwave = (((waveTableLink[(o3.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o3.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o3.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
+      o5.wave = (((waveTableLink[o5.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * mixMid)) >> 4) >> 11;
+      o5.nextwave = (((waveTableLink[(o5.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
+      o7.wave = (((waveTableLink[o7.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o7.phase >> 23] * mixLo) + (waveTableMidLink[o7.phase >> 23] * mixMid)) >> 4) >> 11;
+      o7.nextwave = (((waveTableLink[(o7.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o7.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o7.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
+      o9.wave = (((waveTableLink[o9.phase >> WTShiftHi] * mixHi) + (waveTable2Link[o9.phase >> 23] * mixLo) + (waveTableMidLink[o9.phase >> 23] * mixMid)) >> 4) >> 11;
+      o9.nextwave = (((waveTableLink[(o9.phase + nextstep) >> WTShiftHi] * mixHi) + (waveTable2Link[(o9.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o9.phase + nextstep) >> 23] * mixMid)) >> 4) >> 11;
 
 
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
@@ -253,7 +249,7 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       o3.wave = ((o3.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o3.wave) * ((o4.wave * CZMix) >> 11)) >> 14));
       o5.wave = ((o5.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o5.wave) * ((o6.wave * CZMix) >> 11)) >> 14));
       o7.wave = ((o7.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o7.wave) * ((o8.wave * CZMix) >> 11)) >> 14));
-      o9.wave = ((o9.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o9.wave) * ((o10.wave * CZMix) >> 11)) >> 14));   
+      o9.wave = ((o9.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o9.wave) * ((o10.wave * CZMix) >> 11)) >> 14));
 
 
       break;
@@ -264,11 +260,11 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       lfo.phase = lfo.phase + lfo.phase_increment;
       lfo.wave = FMTableAMX[lfo.phase >> 23];
       o1.phaseOffset = (FMX_HiOffset * lfo.wave);
-      o1.phase = o1.phase + (o1.phase_increment + o1.phaseOffset);      
+      o1.phase = o1.phase + (o1.phase_increment + o1.phaseOffset);
       if (o1.phaseOld > o1.phase) {
         o2.phase = 0;  //check for sync reset osc in CZ mode.
-//        AGCtest = AGCtestPeriod;
-//        AGCtestPeriod = 2000;
+        //        AGCtest = AGCtestPeriod;
+        //        AGCtestPeriod = 2000;
       }
       o1.phaseOld = o1.phase;
       o2.phase = o2.phase +  o2.phase_increment;
@@ -310,27 +306,27 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
 
       //-----------------------------------------------------------------------
 
-      o2.wave = (FMTable[o2.phase >> 23]);
-      o2.nextwave =  (FMTable[(o2.phase + nextstep) >> 23]);
-      o4.wave = (FMTable[o4.phase >> 23]);
-      o4.nextwave =  (FMTable[(o4.phase + nextstep) >> 23]);
-      o6.wave = (FMTable[o6.phase >> 23]);
-      o6.nextwave =  (FMTable[(o6.phase + nextstep) >> 23]);
-      o8.wave = (FMTable[o8.phase >> 23]);
-      o8.nextwave =  (FMTable[(o8.phase + nextstep) >> 23]);
-      o10.wave = (FMTable[o10.phase >> 23]);
-      o10.nextwave =  (FMTable[(o10.phase + nextstep) >> 23]);
+      o2.wave = (FMTable[o2.phase >> WTShiftFM]);
+      o2.nextwave =  (FMTable[(o2.phase + nextstep) >> WTShiftFM]);
+      o4.wave = (FMTable[o4.phase >> WTShiftFM]);
+      o4.nextwave =  (FMTable[(o4.phase + nextstep) >> WTShiftFM]);
+      o6.wave = (FMTable[o6.phase >> WTShiftFM]);
+      o6.nextwave =  (FMTable[(o6.phase + nextstep) >> WTShiftFM]);
+      o8.wave = (FMTable[o8.phase >> WTShiftFM]);
+      o8.nextwave =  (FMTable[(o8.phase + nextstep) >> WTShiftFM]);
+      o10.wave = (FMTable[o10.phase >> WTShiftFM]);
+      o10.nextwave =  (FMTable[(o10.phase + nextstep) >> WTShiftFM]);
 
-      o1.wave = (((waveTable2Link[o1.phase >> 23] * mixLo) + (waveTableMidLink[o1.phase >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o1.nextwave = (((waveTable2Link[(o1.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o1.phase + nextstep) >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o3.wave = (((waveTable2Link[o3.phase >> 23] * mixLo) + (waveTableMidLink[o3.phase >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o3.nextwave = (((waveTable2Link[(o3.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o3.phase + nextstep) >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o5.wave = (((waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o5.nextwave = (((waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o7.wave = (((waveTable2Link[o7.phase >> 23] * mixLo) + (waveTableMidLink[o7.phase >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o7.nextwave = (((waveTable2Link[(o7.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o7.phase + nextstep) >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o9.wave = (((waveTable2Link[o9.phase >> 23] * mixLo) + (waveTableMidLink[o9.phase >> 23] * (mixMid + mixHi))) >> 4) >> 11;
-      o9.nextwave = (((waveTable2Link[(o9.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o9.phase + nextstep) >> 23] * (mixMid + mixHi))) >> 4) >> 11;
+      o1.wave = (((waveTable2Link[o1.phase >> 23] * mixLo) + (waveTableMidLink[o1.phase >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o1.nextwave = (((waveTable2Link[(o1.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o1.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o3.wave = (((waveTable2Link[o3.phase >> 23] * mixLo) + (waveTableMidLink[o3.phase >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o3.nextwave = (((waveTable2Link[(o3.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o3.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o5.wave = (((waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o5.nextwave = (((waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o7.wave = (((waveTable2Link[o7.phase >> 23] * mixLo) + (waveTableMidLink[o7.phase >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o7.nextwave = (((waveTable2Link[(o7.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o7.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o9.wave = (((waveTable2Link[o9.phase >> 23] * mixLo) + (waveTableMidLink[o9.phase >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
+      o9.nextwave = (((waveTable2Link[(o9.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o9.phase + nextstep) >> WTShiftMid] * (mixMid + mixHi))) >> 4) >> 11;
 
 
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
@@ -352,28 +348,32 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       o9.wave = ((o9.wave * (2047 - CZMix)) >> 10)  +  ((int32_t)(((o9.wave) * ((o10.wave * CZMix) >> 11)) >> 14));
 
 
-   
+
 
       break;
 
   }
-   if (FX == 4) {o3.wave = (((o7.wave + o5.wave + o3.wave) >> 2) * (int)(mixDetuneUp)) >> 11;}   
-   else {o3.wave = (((o9.wave + o7.wave + o5.wave + o3.wave + o1.wave) >> 2) * (int)(mixDetuneUp)) >> 11;}
-
-     
-      o1.wave = (o3.wave + (((o1.wave * ((int)mixDetuneDn)) >> 11))); //main out and mix detune
-      
-//      AGCtestPeriod = max(AGCtestPeriod, (abs(o1.wave)));
-//
-//      if (AGCtestSmooth > AGCtest) AGCtestSmooth --;
-//      else if (AGCtestSmooth < AGCtest) AGCtestSmooth ++;
-//      
-//      o1.wave = (o1.wave * (4097 - AGCtestSmooth)) >> 11;      
-
-      FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
+  if (FX == 4) {
+    o3.wave = (((o7.wave + o5.wave + o3.wave) >> 2) * (int)(mixDetuneUp)) >> 11;
+  }
+  else {
+    o3.wave = (((o9.wave + o7.wave + o5.wave + o3.wave + o1.wave) >> 2) * (int)(mixDetuneUp)) >> 11;
+  }
 
 
-      analogWrite(aout2, o1.wave + 4000);
+  o1.wave = (o3.wave + (((o1.wave * ((int)mixDetuneDn)) >> 11))); //main out and mix detune
+
+  //      AGCtestPeriod = max(AGCtestPeriod, (abs(o1.wave)));
+  //
+  //      if (AGCtestSmooth > AGCtest) AGCtestSmooth --;
+  //      else if (AGCtestSmooth < AGCtest) AGCtestSmooth ++;
+  //
+  //      o1.wave = (o1.wave * (4097 - AGCtestSmooth)) >> 11;
+
+  FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
+
+
+  analogWrite(aout2, o1.wave + 4000);
 }
 
 void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
@@ -387,7 +387,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   declickRampIn = abs(4095 - declickRampOut);
 
   noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
-  
+
 
   //-------------------------------------pulse1
   o1.phase = o1.phase + o1.phase_increment;
@@ -408,8 +408,8 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
     o3.nextwave =  0;
   }
   o3.phaseRemain = (o3.phase << 9) >> 17;
-  
-  
+
+
   //---------------------------------pulse2
   o4.phase = o4.phase + o4.phase_increment;
   if (o4.phaseAdd > o4.phase) {
@@ -429,8 +429,8 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
     o6.nextwave =  0;
   }
   o6.phaseRemain = (o6.phase << 9) >> 17;
-  
-  
+
+
   //-----------------------------pulse3
   o7.phase = o7.phase + o7.phase_increment;
   if (o7.phaseOld > o7.phase) {
@@ -452,28 +452,28 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o9.phaseRemain = (o9.phase << 9) >> 17;
 
 
-     
-      if (xModeOn){
-      o2.wave = (((waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * (mixMid+mixHi)))) >> 11;    
-      o5.wave = (((waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * (mixMid+mixHi)))) >> 11;
-      o8.wave = (((waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * (mixMid+mixHi)))) >> 11;
-     
 
-      o2.nextwave = (((waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * (mixMid+mixHi)))) >> 11;    
-      o5.nextwave = (((waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * (mixMid+mixHi)))) >> 11;
-      o8.nextwave = (( (waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * (mixMid+mixHi)))) >> 11;
-      }
-      else{
-         o2.wave = (((waveTableLink[o2.phase >> 23] * mixHi) + (waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * mixMid))) >> 11;    
-      o5.wave = (((waveTableLink[o5.phase >> 23] * mixHi) + (waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * mixMid))) >> 11;
-      o8.wave = (((waveTableLink[o8.phase >> 23] * mixHi) + (waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * mixMid))) >> 11;
-     
+  if (xModeOn) {
+    o2.wave = (((waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * (mixMid + mixHi)))) >> 11;
+    o5.wave = (((waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * (mixMid + mixHi)))) >> 11;
+    o8.wave = (((waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * (mixMid + mixHi)))) >> 11;
 
-      o2.nextwave = (((waveTableLink[(o2.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * mixMid))) >> 11;    
-      o5.nextwave = (((waveTableLink[(o5.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * mixMid))) >> 11;
-      o8.nextwave = (((waveTableLink[(o8.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * mixMid))) >> 11;
-      }
-     
+
+    o2.nextwave = (((waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
+    o5.nextwave = (((waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
+    o8.nextwave = (( (waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
+  }
+  else {
+    o2.wave = (((waveTableLink[o2.phase >> 23] * mixHi) + (waveTable2Link[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * mixMid))) >> 11;
+    o5.wave = (((waveTableLink[o5.phase >> 23] * mixHi) + (waveTable2Link[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * mixMid))) >> 11;
+    o8.wave = (((waveTableLink[o8.phase >> 23] * mixHi) + (waveTable2Link[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * mixMid))) >> 11;
+
+
+    o2.nextwave = (((waveTableLink[(o2.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * mixMid))) >> 11;
+    o5.nextwave = (((waveTableLink[(o5.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * mixMid))) >> 11;
+    o8.nextwave = (((waveTableLink[(o8.phase + nextstep) >> 23] * mixHi) + (waveTable2Link[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * mixMid))) >> 11;
+  }
+
 
 
 
@@ -484,21 +484,21 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o8.wave = o8.wave + ((((o8.nextwave - o8.wave)) * o8.phaseRemain) >> 15);
   o9.wave = o9.wave + ((((o9.nextwave - o9.wave)) * o9.phaseRemain) >> 15);
 
-  o9.nextwave = (o9.wave * min((32767 - abs(o6.wave)),(32767 - abs(o3.wave))))>>15;  //borrowed nextwave for gain enveloping
-  o6.nextwave = (o6.wave * min((32767 - abs(o9.wave)),(32767 - abs(o3.wave))))>>15;
-  
+//  o9.nextwave = (o9.wave * min((32767 - abs(o6.wave)), (32767 - abs(o3.wave)))) >> 15; //borrowed nextwave for gain enveloping
+//  o6.nextwave = (o6.wave * min((32767 - abs(o9.wave)), (32767 - abs(o3.wave)))) >> 15;
+//
   o1.wave =   (o2.wave * o3.wave) >> 15;
-  o4.wave =   (o5.wave * o6.nextwave) >> 15;
-  o7.wave =   (o8.wave * o9.nextwave) >> 15;
-   
- 
+  o4.wave =   (o5.wave * o6.wave) >> 15;
+  o7.wave =   (o8.wave * o9.wave) >> 15;
 
-  o8.wave = (o4.wave +o1.wave + o7.wave) >> 4; //add delayed wave in remaining headroom.
-  o8.wave = ((int32_t)(o8.wave * mixDetune)>>10) + (((int32_t)(o1.wave * mixDetuneDn))>>14);
+
+
+  o8.wave = (o4.wave + o1.wave + o7.wave) >> 4; //add delayed wave in remaining headroom.
+  o8.wave = ((int32_t)(o8.wave * mixDetune) >> 10) + (((int32_t)(o1.wave * mixDetuneDn)) >> 14);
 
   FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
   analogWrite(aout2, o8.wave + 4000);
- 
+
 
 }
 

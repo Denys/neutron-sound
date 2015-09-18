@@ -160,22 +160,24 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
 
       UPDATECONTROLS_CZALT();
 
-      if (averageaInRAv > 4095) {
+     if (averageaInRAv > 4095) {
         ModRatioCubing = (averageaInRAv - 4095) / 256.0;
         aInModRatio = ((ModRatioCubing * ModRatioCubing * ModRatioCubing) / 2048.0) + 1.0;
       }
       else aInModRatio = (averageaInRAv / 4096.0); //down direction dont go past zero, or divide by zero could happen
 
+
+
       if (FMFixedOn) {
-        FMMult = (float)((((averageratio >> 2) + 1) / 3.0) * aInModRatio); //CZ + fixed + free
+        FMMult = (float)((((averageratio >> 4) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
         FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont) >> 10;
-        o2.phase_increment =  inputConverterF * osc_mult[1];
-        o4.phase_increment =  inputConverterF * chord[0] * osc_mult[1];
-        o6.phase_increment =  inputConverterF * chord[1] * osc_mult[1];
-        o8.phase_increment =  inputConverterF * chord[2] * osc_mult[1];
-        o10.phase_increment = inputConverterF * chord[3] * osc_mult[1];
+        o2.phase_increment =  inputConverterA * osc_mult[1];
+        o4.phase_increment =  inputConverterA * chord[0] * osc_mult[1];
+        o6.phase_increment =  inputConverterA * chord[1] * osc_mult[1];
+        o8.phase_increment =  inputConverterA * chord[2] * osc_mult[1];
+        o10.phase_increment = inputConverterA * chord[3] * osc_mult[1];
         o1.phase_increment = inputConverter * osc_mult[0];
         o3.phase_increment = inputConverter * chord[0] * osc_mult[0] + detune[0];
         o5.phase_increment = inputConverter * chord[1] * osc_mult[0] + detune[1];
@@ -184,7 +186,7 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
         lfo.phase_increment = inputConverterF * (osc_mult[1] / 8.0);
       }
       else {
-        FMMult = (float)((((averageratio >> 5) / 7.0)) + 1.0) * aInModRatio; //CZ + free + free
+        FMMult = (float)((((averageratio >> 5) / 7.0)) + 1.0) * aInModRatio;
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
         FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont) >> 10;

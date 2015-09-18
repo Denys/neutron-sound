@@ -43,6 +43,9 @@ void UPDATECONTROLS_CZ() {
 
       waveTableLink = CZWTselHi[analogControls[4] >> 9];
 
+      if ((analogControls[4] >> 9) == 15) WTShiftHi = 31;
+      else WTShiftHi = 23;
+
       break;
 
     case 1:
@@ -101,6 +104,10 @@ void UPDATECONTROLS_CZALT() {
 
       waveTableMidLink = CZAltWTselMid[analogControls[5] >> 9];
 
+      if ((analogControls[5] >> 9) == 15) WTShiftMid = 31;
+      else WTShiftMid = 23;
+
+
       break;
 
     case 5:
@@ -145,6 +152,9 @@ void UPDATECONTROLS_CZALT() {
       FMTable = CZAltWTselFM[analogControls[3] >> 9];
       FMTableAMX = CZAltWTselFMAMX[analogControls[3] >> 9]; //am mod on hi position
 
+      if ((analogControls[3] >> 9) == 15) WTShiftFM = 31;
+      else WTShiftFM = 23;
+
 
       break;
 
@@ -178,6 +188,9 @@ void UPDATECONTROLS_FM() {
 
     case 6: //select hi wave
       waveTableLink = FMWTselHi[analogControls[4] >> 9];
+      
+      if ((analogControls[4] >> 9) == 15) WTShiftHi = 31;
+      else WTShiftHi = 23;
 
       break;
 
@@ -235,6 +248,9 @@ void UPDATECONTROLS_FMALT() {
 
     case 4:
       waveTableMidLink = FMAltWTselMid[analogControls[5] >> 9];
+
+       if ((analogControls[5] >> 9) == 15) WTShiftMid = 31;
+      else WTShiftMid = 23;
       break;
 
     case 5:

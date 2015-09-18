@@ -10,7 +10,8 @@ void loop() {
   
   //slow generated signals
   noiseTable2[random(0, 512)] = random(-32767, 32767); //hypnotoad noise (noiseTable2)
-  
+
+    
   if (loopReset == 1)goto evilGoto;
   SWC ++;
   fuh = analogControls[0] >> 6;
