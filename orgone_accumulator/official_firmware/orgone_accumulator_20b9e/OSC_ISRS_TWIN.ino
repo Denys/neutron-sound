@@ -15,7 +15,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
 
   
 
-      noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
+      
 
       o1.phase = o1.phase + o1.phase_increment;
       
@@ -29,6 +29,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       
       if (o1.phaseOld > o1.phase) {
         o2.phase = o3.phase = 0; //check for sync reset osc in CZ mode.
+         noiseTable[random(0,511)] = random(-32767, 32767); 
       }
       if (o4.phase < (o1.phase_increment << 1)) {
         o5.phase = o6.phase = 0;
@@ -40,15 +41,13 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
      
 
-      if (o3.phase >> 31 == 0) {
-        o3.phase = o3.phase + o3.phase_increment + (o1.pulseAdd);
-        o3.wave = (PENV[o3.phase >> 23]);
-        o3.nextwave =  (PENV[(o3.phase + nextstep) >> 23]);
-      }
-      else {
-        o3.wave = 0;
-        o3.nextwave =  0;
-      }
+      o3.phaseTest = min((4294967295 - o3.phase),(o3.phase_increment + o1.pulseAdd));
+        o3.phase = o3.phase + o3.phaseTest;
+        o3.wave = ((PENV[(o3.phase-1073741824) >> 23])>>1)+16383;
+        o3.nextwave =  ((PENV[((o3.phase-1073741824) + nextstep) >> 23])>>1)+16383;
+        
+    
+    
 
       o3.phaseRemain = (o3.phase << 9) >> 17;
 
@@ -57,15 +56,11 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       o5.phaseRemain = (o5.phase << 9) >> 17; //used for fake interpolation
       //o4.phaseRemain = (o4.phase << 9) >> 17;
 
-      if (o6.phase >> 31 == 0) {
-        o6.phase = o6.phase + o3.phase_increment + (o1.pulseAdd);
-        o6.wave = (PENV[o6.phase >> 23]);
-        o6.nextwave =  (PENV[(o6.phase + nextstep) >> 23]);
-      }
-      else {
-        o6.wave = 0;
-        o6.nextwave =  0;
-      }
+      o6.phaseTest = min((4294967295 - o6.phase),(o3.phase_increment + o1.pulseAdd));
+        o6.phase = o6.phase + o6.phaseTest;
+        o6.wave = ((PENV[(o6.phase-1073741824) >> 23])>>1)+16383;
+        o6.nextwave =  ((PENV[((o6.phase-1073741824) + nextstep) >> 23])>>1)+16383;
+     
 
       o6.phaseRemain = (o6.phase << 9) >> 17;
 

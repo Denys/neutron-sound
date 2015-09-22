@@ -34,14 +34,14 @@ void UPDATECONTROLS_CZ() {
 
     case 5:
 
-      waveTable2Link = CZWTselLo[analogControls[8] >> 9];
+      waveTableLoLink = CZWTselLo[analogControls[8] >> 9];
 
 
       break;
 
     case 6: //select hi wave
 
-      waveTableLink = CZWTselHi[analogControls[4] >> 9];
+      waveTableHiLink = CZWTselHi[analogControls[4] >> 9];
 
       if ((analogControls[4] >> 9) == 15) WTShiftHi = 31;
       else WTShiftHi = 23;
@@ -112,7 +112,7 @@ void UPDATECONTROLS_CZALT() {
 
     case 5:
 
-      waveTable2Link = CZAltWTselLo[analogControls[8] >> 9];
+      waveTableLoLink = CZAltWTselLo[analogControls[8] >> 9];
 
       break;
 
@@ -183,11 +183,11 @@ void UPDATECONTROLS_FM() {
       break;
 
     case 5:  //lo wave
-      waveTable2Link = FMWTselLo[analogControls[8] >> 9];
+      waveTableLoLink = FMWTselLo[analogControls[8] >> 9];
       break;
 
     case 6: //select hi wave
-      waveTableLink = FMWTselHi[analogControls[4] >> 9];
+      waveTableHiLink = FMWTselHi[analogControls[4] >> 9];
       
       if ((analogControls[4] >> 9) == 15) WTShiftHi = 31;
       else WTShiftHi = 23;
@@ -254,7 +254,7 @@ void UPDATECONTROLS_FMALT() {
       break;
 
     case 5:
-      waveTable2Link = FMAltWTselLo[analogControls[8] >> 9];
+      waveTableLoLink = FMAltWTselLo[analogControls[8] >> 9];
       break;
 
     case 6: //select hi pitch offset
@@ -332,8 +332,8 @@ void UPDATECONTROLS_DRUM() {
       break;
 
     case 5:
-
-      drum_a = analogControls[5] << 10; //drum hold time
+      
+      waveTableMidLink = drumWT[analogControls[8] >> 9];
 
       break;
 
@@ -365,7 +365,10 @@ void UPDATECONTROLS_DRUM() {
     case 9:
       FMIndexCont = (int)(analogControls[1] >> 2);
 
-      waveTableMidLink = drumWT[analogControls[3] >> 9]; //drum uses mid wave from fm
+      waveTableHiLink = drumWT2[analogControls[4] >> 9]; //drum uses mid wave from fm
+       //drum uses mid wave from fm
+//      if ((analogControls[3] >> 9) == 15) WTShiftMid = 31;
+//      else WTShiftMid = 23;
 
       break;
 

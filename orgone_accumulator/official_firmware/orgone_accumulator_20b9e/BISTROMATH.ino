@@ -37,7 +37,7 @@
  *                                                                     *
  * Contact: Paul Mineiro <paul@mineiro.com>                            *
  *=====================================================================*/
-
+//this above is for the fastpow2 approximation
 
 static inline float
 fastpow2 (float p)
@@ -58,7 +58,7 @@ fastpow2 (float p)
   return v.f;
 }
 
-// computes ((a[31:0] * b[15:0]) >> 16)
+// computes ((a[31:0] * b[15:0]) >> 16) from pjrc audio lib
 static inline int32_t signed_multiply_32x16b(int32_t a, uint32_t b) __attribute__((always_inline, unused));
 static inline int32_t signed_multiply_32x16b(int32_t a, uint32_t b)
 {
@@ -67,7 +67,7 @@ static inline int32_t signed_multiply_32x16b(int32_t a, uint32_t b)
   return out;
 }
 
-// computes ((a[31:0] * b[31:16]) >> 16)
+// computes ((a[31:0] * b[31:16]) >> 16) from pjrc audio lib
 static inline int32_t signed_multiply_32x16t(int32_t a, uint32_t b) __attribute__((always_inline, unused));
 static inline int32_t signed_multiply_32x16t(int32_t a, uint32_t b)
 {
@@ -76,12 +76,21 @@ static inline int32_t signed_multiply_32x16t(int32_t a, uint32_t b)
   return out;
 }
 
-// computes (((int64_t)a[31:0] * (int64_t)b[31:0]) >> 32)
+// computes (((int64_t)a[31:0] * (int64_t)b[31:0]) >> 32) from pjrc audio lib
 static inline int32_t multiply_32x32_rshift32(int32_t a, int32_t b) __attribute__((always_inline, unused));
 static inline int32_t multiply_32x32_rshift32(int32_t a, int32_t b)
 {
   int32_t out;
   asm volatile("smmul %0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
+  return out;
+}
+
+//  signed saturate to 13 bits  
+static inline int32_t ssat13(int32_t a) __attribute__((always_inline, unused));
+static inline int32_t ssat13(int32_t a)
+{
+  int32_t out;
+  asm volatile("ssat %0, #13, %1" : "=r" (out) : "r" (a));
   return out;
 }
 

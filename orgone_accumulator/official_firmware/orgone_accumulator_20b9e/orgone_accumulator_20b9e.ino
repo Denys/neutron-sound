@@ -1175,13 +1175,17 @@ const int16_t *FMAltWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTabl
 
 //pulsar envelopes
 
-const int16_t *PulsarEnv[] =  { sawTable, AKWF_sinharm_0015, FMTableFM98, AKWF_gapsaw_0017, AKWF_1503, sinTable, triTable, AKWF_symetric_0001 ,
-                                AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , voiceTable , FMTableSQR , distoTable , AKWF_0003 , FMTableS180
+const int16_t *PulsarEnv[] =  { sinTable, triTable,  distoTable ,AKWF_sinharm_0015, FMTableFM98, AKWF_gapsaw_0017, AKWF_1503, AKWF_symetric_0001 ,
+                                AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , voiceTable , FMTableSQR , AKWF_0003 , FMTableS180 ,sawTable
                               };
 
 //drum waves
 const int16_t *drumWT[] = {sinTable, triTable, distoTable , FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
-                           AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , noiseTable
+                           AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , sinTable , noiseTable
+                          };
+
+ const int16_t *drumWT2[] = {sinTable, triTable, distoTable , FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
+                           AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , sinTable
                           };
 
 
@@ -1213,7 +1217,7 @@ uint32_t pcounter;
 uint32_t pcounterOld;
 
 float osc_mult[]  = {
-  4, 4
+  4, 4, 4
 };
 
 int32_t nextstep = 8388609;
@@ -1281,6 +1285,7 @@ struct oscillator3
   uint32_t phase = 0;
   uint32_t phaseAdd = 0;
   int32_t phaseRemain = 0;
+  uint32_t phaseTest = 0;
   int32_t nextwave;
   int32_t phaseOffset = 0;
   uint32_t phaseOld = 0;
@@ -1315,6 +1320,7 @@ o5;
 struct oscillator6
 {
   uint32_t phase = 0;
+  uint32_t phaseTest = 0;
   int32_t phaseRemain = 0;
   int32_t nextwave;
   int32_t wave;
@@ -1352,6 +1358,7 @@ struct oscillator9
   int32_t nextwave;
   int32_t phaseOffset = 0;
   uint32_t phaseOld = 0;
+  uint32_t phaseTest = 0;
   int32_t index;
   int32_t wave;
   int32_t phase_increment = 0;
@@ -1368,6 +1375,19 @@ struct oscillator10
   int32_t phase_increment = 0;
 }
 o10;
+
+struct oscillator11
+{
+  uint32_t phase = 0;
+  int32_t phaseRemain = 0;
+  int32_t nextwave;
+  int32_t phaseOffset = 0;
+  uint32_t phaseOld = 0;
+  int32_t index;
+  int32_t wave;
+  int32_t phase_increment = 0;
+}
+o11;
 
 struct lfo
 {
@@ -1509,8 +1529,8 @@ int outsq = 0;
 
 int32_t analogControls[10];
 
-const int16_t *waveTableLink;
-const int16_t *waveTable2Link;
+const int16_t *waveTableHiLink;
+const int16_t *waveTableLoLink;
 const int16_t *waveTableMidLink;
 const int16_t *FMTable;
 const int16_t *FMTableMM;
