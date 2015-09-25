@@ -1,9 +1,9 @@
 void WRITE2EEPROM() { //only write if it is different
-  if (FXi != EEPROM.read(0))EEPROM.write(0, FXi);
+  if (FX != EEPROM.read(0))EEPROM.write(0, FX);
   if (IsHW2) {
-    if (detuneLoOn != EEPROM.read(1))EEPROM.write(1, detuneLoOn);
-    if (detuneMidOn != EEPROM.read(2))EEPROM.write(2, detuneMidOn);
-    if (detuneHiOn != EEPROM.read(3))EEPROM.write(3, detuneHiOn);
+    if (EffectEnOn_A != EEPROM.read(1))EEPROM.write(1, EffectEnOn_A);
+    if (EffectEnOn_B != EEPROM.read(2))EEPROM.write(2, EffectEnOn_B);
+    if (EffectEnOn_C != EEPROM.read(3))EEPROM.write(3, EffectEnOn_C);
     if (xModeOn != EEPROM.read(4))EEPROM.write(4, xModeOn);
     if (FMmodeOn != EEPROM.read(5))EEPROM.write(5, FMmodeOn);
     if (FMFixedOn != EEPROM.read(6))EEPROM.write(6, FMFixedOn);
@@ -12,8 +12,8 @@ void WRITE2EEPROM() { //only write if it is different
 }
 
 void ARMED_FX() {
-  if (detuneLoButton.update()) {
-    if (detuneLoButton.fallingEdge()) {
+  if (effectEnButton_A.update()) {
+    if (effectEnButton_A.fallingEdge()) {
       FX = 0;
       SELECT_ISRS();
     }
@@ -25,8 +25,8 @@ void ARMED_FX() {
       SELECT_ISRS();
     }
   }
-  if (detuneMidButton.update()) {
-    if (detuneMidButton.fallingEdge()) {
+  if (effectEnButton_B.update()) {
+    if (effectEnButton_B.fallingEdge()) {
       FX = 2;
 
       SELECT_ISRS();
@@ -38,8 +38,8 @@ void ARMED_FX() {
       SELECT_ISRS();
     }
   }
-  if (detuneHiButton.update()) {
-    if (detuneHiButton.fallingEdge()) {
+  if (effectEnButton_C.update()) {
+    if (effectEnButton_C.fallingEdge()) {
       FX = 4;
       SELECT_ISRS();
     }
@@ -112,29 +112,29 @@ void TUNELOCK_TOGGLE()
 
 void FX_TOGGLES() {
   if (IsHW2 == 0) {
-    detuneLoOn = digitalReadFast(detuneLoSwitch);
-    detuneMidOn = !digitalReadFast(detuneMidSwitch);
-    detuneHiOn = !digitalReadFast(detuneHiSwitch);
+    EffectEnOn_A = digitalReadFast(effectSwitch_A);
+    EffectEnOn_B = !digitalReadFast(effectSwitch_B);
+    EffectEnOn_C = !digitalReadFast(effectSwitch_C);
   }
   else if (FXSelArmed[0] == 0) {
 
-    if (detuneLoButton.update()) {
-      if (detuneLoButton.fallingEdge()) {
-        detuneLoOn = !detuneLoOn;
+    if (effectEnButton_A.update()) {
+      if (effectEnButton_A.fallingEdge()) {
+        EffectEnOn_A = !EffectEnOn_A;
         QUIET_MCD = QUIET_MST;
       }
     }
 
-    if (detuneMidButton.update()) {
-      if (detuneMidButton.fallingEdge()) {
-        detuneMidOn = !detuneMidOn;
+    if (effectEnButton_B.update()) {
+      if (effectEnButton_B.fallingEdge()) {
+        EffectEnOn_B = !EffectEnOn_B;
         QUIET_MCD = QUIET_MST;
       }
     }
 
-    if (detuneHiButton.update()) {
-      if (detuneHiButton.fallingEdge()) {
-        detuneHiOn = !detuneHiOn;
+    if (effectEnButton_C.update()) {
+      if (effectEnButton_C.fallingEdge()) {
+        EffectEnOn_C = !EffectEnOn_C;
         QUIET_MCD = QUIET_MST;
       }
     }

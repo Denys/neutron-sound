@@ -63,7 +63,7 @@ void FASTRUN outUpdateISR_WAVE_DELAY(void) {
 
 
       //  FinalOut = o1.wave >>13;
-      FinalOut = ((((o3.wave + o2.wave) >> 1) * ((int)mixDetuneUp)) >> 10)  +  (((o2.wave * ((int)mixDetuneDn)) >> 10)); //main out and mix detune
+      FinalOut = ((((o3.wave + o2.wave) >> 1) * ((int)mixEffectUp)) >> 10)  +  (((o2.wave * ((int)mixEffectDn)) >> 10)); //main out and mix detune
 
 
 
@@ -119,7 +119,7 @@ void FASTRUN outUpdateISR_WAVE_DELAY(void) {
 
 
       //  FinalOut = o1.wave >>13;
-      FinalOut = ((((o3.wave + o2.wave) >> 1) * ((int)mixDetuneUp)) >> 10)  +  (((o2.wave * ((int)mixDetuneDn)) >> 10)); //main out and mix detune
+      FinalOut = ((((o3.wave + o2.wave) >> 1) * ((int)mixEffectUp)) >> 10)  +  (((o2.wave * ((int)mixEffectDn)) >> 10)); //main out and mix detune
 
       analogWrite(aout2, FinalOut + 4000);
 
@@ -172,7 +172,7 @@ void FASTRUN outUpdateISR_WAVE_DELAY(void) {
 
       o3.wave = (int32_t)(delayTable[delayTimeShift] << 1);
 
-      FinalOut = ((((o3.wave + o1.wave) >> 1) * ((int)mixDetuneUp)) >> 10)  +  (((o1.wave * ((int)mixDetuneDn)) >> 10)); //main out and mix detune
+      FinalOut = ((((o3.wave + o1.wave) >> 1) * ((int)mixEffectUp)) >> 10)  +  (((o1.wave * ((int)mixEffectDn)) >> 10)); //main out and mix detune
 
 
       analogWrite(aout2, FinalOut + 4000);
@@ -226,13 +226,16 @@ void FASTRUN outUpdateISR_WAVE_DELAY(void) {
 
       o1.wave = declickValue + ((o1.wave * declickRampIn) >> 12);
 
-      o4.wave = ((o1.wave * (2047 - delayFeedback)) >> 11)  +  ((o3.wave * delayFeedback) >> 11) + o1.wave;
+      o4.wave = (((o1.wave * (2047 - delayFeedback)) >> 11)  +  ((o3.wave * delayFeedback) >> 11) + o1.wave) >>1;
 
-      delayTable[delayCounterShift] = o4.wave >> 1;
+      delayTable[delayCounterShift] = o4.wave;
 
       o3.wave = (int32_t)(delayTable[delayTimeShift] << 1);
 
-      FinalOut = ((((o3.wave + o1.wave) >> 1) * ((int)mixDetuneUp)) >> 10)  +  (((o1.wave * ((int)mixDetuneDn)) >> 10)); //main out and mix detune
+      o3.wave = ((((o3.wave + o1.wave) >> 1) * ((int)mixEffectUp)) >> 10)  +  (((o1.wave * ((int)mixEffectDn)) >> 10)); //main out and mix detune
+      
+      
+      FinalOut = declickValue + ((o3.wave * declickRampIn) >> 12);
 
 
       analogWrite(aout2, FinalOut + 4000);
@@ -379,9 +382,9 @@ void FASTRUN outUpdateISR_PULSAR_DELAY(void) {
 
       o5.wave = (int32_t)(delayTable[delayTimeShift])<<2;
 
-      FinalOut = ((((o5.wave + o1.wave) >> 1) * ((int)mixDetuneUp)) >> 11)  +  (((o1.wave * ((int)mixDetuneDn)) >> 11)); //main out and mix detune
+      o5.wave = ((((o5.wave + o1.wave) >> 1) * ((int)mixEffectUp)) >> 11)  +  (((o1.wave * ((int)mixEffectDn)) >> 11)); //main out and mix detune
 
-
+      FinalOut = declickValue + ((o5.wave * declickRampIn) >> 12);
       
       analogWrite(aout2, FinalOut + 4000);
 }

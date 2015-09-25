@@ -93,13 +93,13 @@ evilGoto:
   mixMid = constrain((2047 - abs(envVal - 2047)), 0, 2047); //sets the level of the midpoint wave
   mixHi = constrain((((envVal)) - 2047), 0, 2047); //sets the level of the high wave
   mixLo = constrain((2047 - ((envVal))), 0, 2047); //sets the level of the low wave
-  mixDetune = (mixLo * detuneLoOn) + (mixMid * detuneMidOn) + (mixHi * detuneHiOn);
+  mixEffect = (mixLo * EffectEnOn_A) + (mixMid * EffectEnOn_B) + (mixHi * EffectEnOn_C);
 
 
   if (loopReset == 1)goto evilGoto;
   //---------------------------Detune CV----------------
-  aInDetuneReading = analogRead(A12);
-  aInModDetune = ((4095 - aInDetuneReading) << 1);
+  aInEffectReading = analogRead(A12);
+  aInModEffect = ((4095 - aInEffectReading) << 1);
   //--------------------------------------------------
 
   DODETUNING();
@@ -201,8 +201,7 @@ evilGoto:
  if (FXSelArmed[0] == 0){  
     if (FXCycleButton.update()) {
       if (FXCycleButton.fallingEdge()) {
-          FXSelArmed[0] = 1; //arm effect selection
-          FXSelArmed[1] = 0;
+          FXSelArmed[0] = 1; //arm effect selection          
           LED_MCD = LED_MST;
       }
     }   
@@ -215,15 +214,13 @@ evilGoto:
     if (FXCycleButton.update()) {
       if (tuneLockOn) {
         if (FXCycleButton.fallingEdge()) {
-          FXi = FXi - 1;
-          if (FXi < 0) FXi = FX_Count;
-          FX = FXi;
+          FX = FX - 1;
+          if (FX < 0) FX = FX_Count;         
           SELECT_ISRS();
         }
         if (FXSw == 1 && FXCycleButton.risingEdge()) {
-          FXi = FXi - 1;
-          if (FXi < 0) FXi = FX_Count;
-          FX = FXi;
+          FX = FX - 1;
+          if (FX < 0) FX = FX_Count;         
           SELECT_ISRS();
         }
       }
@@ -231,15 +228,13 @@ evilGoto:
 
       else {
         if (FXCycleButton.fallingEdge()) {
-          FXi = FXi + 1;
-          if (FXi > FX_Count) FXi = 0;
-          FX = FXi;
+          FX = FX + 1;
+          if (FX > FX_Count) FX = 0;         
           SELECT_ISRS();
         }
         if (FXSw == 1 && FXCycleButton.risingEdge()) {
-          FXi = FXi + 1;
-          if (FXi > FX_Count) FXi = 0;
-          FX = FXi;
+          FX = FX + 1;
+          if (FX > FX_Count) FX = 0;         
           SELECT_ISRS();
         }
       }

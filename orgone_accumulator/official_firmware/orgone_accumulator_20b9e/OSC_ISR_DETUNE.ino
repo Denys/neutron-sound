@@ -353,17 +353,17 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       break;
 
   }
-  if (FX == 4) {
-    o3.wave = (ssat13((((o7.wave + o5.wave + o3.wave) >> 1) * (int)(mixDetuneUp)) >> 11))>>1;//chord effect
-  }
-  else {
-    o3.wave = (ssat13((((o9.wave + o7.wave + o5.wave + o3.wave + o1.wave) >> 1) * (int)(mixDetuneUp)) >> 11))>>1;//detune effect
-  }
+//  if (FX == 4) {
+//    o3.wave = (int32_t)(ssat13((((o7.wave + o5.wave + o3.wave) >> 2) * 1500)) >> 11)>>1;//chord effect
+//  }
+//  else {
+    o3.wave = (ssat13((((o9.wave + o7.wave + o5.wave + o3.wave) >> 2) * 1700) >> 11))>>1;//detune effect
+//  }
 
   o9.wave = (o3.wave>>3);
-  o9.wave = (-((o9.wave * o9.wave *o9.wave)>>15))+o3.wave;//soft clipping replaces AGC
+  o9.wave = (-((o9.wave * o9.wave *o9.wave)>>15))+(o3.wave+(o3.wave>>1));//soft clipping replaces AGC
 
-  o1.wave = (o9.wave + (((o1.wave * ((int)mixDetuneDn)) >> 11))); //main out and mix detune
+  o1.wave = ((o9.wave*(int)(mixEffectUp))>>10) + (((o1.wave * ((int)mixEffectDn)) >> 11)); //main out and mix detune
  
   FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);//remove clicks when oscs reset
   analogWrite(aout2, o1.wave + 4000);
@@ -394,10 +394,15 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o2.phase = o2.phase +  o2.phase_increment ;
   o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
 
-  o3.phaseTest = min((4294967295 - o3.phase),(o3.phase_increment + o1.pulseAdd));//will play only one cycle 
-  o3.phase = o3.phase + o3.phaseTest;
-  o3.wave = ((PENV[(o3.phase-1073741824) >> 23])>>1)+16383; //offset the wave for sine>hanning envelope 
-  o3.nextwave =  ((PENV[((o3.phase-1073741824) + nextstep) >> 23])>>1)+16383;
+  if (o3.phase >> 31 == 0) {
+        o3.phase = o3.phase + o3.phase_increment + (o1.pulseAdd);
+        o3.wave = (PENV[o3.phase >> 23]);
+        o3.nextwave =  (PENV[(o3.phase + nextstep) >> 23]);
+      }
+      else {
+        o3.wave = 0;
+        o3.nextwave =  0;
+      }
   
   o3.phaseRemain = (o3.phase << 9) >> 17;
 
@@ -411,10 +416,15 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o5.phase = o5.phase +  o5.phase_increment ;
   o5.phaseRemain = (o5.phase << 9) >> 17;
 
-  o6.phaseTest = min((4294967295 - o6.phase),(o6.phase_increment + o1.pulseAdd));
-  o6.phase = o6.phase + o6.phaseTest;
-  o6.wave = ((PENV[(o6.phase-1073741824) >> 23])>>1)+16383; //offset the wave for sine>hanning envelope 
-  o6.nextwave =  ((PENV[((o6.phase-1073741824) + nextstep) >> 23])>>1)+16383;
+  if (o6.phase >> 31 == 0) {
+        o6.phase = o6.phase + o6.phase_increment + (o1.pulseAdd);
+        o6.wave = (PENV[o6.phase >> 23]);
+        o6.nextwave =  (PENV[(o6.phase + nextstep) >> 23]);
+      }
+      else {
+        o6.wave = 0;
+        o6.nextwave =  0;
+      }
  
   o6.phaseRemain = (o6.phase << 9) >> 17;
 
@@ -428,12 +438,38 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o8.phase = o8.phase +  o8.phase_increment;
   o8.phaseRemain = (o8.phase << 9) >> 17;
 
- o9.phaseTest = min((4294967295 - o9.phase),(o9.phase_increment + o1.pulseAdd));
-  o9.phase = o9.phase + o9.phaseTest;
-  o9.wave = ((PENV[(o9.phase-1073741824) >> 23])>>1)+16383; //offset the wave for sine>hanning envelope 
-  o9.nextwave =  ((PENV[((o9.phase-1073741824) + nextstep) >> 23])>>1)+16383;
+ if (o9.phase >> 31 == 0) {
+        o9.phase = o9.phase + o9.phase_increment + (o1.pulseAdd);
+        o9.wave = (PENV[o9.phase >> 23]);
+        o9.nextwave =  (PENV[(o9.phase + nextstep) >> 23]);
+      }
+      else {
+        o9.wave = 0;
+        o9.nextwave =  0;
+      }
   
   o9.phaseRemain = (o9.phase << 9) >> 17;
+
+  //-----------------------------pulse4
+  o10.phase = o10.phase + o10.phase_increment;
+  if (o10.phaseOld > o10.phase) {
+    o11.phase = o12.phase = 0; //check for sync reset
+  }
+  o10.phaseOld = o10.phase;
+  o11.phase = o11.phase +  o11.phase_increment;
+  o11.phaseRemain = (o11.phase << 9) >> 17;
+
+if (o12.phase >> 31 == 0) {
+        o12.phase = o12.phase + o12.phase_increment + (o1.pulseAdd);
+        o12.wave = (PENV[o12.phase >> 23]);
+        o12.nextwave =  (PENV[(o12.phase + nextstep) >> 23]);
+      }
+      else {
+        o12.wave = 0;
+        o12.nextwave =  0;
+      }
+  
+  o12.phaseRemain = (o12.phase << 9) >> 17;
 
 
 
@@ -441,21 +477,25 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
     o2.wave = (((waveTableLoLink[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * (mixMid + mixHi)))) >> 11;
     o5.wave = (((waveTableLoLink[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * (mixMid + mixHi)))) >> 11;
     o8.wave = (((waveTableLoLink[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * (mixMid + mixHi)))) >> 11;
+    o11.wave = (((waveTableLoLink[o11.phase >> 23] * mixLo) + (waveTableMidLink[o11.phase >> 23] * (mixMid + mixHi)))) >> 11;
 
 
     o2.nextwave = (((waveTableLoLink[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
     o5.nextwave = (((waveTableLoLink[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
     o8.nextwave = (( (waveTableLoLink[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
+    o11.nextwave = (( (waveTableLoLink[(o11.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o11.phase + nextstep) >> 23] * (mixMid + mixHi)))) >> 11;
   }
   else {
     o2.wave = (((waveTableHiLink[o2.phase >> 23] * mixHi) + (waveTableLoLink[o2.phase >> 23] * mixLo) + (waveTableMidLink[o2.phase >> 23] * mixMid))) >> 11;
     o5.wave = (((waveTableHiLink[o5.phase >> 23] * mixHi) + (waveTableLoLink[o5.phase >> 23] * mixLo) + (waveTableMidLink[o5.phase >> 23] * mixMid))) >> 11;
     o8.wave = (((waveTableHiLink[o8.phase >> 23] * mixHi) + (waveTableLoLink[o8.phase >> 23] * mixLo) + (waveTableMidLink[o8.phase >> 23] * mixMid))) >> 11;
+    o11.wave = (((waveTableHiLink[o11.phase >> 23] * mixHi) + (waveTableLoLink[o11.phase >> 23] * mixLo) + (waveTableMidLink[o11.phase >> 23] * mixMid))) >> 11;
 
 
     o2.nextwave = (((waveTableHiLink[(o2.phase + nextstep) >> 23] * mixHi) + (waveTableLoLink[(o2.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o2.phase + nextstep) >> 23] * mixMid))) >> 11;
     o5.nextwave = (((waveTableHiLink[(o5.phase + nextstep) >> 23] * mixHi) + (waveTableLoLink[(o5.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o5.phase + nextstep) >> 23] * mixMid))) >> 11;
     o8.nextwave = (((waveTableHiLink[(o8.phase + nextstep) >> 23] * mixHi) + (waveTableLoLink[(o8.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o8.phase + nextstep) >> 23] * mixMid))) >> 11;
+    o11.nextwave = (((waveTableHiLink[(o11.phase + nextstep) >> 23] * mixHi) + (waveTableLoLink[(o11.phase + nextstep) >> 23] * mixLo) + (waveTableMidLink[(o11.phase + nextstep) >> 23] * mixMid))) >> 11;
   }
 
 
@@ -467,19 +507,22 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o6.wave = o6.wave + ((((o6.nextwave - o6.wave)) * o6.phaseRemain) >> 15);
   o8.wave = o8.wave + ((((o8.nextwave - o8.wave)) * o8.phaseRemain) >> 15);
   o9.wave = o9.wave + ((((o9.nextwave - o9.wave)) * o9.phaseRemain) >> 15);
+  o11.wave = o11.wave + ((((o11.nextwave - o11.wave)) * o11.phaseRemain) >> 15);
+  o12.wave = o12.wave + ((((o12.nextwave - o12.wave)) * o12.phaseRemain) >> 15);
 
 
 //
   o1.wave =   (o2.wave * o3.wave) >> 15;
   o4.wave =   (o5.wave * o6.wave) >> 15;
   o7.wave =   (o8.wave * o9.wave) >> 15;
+  o10.wave =   (o11.wave * o12.wave) >> 15;
 
 
 
-  o8.wave = (ssat13((o4.wave + o1.wave + o7.wave)>>4))>>1; 
+  o8.wave = (ssat13((o4.wave + o7.wave + o10.wave)>>4))>>1; 
   o9.wave = (o8.wave>>3);
-  o9.wave = (-((o9.wave * o9.wave *o9.wave)>>15))+o8.wave;
-  o8.wave = ((int32_t)(o9.wave * mixDetune) >> 10) + (((int32_t)(o1.wave * mixDetuneDn)) >> 14);
+  o9.wave = (-((o9.wave * o9.wave *o9.wave)>>14))+(o8.wave + (o8.wave>>1));
+  o8.wave = ((int32_t)(o9.wave * mixEffectUp) >> 10) + (((int32_t)(o1.wave * mixEffectDn)) >> 14);
 
   FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
   analogWrite(aout2, o8.wave + 4000);

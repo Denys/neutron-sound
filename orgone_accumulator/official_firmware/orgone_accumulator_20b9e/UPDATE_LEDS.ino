@@ -18,13 +18,13 @@ void UPDATE_POSITION_LEDS() {
     if (IsHW2 == 0) {
       switch (ARC + 1) {
         case 1:
-          analogWrite(LED_Lo, (bitRead(FXi, 2) * 8000));
+          analogWrite(LED_Lo, (bitRead(FX, 2) * 8000));
           break;
         case 2:
-          analogWrite(LED_Mid, (bitRead(FXi, 1) * 8000));
+          analogWrite(LED_Mid, (bitRead(FX, 1) * 8000));
           break;
         case 3:
-          analogWrite(LED_Hi, (bitRead(FXi, 0) * 8000));
+          analogWrite(LED_Hi, (bitRead(FX, 0) * 8000));
           break;
 
       }
@@ -52,9 +52,9 @@ void UPDATE_prog_LEDS() {
         break;
       case 5:
         uint8_t microByte = pcounterOld >> 7;
-        if (bitRead(microByte, (1 - (FXi >> 3)))) {
-          if ((FXi & 7) == 3) digitalWriteFast(SEL_LED_ARRAY[FXi & 7], LOW);
-          else   digitalWriteFast(SEL_LED_ARRAY[FXi & 7], HIGH);
+        if (bitRead(microByte, (1 - (FX >> 3)))) {
+          if ((FX & 7) == 3) digitalWriteFast(SEL_LED_ARRAY[FX & 7], LOW);
+          else   digitalWriteFast(SEL_LED_ARRAY[FX & 7], HIGH);
         }
         break;
 
@@ -68,13 +68,13 @@ void UPDATE_prog_LEDS() {
         else digitalWriteFast(LED_TuneLock, pulsarOn);
         break;
       case 2:
-        digitalWriteFast(LED_LoSel, detuneLoOn);
+        digitalWriteFast(LED_LoSel, EffectEnOn_A);
         break;
       case 3:
-        digitalWriteFast(LED_MidSel, detuneMidOn);
+        digitalWriteFast(LED_MidSel, EffectEnOn_B);
         break;
       case 4:
-        digitalWriteFast(LED_HiSel, detuneHiOn);
+        digitalWriteFast(LED_HiSel, EffectEnOn_C);
         break;
       case 5:
         digitalWriteFast(LED_FixSel, FMFixedOn);

@@ -1,9 +1,6 @@
 void ASSIGNINCREMENTS() { //--------------------------------------------------------default
 
-  CZMix = constrain((FMIndexCont + (2047 - (averageaInIAv / 2.0))), 0, 2047);
-
-  mixDetuneUp = mixDetune * 0.787; //because there are 5 oscillators being mixed in the detune mix of ISR
-  mixDetuneDn =  (2047 - mixDetune) * 0.97;
+  CZMix = constrain((FMIndexCont + (2047 - (averageaInIAv / 2.0))), 0, 2047); 
 
   switch (oscMode) { //switches which oscs get changed by FM and how much multiplier ;
     case 0://break intentionally ommited
@@ -265,10 +262,6 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
   }
   else aInModRatio = (averageaInRAv / 4096.0); 
 
-
-  mixDetuneUp = mixDetune * 0.787; 
-  mixDetuneDn =  (2047 - mixDetune) * 0.97; 
-
   
    if (FMmodeOn){
   if (FMFixedOn) {
@@ -293,6 +286,10 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
     o8.phase_increment = inputConverterF * osc_mult[1];
     o9.phase_increment = inputConverterF * osc_mult[2];
 
+    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] + FMX_HiOffset - detune[1];
+    o11.phase_increment = inputConverterF * osc_mult[1];
+    o12.phase_increment = inputConverterF * osc_mult[2];
+
     o1.pulseAdd = o3.phase_increment * (float)(CZMix / 6.0);
    
   }
@@ -315,6 +312,10 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
     o7.phase_increment = ((inputConverter * chord[2]) * osc_mult[0]) + (FMX_HiOffset + detune[2]);
     o8.phase_increment = inputConverter * osc_mult[1] + detune[2];
     o9.phase_increment = inputConverterF * osc_mult[2];
+
+    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] + FMX_HiOffset - detune[1];
+    o11.phase_increment = inputConverterF * osc_mult[1]- detune[1];;
+    o12.phase_increment = inputConverterF * osc_mult[2];
 
     o1.pulseAdd =  o3.phase_increment * (float)(CZMix / 6.0);         
     
@@ -342,6 +343,10 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
     o8.phase_increment = inputConverterF * osc_mult[1];
     o9.phase_increment = inputConverter * osc_mult[2];
 
+    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] + FMX_HiOffset + detune[3];
+    o11.phase_increment = inputConverterF * osc_mult[1];
+    o12.phase_increment = inputConverter * osc_mult[2];
+
     o1.pulseAdd = o3.phase_increment * (float)((CZMix / 255.0));
    
   }
@@ -364,6 +369,10 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
     o7.phase_increment = ((inputConverter * chord[2]) * osc_mult[0]) + (FMX_HiOffset + detune[2]);
     o8.phase_increment = inputConverter * osc_mult[1] + detune[2];
     o9.phase_increment = inputConverter * osc_mult[2];
+
+     o10.phase_increment = ((inputConverter * chord[3]) * osc_mult[0]) + (FMX_HiOffset + detune[3]);
+    o11.phase_increment = inputConverter * osc_mult[1] + detune[3];
+    o12.phase_increment = inputConverter * osc_mult[2];
 
     o1.pulseAdd =  o3.phase_increment * (float)((CZMix / 255.0));         
     
@@ -395,8 +404,7 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
   }
   else aInModRatio = (averageaInRAv / 4096.0); //down direction dont go past zero, or divide by zero could happen
 
-  mixDetuneUp = mixDetune * 0.97; 
-  mixDetuneDn =  (2047 - mixDetune) * 0.97;
+  
 
 
   switch (oscMode) {
@@ -550,9 +558,6 @@ void ASSIGNINCREMENTS_DRUM() { //-----------------------------------------------
   //CZMix = constrain(((FMIndexCont) + (2047 - (averageaInIAv / 2.0))), 0, 2047); 
   CZMix = envVal>>1;
 
-
-  mixDetuneUp = mixDetune * 0.787; //because there are 5 oscillators being mixed in the detune mix of ISR
-  mixDetuneDn =  (2047 - mixDetune) * 0.97;
   
   if (FMFixedOn) {
     osc_mult[0] = 250.0;

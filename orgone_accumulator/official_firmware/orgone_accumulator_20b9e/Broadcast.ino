@@ -83,15 +83,15 @@ void sendBroadcastPacket()
   bPacket.pt[PT_INDEX]        = POT_INDEX;
   bPacket.pt[PT_FREQ]         = POT_FREQ;
 
-  bPacket.sw[SW_DETUNE1]      = detuneLoOn;
-  bPacket.sw[SW_DETUNE2]      = detuneMidOn;
-  bPacket.sw[SW_DETUNE3]      = detuneHiOn;
+  bPacket.sw[SW_DETUNE1]      = EffectEnOn_A;
+  bPacket.sw[SW_DETUNE2]      = EffectEnOn_B;
+  bPacket.sw[SW_DETUNE3]      = EffectEnOn_C;
   bPacket.sw[SW_FIX]          = FMFixedOn;
   bPacket.sw[SW_TUNELOCK]     = tuneLockOn;
 
   bPacket.cv[CV_VOCT_IN]      = inCV;
   bPacket.cv[CV_POSITION_IN]  = aInPos;
-  bPacket.cv[CV_DETUNE_IN]    = aInDetuneReading;
+  bPacket.cv[CV_DETUNE_IN]    = aInEffectReading;
   bPacket.cv[CV_INDEX_IN]     = aInModIndex;
   bPacket.cv[CV_FREQ_IN]      = AInRawFilter;
 

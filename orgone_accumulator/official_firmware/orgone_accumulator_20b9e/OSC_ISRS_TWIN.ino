@@ -41,10 +41,15 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
      
 
-      o3.phaseTest = min((4294967295 - o3.phase),(o3.phase_increment + o1.pulseAdd));
-        o3.phase = o3.phase + o3.phaseTest;
-        o3.wave = ((PENV[(o3.phase-1073741824) >> 23])>>1)+16383;
-        o3.nextwave =  ((PENV[((o3.phase-1073741824) + nextstep) >> 23])>>1)+16383;
+     if (o3.phase >> 31 == 0) {
+        o3.phase = o3.phase + o3.phase_increment + (o1.pulseAdd);
+        o3.wave = (PENV[o3.phase >> 23]);
+        o3.nextwave =  (PENV[(o3.phase + nextstep) >> 23]);
+      }
+      else {
+        o3.wave = 0;
+        o3.nextwave =  0;
+      }
         
     
     
@@ -56,10 +61,15 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       o5.phaseRemain = (o5.phase << 9) >> 17; //used for fake interpolation
       //o4.phaseRemain = (o4.phase << 9) >> 17;
 
-      o6.phaseTest = min((4294967295 - o6.phase),(o3.phase_increment + o1.pulseAdd));
-        o6.phase = o6.phase + o6.phaseTest;
-        o6.wave = ((PENV[(o6.phase-1073741824) >> 23])>>1)+16383;
-        o6.nextwave =  ((PENV[((o6.phase-1073741824) + nextstep) >> 23])>>1)+16383;
+      if (o6.phase >> 31 == 0) {
+        o6.phase = o6.phase + o6.phase_increment + (o1.pulseAdd);
+        o6.wave = (PENV[o6.phase >> 23]);
+        o6.nextwave =  (PENV[(o6.phase + nextstep) >> 23]);
+      }
+      else {
+        o6.wave = 0;
+        o6.nextwave =  0;
+      }
      
 
       o6.phaseRemain = (o6.phase << 9) >> 17;
@@ -181,12 +191,12 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       o1.wave =   (o2.wave * o3.wave) >> 11; 
       o4.wave =   (o5.wave * o6.wave) >> 11;     
       
-      o9.wave = ((4095 - abs(o3.wave >> 3)) * mixDetune) >> 11; //get remaining headroom from pulse envelope
+      o9.wave = ((4095 - abs(o3.wave >> 3)) * mixEffect) >> 11; //get remaining headroom from pulse envelope
 
       o8.wave = (-o1.wave>>3) + ((o4.wave * o9.wave) >> 15); //add delayed wave in remaining headroom.
 
-      o1.wave = declickValue + ((o8.wave * declickRampIn) >> 12);
-      analogWrite(aout2, o1.wave + 4000);
+      FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
+      analogWrite(aout2, FinalOut + 4000);
 }
 
 void FASTRUN outUpdateISR_WAVE_TWIN(void) {
@@ -457,10 +467,13 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
 
   }  
        
-      o1.wave = (o2.wave>>3) + (o4.wave >>3);
-      o1.wave = declickValue + ((o1.wave * declickRampIn) >> 12);
+      o1.wave = (int32_t)(o2.wave>>3) + (o4.wave>>3);
+      o1.wave = (int32_t)(o1.wave * mixEffect)>>11;
+      o1.wave = o1.wave + ((int32_t)(o2.wave * mixEffectDn)>>13);
+      
+      FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
 
-      analogWrite(aout2, o1.wave + 4000);
+      analogWrite(aout2, FinalOut + 4000);
       
        noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
   

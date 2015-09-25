@@ -1057,6 +1057,112 @@ const int16_t AKWF_1503[] = {
   -11969, -11549, -11122, -10682, -10223, -9735, -9193, -8499, -7624, -6658, -5675, -4662, -3651, -2621, -1613, -562
 };
 
+const int16_t AKWF_0312[] = {
+    2128,6261,9779,13529,16908,20232,23155,25847,28084,29965,31355,32307,32751,32721,32198,31199,
+    29750,27862,25592,22949,20015,16798,13397,9821,6172,2465,-1201,-4809,-8268,-11562,-14612,-17402,
+    -19871,-22009,-23770,-25147,-26119,-26684,-26838,-26589,-25948,-24930,-23563,-21870,-19890,-17650,-15198,-12568,
+    -9811,-6966,-4082,-1198,1634,4382,6999,9453,11706,13735,15509,17009,18218,19126,19724,20012,
+    19993,19673,19065,18185,17053,15691,14127,12388,10504,8509,6435,4314,2180,67,-1995,-3976,
+    -5847,-7583,-9161,-10561,-11765,-12761,-13538,-14090,-14413,-14510,-14383,-14039,-13491,-12749,-11832,-10757,
+    -9544,-8214,-6791,-5299,-3761,-2204,-648,877,2356,3764,5081,6292,7377,8326,9127,9773,
+    10255,10571,10720,10706,10531,10203,9729,9122,8393,7556,6627,5623,4560,3456,2329,1197,
+    76,-1015,-2063,-3051,-3965,-4796,-5531,-6161,-6679,-7081,-7364,-7526,-7565,-7488,-7295,-6993,
+    -6591,-6096,-5517,-4866,-4155,-3395,-2599,-1781,-953,-128,681,1464,2208,2903,3541,4112,
+    4610,5029,5364,5614,5775,5848,5834,5734,5554,5297,4970,4579,4132,3636,3101,2536,
+    1950,1353,752,159,-416,-969,-1490,-1971,-2407,-2792,-3121,-3392,-3600,-3745,-3826,-3843,
+    -3798,-3692,-3529,-3314,-3050,-2743,-2398,-2021,-1621,-1202,-772,-337,93,515,923,1309,
+    1668,1995,2288,2541,2751,2916,3036,3108,3133,3111,3046,2937,2786,2600,2379,2128,
+    1851,1556,1244,921,592,263,-62,-377,-680,-966,-1230,-1470,-1682,-1865,-2016,-2134,
+    -2217,-2267,-2282,-2265,-2215,-2135,-2027,-1892,-1734,-1558,-1363,-1157,-939,-716,-490,-265,
+    -46,165,366,553,724,876,1007,1118,1204,1266,1304,1318,1308,1273,1217,1140,
+    1045,931,802,660,510,350,185,18,-149,-313,-473,-625,-767,-898,-1016,-1120,
+    -1207,-1277,-1329,-1364,-1382,-1380,-1361,-1326,-1274,-1208,-1129,-1038,-936,-826,-709,-588,
+    -462,-337,-213,-91,25,135,238,333,417,490,550,599,634,656,666,662,
+    645,617,577,528,469,402,329,250,167,80,-5,-92,-178,-260,-340,-414,
+    -482,-542,-595,-640,-676,-703,-719,-727,-724,-714,-694,-665,-629,-587,-537,-482,
+    -423,-360,-296,-229,-164,-98,-33,29,86,141,191,234,273,303,328,346,
+    357,360,358,349,334,312,285,253,218,179,136,92,46,0,-46,-92,
+    -135,-177,-216,-251,-284,-312,-335,-354,-368,-376,-380,-378,-372,-361,-346,-327,
+    -304,-278,-249,-218,-184,-150,-114,-79,-44,-11,20,51,80,106,129,148,
+    164,178,187,192,193,191,186,178,165,151,134,114,93,71,47,22,
+    -2,-26,-50,-73,-95,-116,-135,-152,-165,-179,-188,-195,-198,-201,-200,-197,
+    -191,-183,-171,-160,-145,-130,-113,-96,-78,-59,-41,-22,-4,13,28,42,
+    55,69,77,88,92,100,98,104,97,100,90,88,75,70,57,49,
+    33,23,8,-3,-15,-31,-37,-59,-51,-632,-1858,-3553,-5601,-7879,-10246,-12613,
+    -14842,-16875,-18589,-19960,-20882,-21370,-21342,-20838,-19812,-18320,-16355,-13972,-11220,-8118,-4818,-1176
+};
+
+const int16_t AKWF_0447[] = {
+    955,3643,5965,8166,10125,11944,13586,15095,16470,17725,18880,19929,20901,21781,22604,23346,
+    24045,24674,25270,25805,26315,26774,27212,27606,27983,28324,28649,28945,29227,29485,29728,29954,
+    30166,30362,30546,30720,30879,31031,31171,31304,31426,31543,31649,31751,31843,31931,32013,32090,
+    32160,32227,32286,32343,32394,32443,32487,32526,32563,32596,32625,32651,32674,32694,32712,32725,
+    32737,32746,32753,32756,32758,32757,32753,32747,32739,32728,32715,32700,32682,32662,32640,32616,
+    32589,32560,32529,32498,32462,32425,32385,32343,32299,32253,32204,32153,32100,32044,31985,31925,
+    31862,31797,31729,31658,31585,31510,31431,31350,31266,31180,31090,30998,30903,30805,30704,30599,
+    30492,30380,30266,30149,30029,29904,29776,29646,29511,29373,29231,29085,28935,28781,28624,28463,
+    28297,28128,27955,27776,27595,27409,27218,27023,26824,26620,26411,26199,25982,25760,25533,25302,
+    25066,24826,24581,24332,24078,23820,23555,23287,23014,22737,22455,22168,21878,21582,21282,20979,
+    20672,20360,20045,19725,19404,19076,18747,18414,18078,17738,17396,17051,16705,16357,16006,15654,
+    15300,14946,14589,14233,13876,13517,13160,12802,12445,12090,11738,11385,11034,10686,10338,9994,
+    9653,9316,8983,8652,8325,8004,7687,7374,7068,6765,6468,6179,5895,5617,5346,5080,
+    4821,4570,4324,4086,3854,3632,3417,3209,3009,2816,2631,2453,2281,2117,1963,1815,
+    1674,1540,1412,1294,1183,1079,981,888,801,720,649,581,519,462,408,360,
+    316,277,243,211,186,162,142,124,106,93,80,68,58,50,42,35,
+    29,25,21,19,15,13,9,2,-6,-17,-32,-51,-73,-99,-128,-160,
+    -196,-235,-280,-331,-388,-449,-514,-586,-664,-748,-838,-935,-1040,-1149,-1264,-1389,
+    -1521,-1661,-1807,-1960,-2124,-2292,-2467,-2653,-2845,-3046,-3253,-3467,-3690,-3919,-4156,-4399,
+    -4650,-4906,-5172,-5444,-5723,-6008,-6298,-6595,-6896,-7203,-7515,-7833,-8155,-8483,-8814,-9148,
+    -9487,-9828,-10173,-10519,-10870,-11222,-11576,-11931,-12289,-12646,-13004,-13364,-13723,-14080,-14437,-14795,
+    -15153,-15509,-15862,-16215,-16566,-16915,-17261,-17605,-17947,-18285,-18620,-18952,-19281,-19606,-19927,-20245,
+    -20560,-20870,-21176,-21478,-21776,-22069,-22358,-22643,-22923,-23198,-23470,-23737,-23999,-24256,-24509,-24757,
+    -25001,-25238,-25472,-25702,-25927,-26147,-26363,-26573,-26779,-26981,-27179,-27373,-27560,-27746,-27926,-28103,
+    -28274,-28443,-28605,-28765,-28921,-29073,-29221,-29365,-29506,-29643,-29776,-29905,-30032,-30155,-30273,-30390,
+    -30502,-30610,-30717,-30819,-30919,-31015,-31109,-31199,-31286,-31373,-31454,-31533,-31610,-31683,-31754,-31823,
+    -31888,-31951,-32012,-32071,-32126,-32179,-32230,-32278,-32324,-32368,-32410,-32449,-32486,-32521,-32553,-32583,
+    -32610,-32636,-32659,-32680,-32699,-32715,-32729,-32741,-32750,-32758,-32763,-32765,-32766,-32764,-32759,-32751,
+    -32742,-32729,-32715,-32696,-32676,-32651,-32625,-32595,-32562,-32525,-32486,-32442,-32394,-32344,-32288,-32228,
+    -32164,-32096,-32022,-31943,-31859,-31769,-31673,-31569,-31461,-31343,-31218,-31086,-30943,-30794,-30631,-30460,
+    -30274,-30080,-29867,-29644,-29401,-29145,-28866,-28570,-28247,-27904,-27530,-27129,-26693,-26223,-25711,-25155,
+    -24548,-23884,-23158,-22358,-21483,-20506,-19436,-18228,-16898,-15382,-13703,-11768,-9603,-7106,-4502,-1694
+};
+
+const int16_t AKWF_1099[] = {
+    73,208,322,447,566,693,817,946,1073,1206,1338,1474,1611,1751,1892,2037,
+    2185,2335,2489,2644,2804,2967,3134,3305,3479,3658,3842,4030,4224,4422,4625,4835,
+    5050,5273,5503,5738,5981,6234,6495,6764,7043,7334,7633,7945,8269,8608,8959,9325,
+    9709,10108,10526,10963,11424,11905,12407,12924,13447,13973,14496,15009,15512,16004,16484,16950,
+    17406,17853,18293,18724,19150,19574,19994,20416,20839,21264,21696,22135,22581,23039,23511,23997,
+    24500,25023,25569,26129,26702,27273,27830,28367,28877,29353,29795,30201,30570,30906,31207,31476,
+    31715,31925,32108,32266,32399,32509,32599,32668,32717,32749,32765,32764,32748,32716,32672,32614,
+    32544,32461,32368,32263,32148,32023,31888,31743,31591,31428,31257,31079,30892,30698,30495,30285,
+    30069,29844,29613,29374,29130,28878,28617,28353,28078,27797,27510,27215,26912,26602,26284,25957,
+    25623,25279,24927,24564,24193,23811,23417,23012,22595,22165,21721,21261,20786,20294,19784,19259,
+    18724,18186,17653,17128,16618,16122,15645,15188,14748,14326,13923,13535,13164,12808,12466,12138,
+    11821,11518,11224,10941,10667,10403,10148,9900,9660,9427,9202,8983,8771,8564,8363,8166,
+    7975,7789,7607,7429,7255,7086,6920,6758,6599,6442,6290,6141,5994,5848,5706,5566,
+    5429,5294,5161,5028,4899,4771,4645,4521,4398,4276,4156,4037,3918,3802,3686,3571,
+    3457,3344,3231,3120,3009,2898,2788,2678,2570,2461,2353,2242,2135,2028,1919,1811,
+    1703,1595,1486,1377,1268,1159,1049,939,828,718,605,491,378,264,149,32,
+    -84,-203,-325,-445,-568,-692,-817,-945,-1074,-1206,-1338,-1474,-1611,-1751,-1892,-2037,
+    -2185,-2335,-2488,-2644,-2804,-2967,-3134,-3305,-3479,-3659,-3842,-4030,-4223,-4422,-4625,-4835,
+    -5050,-5273,-5503,-5738,-5981,-6234,-6494,-6764,-7043,-7334,-7633,-7945,-8270,-8608,-8959,-9325,
+    -9709,-10108,-10526,-10963,-11424,-11905,-12407,-12924,-13447,-13973,-14496,-15009,-15512,-16004,-16484,-16950,
+    -17406,-17853,-18293,-18724,-19150,-19574,-19994,-20416,-20839,-21265,-21696,-22135,-22581,-23039,-23511,-23997,
+    -24500,-25023,-25569,-26129,-26702,-27273,-27830,-28367,-28877,-29353,-29795,-30201,-30570,-30906,-31207,-31476,
+    -31715,-31925,-32108,-32266,-32399,-32509,-32599,-32668,-32717,-32749,-32765,-32764,-32748,-32716,-32672,-32614,
+    -32544,-32461,-32368,-32263,-32148,-32023,-31888,-31743,-31591,-31428,-31257,-31079,-30892,-30698,-30495,-30285,
+    -30069,-29844,-29613,-29374,-29130,-28878,-28617,-28353,-28078,-27797,-27510,-27215,-26912,-26602,-26284,-25957,
+    -25623,-25279,-24927,-24564,-24193,-23811,-23417,-23012,-22595,-22165,-21721,-21261,-20786,-20294,-19784,-19259,
+    -18724,-18186,-17653,-17128,-16618,-16122,-15645,-15188,-14748,-14326,-13923,-13535,-13164,-12808,-12466,-12138,
+    -11821,-11518,-11224,-10941,-10667,-10403,-10148,-9900,-9660,-9427,-9202,-8983,-8771,-8564,-8363,-8166,
+    -7975,-7789,-7607,-7429,-7255,-7086,-6920,-6758,-6599,-6442,-6290,-6141,-5994,-5848,-5706,-5566,
+    -5429,-5294,-5161,-5028,-4899,-4771,-4645,-4521,-4398,-4276,-4156,-4037,-3918,-3802,-3686,-3571,
+    -3457,-3344,-3231,-3120,-3009,-2898,-2788,-2679,-2569,-2461,-2352,-2242,-2135,-2028,-1919,-1811,
+    -1703,-1595,-1486,-1378,-1268,-1159,-1049,-939,-828,-718,-605,-491,-378,-263,-150,-30
+};
+
+
 
 const int16_t AKWF_sinharm_0015[] = {
   741, 1917, 2847, 3902, 4862, 5887, 6849, 7849, 8803, 9775, 10715, 11660, 12579, 13493, 14387, 15268,
@@ -1100,6 +1206,8 @@ int16_t noiseTable[512]; //generated in program, uses SRAM
 int16_t noiseTable2[512]; //generated in program, uses SRAM
 int16_t noiseTable3[2]; //array of 2, for program generated LF noise
 int16_t noiseLive1[2];
+int16_t plickety[2];
+int32_t plicketycalc;
 int16_t noiseLive0[2];
 int16_t noiseLive1Val;
 int16_t noiseLive1ValOld;
@@ -1108,15 +1216,15 @@ int16_t noiseLive1ValOld;
 //CZ
 
 const int16_t *CZWTselLo[] = {nothingTable, sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                              , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , primeTable
+                              , bassTable2 , celloTable , violTable , distoTable , blipTable , AKWF_0447 , primeTable
                              };
 
 const int16_t *CZWTselMid[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                               , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , noiseTable2 , noiseTable
+                               , bassTable2 , celloTable , violTable , distoTable , blipTable , AKWF_0447 , noiseTable2 , noiseTable
                               };
 
 const int16_t *CZWTselHi[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                              , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , noiseTable2 , noiseLive0
+                              , bassTable2 , celloTable , violTable , distoTable , blipTable , AKWF_0447 , noiseTable2 , noiseLive0
                              };
 
 const int16_t *CZWTselFM[] = {sinTable, triTable, FMTableS180 , FMTableSQ , FMTableSQR , AKWF_0003 , pnoTable , bassTable1
@@ -1161,11 +1269,11 @@ const int16_t *FMWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTableSQ
 //FMALT
 
 const int16_t *FMAltWTselLo[] = { nothingTable, sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
-                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2
+                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2
                                 };
 
 const int16_t *FMAltWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
-                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , noiseLive1
+                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2 , noiseLive1
                                  };
 
 
@@ -1175,18 +1283,22 @@ const int16_t *FMAltWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTabl
 
 //pulsar envelopes
 
-const int16_t *PulsarEnv[] =  { sinTable, triTable,  distoTable ,AKWF_sinharm_0015, FMTableFM98, AKWF_gapsaw_0017, AKWF_1503, AKWF_symetric_0001 ,
-                                AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , voiceTable , FMTableSQR , AKWF_0003 , FMTableS180 ,sawTable
+const int16_t *PulsarEnv[] =  { sinTable, triTable,  distoTable , AKWF_0312, AKWF_symetric_0013 , FMTableSQR , celloTable , violTable
+                                , pnoTable , bassTable1 , blipTable , bassTable2 , scarabTable2 ,AKWF_0447, sinTable, AKWF_1099
                               };
 
+//const int16_t *PulsarEnv[] =  { sinTable, triTable,  distoTable ,AKWF_sinharm_0015, FMTableFM98, AKWF_gapsaw_0017, AKWF_1503, AKWF_symetric_0001 ,
+                    //            AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , voiceTable , FMTableSQR , AKWF_0003 , FMTableS180 ,sawTable
+                     //        };
+
 //drum waves
-const int16_t *drumWT[] = {sinTable, triTable, distoTable , FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
-                           AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , sinTable , noiseTable
+const int16_t *drumWT[] = {sinTable, triTable, distoTable , AKWF_0447 , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
+                           AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , noiseTable
                           };
 
- const int16_t *drumWT2[] = {sinTable, triTable, distoTable , FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
-                           AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , sinTable
-                          };
+const int16_t *drumWT2[] = {sinTable, triTable, distoTable , FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
+                            AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , noiseLive0
+                           };
 
 
 
@@ -1369,6 +1481,7 @@ struct oscillator10
 {
   uint32_t phase = 0;
   int32_t phaseRemain = 0;
+  uint32_t phaseOld = 0;
   int32_t nextwave;
   int32_t wave;
   int32_t index;
@@ -1388,6 +1501,20 @@ struct oscillator11
   int32_t phase_increment = 0;
 }
 o11;
+struct oscillator12
+{
+  uint32_t phase = 0;
+  int32_t phaseRemain = 0;
+  int32_t nextwave;
+  int32_t phaseOffset = 0;
+  uint32_t phaseOld = 0;
+  uint32_t phaseTest = 0;
+  int32_t index;
+  int32_t wave;
+  int32_t phase_increment = 0;
+
+}
+o12;
 
 struct lfo
 {
@@ -1410,7 +1537,7 @@ struct noiseosc0 //live BW noise oscs. o1.increment
   int32_t envVal;
   int32_t decay;
   uint8_t trig;
-  
+
 }
 nosc0;
 
@@ -1425,7 +1552,7 @@ struct noiseosc1 // BW noise osc o2.increment
   int32_t envVal;
   int32_t decay;
   uint8_t trig;
-  
+
 }
 nosc1;
 
@@ -1437,11 +1564,11 @@ int noscReadings[4];
 #define cast_uint32_t (uint32_t)
 #endif
 
-int detuneLoSwitch = 2;//there are pre configured for HW2 because the debounce of momentary switches is initiated before setup
+int effectSwitch_A = 2;//there are pre configured for HW2 because the debounce of momentary switches is initiated before setup
 int FXButtonDn = 5 ;
-int detuneMidSwitch = 7;
+int effectSwitch_B = 7;
 int FXButton = 3; //3 DIY  HW2 gets changed to 25 later
-int detuneHiSwitch = 8;
+int effectSwitch_C = 8;
 int xModeSwitch = 10 ;
 int FMmodeSwitch = 13;
 int FMFixedSwitch = 16;
@@ -1483,8 +1610,8 @@ const int FX_Count = 7;
 const int LED_MST = LED_MODESWITCH_TIME;
 const uint8_t SEL_LED_ARRAY[] = {3, 32, 24, 33, 31, 30, 29, 15};
 //const uint8_t HW2_FXa[] = {0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0}; //hw2 effects order
-const float primes[] = {351.1,442.3,398.9,327.1,};
-const float fibi[] = {2.0,3.0,5.0,8.0,13.0};
+const float primes[] = {351.1, 442.3, 398.9, 327.1,};
+const float fibi[] = {2.0, 3.0, 5.0, 8.0, 13.0};
 uint8_t WTShiftFM = 23;
 uint8_t WTShiftHi = 23;
 uint8_t WTShiftLo = 23;
@@ -1501,7 +1628,6 @@ int gateState = 0;
 int ARC;
 int SWC; //slow wave counter
 uint8_t FX; //effect mode.
-int FXi; //effect array index
 int Lbuh ;
 int Mbuh ;
 int Hbuh;
@@ -1513,14 +1639,14 @@ int32_t aInModIndex;
 int32_t aInPos;
 
 //detuning
-float aInModDetune;
-uint16_t aInDetuneReading;
-float aInModDetuneCubing;
-float detuneScaler;
-float detuneAmountCont;
-//float detuneAmountContCubing;
-int32_t mixDetuneUpTMp ;
-int32_t mixDetuneDnTMp;
+float aInModEffect;
+uint16_t aInEffectReading;
+float aInModEffectCubing;
+float effectScaler;
+float EffectAmountCont;
+//float EffectAmountContCubing;
+//int32_t mixEffectUpTMp ;
+//int32_t mixEffectDnTMp;
 int32_t detune[] = {0, 0, 0, 0}; //array holds detune amounts
 float chord[] = {0.0, 0.0, 0.0, 0.0,};
 
@@ -1577,17 +1703,17 @@ uint16_t mixLo;
 //float mixLo_fl;
 uint16_t mixMid;
 //float mixMid_fl;
-uint32_t mixDetune;
-uint32_t mixDetuneUp;
-uint32_t mixDetuneDn;
+uint32_t mixEffect;
+uint32_t mixEffectUp;
+uint32_t mixEffectDn;
 uint32_t FXMixer[4];
 float floats[4];
 int32_t FXMixOut;
 int32_t CZMix;
 int32_t CZMixDn;
-uint8_t detuneLoOn;
-uint8_t detuneMidOn;
-uint8_t detuneHiOn;
+uint8_t EffectEnOn_A;
+uint8_t EffectEnOn_B;
+uint8_t EffectEnOn_C;
 uint8_t xModeOn = 0;
 uint8_t FMmodeOn = 0;
 int32_t envVal;
@@ -1640,9 +1766,9 @@ Bounce pulsarButton = Bounce(FXButtonDn, 20);
 Bounce FXCycleButton = Bounce(FXButton, 20);
 Bounce FMmodeButton = Bounce(FMmodeSwitch, 20);
 Bounce FMFixedButton = Bounce(FMFixedSwitch, 20);
-Bounce detuneLoButton = Bounce(detuneLoSwitch, 20);
-Bounce detuneMidButton = Bounce(detuneMidSwitch, 20);
-Bounce detuneHiButton = Bounce(detuneHiSwitch, 20);
+Bounce effectEnButton_A = Bounce(effectSwitch_A, 20);
+Bounce effectEnButton_B = Bounce(effectSwitch_B, 20);
+Bounce effectEnButton_C = Bounce(effectSwitch_C, 20);
 Bounce tuneLockButton = Bounce(tuneLockSwitch, 20);
 Bounce xModeButton = Bounce(xModeSwitch, 20);
 
@@ -1689,10 +1815,10 @@ void setup() {
 
     //pbv6 toggle switches on DIY version
 
-    detuneLoSwitch = 1;
-    detuneMidSwitch = 2;
+    effectSwitch_A = 1;
+    effectSwitch_B = 2;
     FXButton = 3;
-    detuneHiSwitch = 4;
+    effectSwitch_C = 4;
     xModeSwitch = 5 ;
     FMmodeSwitch = 6;
     FMFixedSwitch = 7;
@@ -1729,14 +1855,14 @@ void setup() {
   pinMode(A16, INPUT);
   pinMode(A17, INPUT);
 
-  pinMode(detuneLoSwitch, INPUT_PULLUP);
-  digitalWrite(detuneLoSwitch, HIGH);
-  pinMode(detuneMidSwitch, INPUT_PULLUP);
-  digitalWrite(detuneMidSwitch, HIGH);
+  pinMode(effectSwitch_A, INPUT_PULLUP);
+  digitalWrite(effectSwitch_A, HIGH);
+  pinMode(effectSwitch_B, INPUT_PULLUP);
+  digitalWrite(effectSwitch_B, HIGH);
   pinMode(FXButton, INPUT_PULLUP);
   digitalWrite(FXButton, HIGH);
-  pinMode(detuneHiSwitch, INPUT_PULLUP);
-  digitalWrite(detuneHiSwitch, HIGH);
+  pinMode(effectSwitch_C, INPUT_PULLUP);
+  digitalWrite(effectSwitch_C, HIGH);
   pinMode(xModeSwitch, INPUT_PULLUP);
   digitalWrite(xModeSwitch, HIGH);
   pinMode(FMmodeSwitch, INPUT_PULLUP);
@@ -1799,19 +1925,16 @@ void setup() {
 
   delay(10);
 
-  FXi = EEPROM.read(0);
-  if (IsHW2) {
-    if (FXi > 15) FXi = 15;
-  }
-  else if (FXi > 7) FXi = 7;
+  FX = EEPROM.read(0);  
+  if (FX > 7) FX = 0;
 
   if (IsHW2 == 1) {
-    detuneLoOn = EEPROM.read(1);
-    if (detuneLoOn > 1) detuneLoOn = 1;
-    detuneMidOn = EEPROM.read(2);
-    if (detuneMidOn > 1) detuneMidOn = 1;
-    detuneHiOn = EEPROM.read(3);
-    if (detuneHiOn > 1) detuneHiOn = 1;
+    EffectEnOn_A = EEPROM.read(1);
+    if (EffectEnOn_A > 1) EffectEnOn_A = 1;
+    EffectEnOn_B = EEPROM.read(2);
+    if (EffectEnOn_B > 1) EffectEnOn_B = 1;
+    EffectEnOn_C = EEPROM.read(3);
+    if (EffectEnOn_C > 1) EffectEnOn_C = 1;
     xModeOn = EEPROM.read(4);
     if (xModeOn > 1) xModeOn = 0;
     FMmodeOn = EEPROM.read(5);
@@ -1821,20 +1944,20 @@ void setup() {
     pulsarOn = EEPROM.read(7);
     if (pulsarOn > 1) pulsarOn = 0;
 
-    oscMode = ((!xModeOn) << 1) + (FMmodeOn);    
+    oscMode = ((!xModeOn) << 1) + (FMmodeOn);
 
 
-    digitalWrite(LED_LoSel, detuneLoOn);
-    digitalWrite(LED_MidSel, !detuneMidOn); //pin 33 invert LED output.
-    digitalWrite(LED_HiSel, detuneHiOn);
+    digitalWrite(LED_LoSel, EffectEnOn_A);
+    digitalWrite(LED_MidSel, !EffectEnOn_B); //pin 33 invert LED output.
+    digitalWrite(LED_HiSel, EffectEnOn_C);
     digitalWrite(LED_FixSel, FMFixedOn);
     digitalWrite(LED_CZSel, FMmodeOn);
     digitalWrite(LED_xSel, xModeOn);
 
   }
-  
-    FX = FXi;
-  
+
+
+
   SELECT_ISRS();
 
   for (int i = 0; i <= 511; i++) {

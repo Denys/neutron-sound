@@ -221,7 +221,7 @@ void FASTRUN outUpdateISR_DISTS(void) {
       }
       
       o1.wave = 
-        (((o2.wave * ((int)mixDetuneDn)) >> 13)) //undistorted
+        (((o2.wave * ((int)mixEffectDn)) >> 13)) //undistorted
       + (((-o4.wave) * ((int)FXMixer[0])) >> 11) //dists 1 fold      
       + (((o1.wave) * ((int)FXMixer[1])) >> 13)  //dists 1 crush
       + (((o6.wave) * ((int)FXMixer[3])) >> 14) //dists2 XORrible
@@ -385,7 +385,7 @@ void FASTRUN outUpdateISR_PULSAR_DISTS(void) {
       }
       
       o1.wave = 
-        (((o2.wave * ((int)mixDetuneDn)) >> 13)) //undistorted
+        (((o2.wave * ((int)mixEffectDn)) >> 13)) //undistorted
       + (((-o4.wave) * ((int)FXMixer[0])) >> 11) //dists 1 fold      
       + (((o1.wave) * ((int)FXMixer[1])) >> 13)  //dists 1 crush
       + (((o6.wave) * ((int)FXMixer[3])) >> 14) //dists2 XORrible

@@ -19,7 +19,7 @@ void UPDATECONTROLS_CZ() {
 
     case 3:
 
-      detuneAmountCont = analogControls[2];
+      EffectAmountCont = analogControls[2];
       
 
       break;
@@ -96,7 +96,7 @@ void UPDATECONTROLS_CZALT() {
 
     case 3:
       TUNELOCK_TOGGLE();
-      detuneAmountCont = analogControls[2];
+      EffectAmountCont = analogControls[2];
      
       break;
 
@@ -174,7 +174,7 @@ void UPDATECONTROLS_FM() {
 
     case 3:
       TUNELOCK_TOGGLE();
-      detuneAmountCont = analogControls[2];
+      EffectAmountCont = analogControls[2];
           
       break;
 
@@ -242,7 +242,7 @@ void UPDATECONTROLS_FMALT() {
 
     case 3:
       TUNELOCK_TOGGLE();
-      detuneAmountCont = analogControls[2];
+      EffectAmountCont = analogControls[2];
      
       break;
 
@@ -317,7 +317,7 @@ void UPDATECONTROLS_DRUM() {
 
     case 3:
 
-      detuneAmountCont = analogControls[2];
+      EffectAmountCont = analogControls[2];
 
       break;
 

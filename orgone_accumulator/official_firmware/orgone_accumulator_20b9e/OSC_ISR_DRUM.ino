@@ -69,7 +69,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
     int32_t temph = multiply_32x32_rshift32(drum_envVal[2], drum_d);
     drum_envVal[2] = drum_envVal[2] - temph;
     drum_envTemp[2] = drum_envVal[2] >> 14;
-    //if (detuneMidOn)drum_envTemp[0] = drum_envVal[2] ;
+    //if (EffectEnOn_B)drum_envTemp[0] = drum_envVal[2] ;
 
     if (drum_envVal[2] <= 16390) drum_envStep[2] = 2;
   }
@@ -130,7 +130,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
   //o1.wave = o1.wave * (drum_envVal[0] >> 14) >> 15;
 
   
-  o6.phase =  detuneHiOn * ((o1.amp * drum_envTemp[1])); //borrowed unused osc 6 variable for drum pitch. turns on env 2 > pitch > oscs 2
+  o6.phase =  EffectEnOn_C * ((o1.amp * drum_envTemp[1])); //borrowed unused osc 6 variable for drum pitch. turns on env 2 > pitch > oscs 2
   
   if (FMmodeOn) o9.phase_increment = multiply_32x32_rshift32(drum_envVal[1], (o6.phase_increment<<2)); //make the envelope modulate the complexity amount with FM pressed.
   else o9.phase_increment = o6.phase_increment;
@@ -167,7 +167,8 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o5.phase = o5.phase + o5.phase_increment + o6.phase +(o9.phase_increment * o10.wave);
   o5.phaseRemain = (o5.phase << 9) >> 17;
   o7.wave = (waveTableHiLink[o5.phase >> WTShiftMid]);
-  if (o7.wave > 30000) drum_st = 1; //start envelope at top of wave, o5 is the highest pitch so will get there first..
+  o12.wave = (waveTableMidLink[o5.phase >> WTShiftMid]);//because noiselive sometimes wont trigger properly
+  if (o12.wave > 30000) drum_st = 1; //start envelope at top of wave, o5 is the highest pitch so will get there first..
   o5.wave = multiply_32x32_rshift32(drum_envVal[1], o7.wave);
   o5.nextwave =  (waveTableHiLink[(o5.phase + nextstep) >> WTShiftMid]);
   o5.nextwave = multiply_32x32_rshift32(drum_envVal[1], o5.nextwave);
