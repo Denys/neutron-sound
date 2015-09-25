@@ -113,7 +113,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o6.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShiftMid]);
   
   if (o6.wave > 30000) drum_st = 1;//trigger decay styat at peak of wave 1
-  o11.wave = (waveTableMidLink[(o1.phase+((1 << 31)-(drum_envVal[2]<<1))) >> WTShiftMid]); 
+  o11.wave = (waveTableMidLink[(o1.phase+((1 << 31)-(drum_envVal[2]<<1))) >> WTShiftMid]); //o11 is second detuned osc on wave 1
   o11.nextwave = (waveTableMidLink[( nextstep+o1.phase+((1 << 31)-(drum_envVal[2]<<1))) >> WTShiftMid]); 
   o11.wave = multiply_32x32_rshift32(drum_envVal[2], o11.wave);
   o11.nextwave = multiply_32x32_rshift32(drum_envVal[2], o11.nextwave);
@@ -178,8 +178,8 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   o8.wave = ((o5.wave + o2.wave + o3.wave + o4.wave) >> 2);
 
-  if (pulsarOn) o8.wave = (o8.wave * o1.pulseAdd)>>12; //turn on AM osc2 by osc 1. 
-  if (xModeOn) o8.wave = o8.wave * (8191 - abs(o1.wave))>>13; 
+  if (pulsarOn) o8.wave = (o8.wave * max(o6.wave,0))>>15; //turn on AM osc2 by osc 1. 
+  if (xModeOn) o8.wave = (o8.wave * (8191 - (drum_envTemp[2]>>3)))>>13; 
 
 
   FinalOut = ((((o1.wave+o11.wave) * (2047 - CZMix))) >> 13) + ((o8.wave * CZMix) >> 12);
