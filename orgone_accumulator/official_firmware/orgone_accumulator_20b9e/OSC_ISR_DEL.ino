@@ -228,7 +228,7 @@ void FASTRUN outUpdateISR_WAVE_DELAY(void) {
 
       o4.wave = (((o1.wave * (2047 - delayFeedback)) >> 11)  +  ((o3.wave * delayFeedback) >> 11) + o1.wave) >>1;
 
-      delayTable[delayCounterShift] = o4.wave;
+      delayTable[delayCounterShift] = o4.wave>>1;
 
       o3.wave = (int32_t)(delayTable[delayTimeShift] << 1);
 
@@ -283,7 +283,7 @@ void FASTRUN outUpdateISR_PULSAR_DELAY(void) {
      
 
       if (o3.phase >> 31 == 0) {
-        o3.phase = o3.phase + o3.phase_increment + o1.pulseAdd;
+        o3.phase = o3.phase + o3.phase_increment ;
         o3.wave = (sinTable[o3.phase >> 23]);
         o3.nextwave =  (sinTable[(o3.phase + nextstep) >> 23]);
       }
@@ -376,11 +376,11 @@ void FASTRUN outUpdateISR_PULSAR_DELAY(void) {
 
       o1.wave = declickValue + ((o1.wave * declickRampIn) >> 12);
 
-      o4.wave = ((o1.wave * (2047 - delayFeedback)) >> 11)  +  ((o5.wave * delayFeedback) >> 11) + o1.wave;
+      o4.wave = ((int32_t)(o1.wave * (2047 - delayFeedback)) >> 11)  +  (int32_t)((o5.wave * delayFeedback) >> 9) + o1.wave;
 
       delayTable[delayCounterShift] = o4.wave>>2;
 
-      o5.wave = (int32_t)(delayTable[delayTimeShift])<<2;
+      o5.wave = (int32_t)(delayTable[delayTimeShift])<<1;
 
       o5.wave = ((((o5.wave + o1.wave) >> 1) * ((int)mixEffectUp)) >> 11)  +  (((o1.wave * ((int)mixEffectDn)) >> 11)); //main out and mix detune
 

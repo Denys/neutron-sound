@@ -42,7 +42,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
      
 
      if (o3.phase >> 31 == 0) {
-        o3.phase = o3.phase + o3.phase_increment + (o1.pulseAdd);
+        o3.phase = o3.phase + o3.phase_increment ;
         o3.wave = (PENV[o3.phase >> 23]);
         o3.nextwave =  (PENV[(o3.phase + nextstep) >> 23]);
       }
@@ -62,7 +62,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       //o4.phaseRemain = (o4.phase << 9) >> 17;
 
       if (o6.phase >> 31 == 0) {
-        o6.phase = o6.phase + o6.phase_increment + (o1.pulseAdd);
+        o6.phase = o6.phase + o6.phase_increment ;
         o6.wave = (PENV[o6.phase >> 23]);
         o6.nextwave =  (PENV[(o6.phase + nextstep) >> 23]);
       }

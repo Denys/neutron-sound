@@ -395,7 +395,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
 
   if (o3.phase >> 31 == 0) {
-        o3.phase = o3.phase + o3.phase_increment + (o1.pulseAdd);
+        o3.phase = o3.phase + o3.phase_increment ;
         o3.wave = (PENV[o3.phase >> 23]);
         o3.nextwave =  (PENV[(o3.phase + nextstep) >> 23]);
       }
@@ -417,7 +417,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o5.phaseRemain = (o5.phase << 9) >> 17;
 
   if (o6.phase >> 31 == 0) {
-        o6.phase = o6.phase + o6.phase_increment + (o1.pulseAdd);
+        o6.phase = o6.phase + o6.phase_increment ;
         o6.wave = (PENV[o6.phase >> 23]);
         o6.nextwave =  (PENV[(o6.phase + nextstep) >> 23]);
       }
@@ -439,7 +439,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o8.phaseRemain = (o8.phase << 9) >> 17;
 
  if (o9.phase >> 31 == 0) {
-        o9.phase = o9.phase + o9.phase_increment + (o1.pulseAdd);
+        o9.phase = o9.phase + o9.phase_increment ;
         o9.wave = (PENV[o9.phase >> 23]);
         o9.nextwave =  (PENV[(o9.phase + nextstep) >> 23]);
       }
@@ -460,7 +460,7 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
   o11.phaseRemain = (o11.phase << 9) >> 17;
 
 if (o12.phase >> 31 == 0) {
-        o12.phase = o12.phase + o12.phase_increment + (o1.pulseAdd);
+        o12.phase = o12.phase + o12.phase_increment ;
         o12.wave = (PENV[o12.phase >> 23]);
         o12.nextwave =  (PENV[(o12.phase + nextstep) >> 23]);
       }
@@ -519,12 +519,12 @@ if (o12.phase >> 31 == 0) {
 
 
 
-  o8.wave = (ssat13((o4.wave + o7.wave + o10.wave)>>4))>>1; 
+  o8.wave = (ssat13((o4.wave + o7.wave + o10.wave + o1.wave)>>4))>>1; 
   o9.wave = (o8.wave>>3);
-  o9.wave = (-((o9.wave * o9.wave *o9.wave)>>14))+(o8.wave + (o8.wave>>1));
+  o9.wave = (int32_t)((-((o9.wave * o9.wave *o9.wave)>>14))+(o8.wave + (o8.wave>>1)));
   o8.wave = ((int32_t)(o9.wave * mixEffectUp) >> 10) + (((int32_t)(o1.wave * mixEffectDn)) >> 14);
 
-  FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
+  FinalOut = declickValue + (int32_t)((o8.wave * declickRampIn) >> 12);
   analogWrite(aout2, o8.wave + 4000);
 
 

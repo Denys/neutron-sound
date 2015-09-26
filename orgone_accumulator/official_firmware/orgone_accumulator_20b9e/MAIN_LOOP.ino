@@ -112,65 +112,22 @@ evilGoto:
    if (pulsarOn){
    switch (FX){
      
-  case 0:   
-  ASSIGNINCREMENTS_P();//detune
-  break;  
-     
-  case 1:   
-  ASSIGNINCREMENTS_P();//twin
-  break; 
-
-  case 2:
-  ASSIGNINCREMENTS_P();//dist1
-  break;  
-  
-  case 3:
-  ASSIGNINCREMENTS_P();//dist2
-  break;
-  
-  case 4:
-  ASSIGNINCREMENTS_P();// chord
-  break;
-  
-  case 5:
+   case 5:
   ASSIGNINCREMENTS_SPECTRUM();//spectral
-  break;
-  
-  case 6:
-  ASSIGNINCREMENTS_P();//delay
-  break;
+  break;  
   
   case 7:
   ASSIGNINCREMENTS_DRUM();//drum
-  break;
-   
+  break;   
     
   default:
-   ASSIGNINCREMENTS();
+   ASSIGNINCREMENTS_P();
    }}
    else
+
+   
    switch (FX){
      
-  case 0:   
-  ASSIGNINCREMENTS();//detune
-  break;  
-     
-  case 1:   
-  ASSIGNINCREMENTS();//twin
-  break; 
-
-  case 2:
-  ASSIGNINCREMENTS();//dist1
-  break;  
-  
-  case 3:
-  ASSIGNINCREMENTS();//dist2
-  break;
-  
-  case 4:
-  ASSIGNINCREMENTS();//chord
-  break;
-  
   case 5:
   ASSIGNINCREMENTS_SPECTRUM();//spectral
   break;

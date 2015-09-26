@@ -122,9 +122,9 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o1.nextwave = multiply_32x32_rshift32(drum_envVal[2], o1.nextwave);
   o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
   o11.wave = o11.wave + ((((o11.nextwave - o11.wave)) * o1.phaseRemain) >> 15);
-   if (o1.phase >> 31 == 0) o1.pulseAdd = o6.wave;
-  else o1.pulseAdd = 0;
-  o1.pulseAdd = multiply_32x32_rshift32(drum_envVal[1], o1.pulseAdd);
+//   if (o1.phase >> 31 == 0) o1.pulseAdd = o6.wave;
+//  else o1.pulseAdd = 0;
+//  o1.pulseAdd = multiply_32x32_rshift32(drum_envVal[1], o1.pulseAdd);
   o6.wave = o6.wave + ((((o6.nextwave - o6.wave)) * o1.phaseRemain) >> 15);
   
   //o1.wave = o1.wave * (drum_envVal[0] >> 14) >> 15;

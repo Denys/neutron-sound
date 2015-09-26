@@ -1735,8 +1735,8 @@ uint8_t bitCrushOn = 0;
 float inputScaler;
 float inputVOct;
 float inputConverter; //exponential output from V/oct
-float inputConverterF = 30000.0;// fixed freq FM.
-float inputConverterA = 180000.0;//fixed AM
+const float inputConverterF = 30000.0;// fixed freq FM.
+const float inputConverterA = 180000.0;//fixed AM
 float FMMult; //FM multiplier
 float chaosMult1;
 float chaosMult2;
