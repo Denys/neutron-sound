@@ -28,11 +28,11 @@ void loop() {
   }  //cycle through analog controls. skip tuning controls if tunelock is on.
   if (loopReset == 1)goto evilGoto;
   //--------------------------------------------------------
-  inCV = (analogRead(A0)); //main v/oct CV in. only use 12 bits of analog in SEPERATE AINS BY CODE
+  inCVraw = (float)(analogRead(A0)); //main v/oct CV in. only use 12 bits of analog in SEPERATE AINS BY CODE  
   //--------------------------------------------------------
   if (loopReset == 1)goto evilGoto;
   //______________TUNING OPTIONS  
-  tuner = inCV + ((analogControls[9] >> 8) * (conf_NoteSize * tuneStep)) + (analogControls[7] >> 4); //coarse and fine tuning
+  tuner = inCV + (float)(((analogControls[9] >> 8) * (conf_NoteSize * tuneStep)) + (analogControls[7] >> 4)); //coarse and fine tuning
   //comment out above line and uncomment following line for analog style non stepped tuning
   //tuner = inCV+(analogControls[9]>>1)+(analogControls[7]>>4);
   //_____________END TUNINGOPTIONS
@@ -66,19 +66,26 @@ void loop() {
   //running average filter of ratio CV and index CV they are sensetive to noise.
   totalaInRAv = totalaInRAv - readingsaInRAv[indexaInRAv];
   totalaInIAv = totalaInIAv - readingsaInIAv[indexaInRAv];
+  totalInCV = totalInCV - readingsaInCV[indexInCV];
 
   readingsaInRAv[indexaInRAv] = AInRawFilter = (8191 - analogRead(A17)); //adjust numreadingsaInRAv on first page for filtering.
   readingsaInIAv[indexaInRAv] = aInModIndex;
+  readingsaInCV[indexInCV] = inCVraw;
 
   totalaInRAv = totalaInRAv + readingsaInRAv[indexaInRAv];
   totalaInIAv = totalaInIAv + readingsaInIAv[indexaInRAv];
+  totalInCV = totalInCV + readingsaInCV[indexInCV];
+
 
   indexaInRAv = indexaInRAv + 1;
   if (indexaInRAv >= numreadingsaInRAv) indexaInRAv = 0;
+  indexInCV = indexInCV + 1;
+  if (indexInCV >= numreadingsCV) indexInCV = 0;
 
   averageaInRAv = (totalaInRAv / numreadingsaInRAv);
   averageaInIAvCubing = (4095 - (totalaInIAv / numreadingsaInRAv)) / 512.0;
   averageaInIAv = totalaInIAv / numreadingsaInRAv;
+  inCV = totalInCV / numreadingsCV;
 
 
 evilGoto:

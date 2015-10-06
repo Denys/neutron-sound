@@ -15,9 +15,13 @@ void gateISR() {
                   o8.phase =
                     o9.phase =
                       lfo.phase =
-                        o10.phase = 0;
+                        o10.phase =
+                          o11.phase =
+                            o12.phase = 0;
 
-    if (pulsarOn){ oSQ.phase = 0;}
+    if (pulsarOn) {
+      oSQ.phase = 0;
+    }
 
     drum_envStep[0] =
       drum_envStep[1] =
@@ -28,8 +32,8 @@ void gateISR() {
     loopReset = 1;
   }
 
-    else {
-      gateState = 0;
-    }
+  else {
+    gateState = 0;
   }
+}
 

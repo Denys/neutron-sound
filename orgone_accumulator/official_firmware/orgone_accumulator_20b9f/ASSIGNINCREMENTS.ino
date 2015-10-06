@@ -76,12 +76,12 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
         FMMult = ((((float)(avgcubing * avgcubing * avgcubing))) + 0.001) * (aInModRatio * 8.0); //FM+fixed mult control
         osc_mult[0] = FMMult;
         osc_mult[1] = 4;
-        FMX_HiOffset = mixHi * FMX_HiOffsetCont;
-        o2.phase_increment = inputConverter * osc_mult[1] + FMX_HiOffset ;
-        o4.phase_increment = inputConverter * chord[0]  * osc_mult[1]  + detune[0] + FMX_HiOffset;
-        o6.phase_increment = inputConverter  * chord[1] * osc_mult[1]   + detune[1] + FMX_HiOffset;
-        o8.phase_increment = inputConverter  * chord[2] * osc_mult[1]  + detune[2] + FMX_HiOffset;
-        o10.phase_increment = inputConverter * chord[3] * osc_mult[1] + detune[3] + FMX_HiOffset;
+        FMX_HiOffset = (float)(1.0 + (mixHi * FMX_HiOffsetCont)/2048.0);
+        o2.phase_increment = inputConverter * osc_mult[1] * FMX_HiOffset ;
+        o4.phase_increment = inputConverter * chord[0]  * osc_mult[1] * FMX_HiOffset + detune[0] ;
+        o6.phase_increment = inputConverter  * chord[1] * osc_mult[1]  * FMX_HiOffset + detune[1] ;
+        o8.phase_increment = inputConverter  * chord[2] * osc_mult[1] * FMX_HiOffset + detune[2] ;
+        o10.phase_increment = inputConverter * chord[3] * osc_mult[1] * FMX_HiOffset + detune[3] ;
         o1.phase_increment = inputConverterF  * osc_mult[0] ;
         o3.phase_increment = inputConverterF  * osc_mult[0] ;
         o5.phase_increment = inputConverterF * osc_mult[0] ;
@@ -93,12 +93,12 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
         FMMult = ((int)((averageratio >> 9) + 1)) * aInModRatio; //FM + free
         osc_mult[0] = FMMult;
         osc_mult[1] = 4;
-        FMX_HiOffset = mixHi * FMX_HiOffsetCont;
-        o2.phase_increment = inputConverter * osc_mult[1] + FMX_HiOffset ;
-        o4.phase_increment = inputConverter * osc_mult[1] * chord[0] + detune[0] + FMX_HiOffset;
-        o6.phase_increment = inputConverter * osc_mult[1] * chord[1]   + detune[1] + FMX_HiOffset;
-        o8.phase_increment = inputConverter * osc_mult[1] * chord[2]  + detune[2] + FMX_HiOffset;
-        o10.phase_increment = inputConverter * osc_mult[1] * chord[3]  + detune[3] + FMX_HiOffset;
+        FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
+        o2.phase_increment = inputConverter * osc_mult[1] * FMX_HiOffset ;
+        o4.phase_increment = inputConverter * osc_mult[1] * chord[0] * FMX_HiOffset+ detune[0] ;
+        o6.phase_increment = inputConverter * osc_mult[1] * chord[1] * FMX_HiOffset  + detune[1] ;
+        o8.phase_increment = inputConverter * osc_mult[1] * chord[2] * FMX_HiOffset + detune[2] ;
+        o10.phase_increment = inputConverter * osc_mult[1] * chord[3] * FMX_HiOffset + detune[3] ;
         o1.phase_increment = inputConverter * osc_mult[0] ;
         o3.phase_increment = inputConverter * osc_mult[0]  + detune[0];
         o5.phase_increment = inputConverter * osc_mult[0]  + detune[1];
@@ -169,34 +169,34 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
         FMMult = (float)((((averageratio >> 4) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
-        FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont) >> 10;
-        o2.phase_increment =  inputConverterA * osc_mult[1];
-        o4.phase_increment =  inputConverterA * chord[0] * osc_mult[1];
-        o6.phase_increment =  inputConverterA * chord[1] * osc_mult[1];
-        o8.phase_increment =  inputConverterA * chord[2] * osc_mult[1];
-        o10.phase_increment = inputConverterA * chord[3] * osc_mult[1];
-        o1.phase_increment = inputConverter * osc_mult[0];
-        o3.phase_increment = inputConverter * chord[0] * osc_mult[0] + detune[0];
-        o5.phase_increment = inputConverter * chord[1] * osc_mult[0] + detune[1];
-        o7.phase_increment = inputConverter * chord[2] * osc_mult[0] + detune[2];
-        o9.phase_increment = inputConverter * chord[3] * osc_mult[0] + detune[3];
+        FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
+        o2.phase_increment =  inputConverterA * osc_mult[1]*FMX_HiOffset;
+        o4.phase_increment =  inputConverterA * chord[0] * osc_mult[1]*FMX_HiOffset;
+        o6.phase_increment =  inputConverterA * chord[1] * osc_mult[1]*FMX_HiOffset;
+        o8.phase_increment =  inputConverterA * chord[2] * osc_mult[1]*FMX_HiOffset;
+        o10.phase_increment = inputConverterA * chord[3] * osc_mult[1]*FMX_HiOffset;
+        o1.phase_increment = inputConverter * osc_mult[0]*FMX_HiOffset;
+        o3.phase_increment = inputConverter * chord[0] * osc_mult[0]*FMX_HiOffset + detune[0];
+        o5.phase_increment = inputConverter * chord[1] * osc_mult[0]*FMX_HiOffset + detune[1];
+        o7.phase_increment = inputConverter * chord[2] * osc_mult[0]*FMX_HiOffset + detune[2];
+        o9.phase_increment = inputConverter * chord[3] * osc_mult[0]*FMX_HiOffset + detune[3];
         lfo.phase_increment = inputConverterF * (osc_mult[1] / 8.0);
       }
       else {
         FMMult = (float)((((averageratio >> 5) / 7.0)) + 1.0) * aInModRatio;
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
-        FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont) >> 10;
+        FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
         o2.phase_increment = inputConverter * osc_mult[1];
         o4.phase_increment = o2.phase_increment  * chord[0] + detune[0];
         o6.phase_increment = o2.phase_increment * chord[1] + detune[1];
         o8.phase_increment = o2.phase_increment  * chord[2] + detune[2];
         o10.phase_increment = o2.phase_increment  * chord[3] + detune[3];
-        o1.phase_increment = inputConverter * osc_mult[0];
-        o3.phase_increment = o1.phase_increment  * chord[0] + detune[0];
-        o5.phase_increment = o1.phase_increment  * chord[1] + detune[1];
-        o7.phase_increment = o1.phase_increment  * chord[2] + detune[2];
-        o9.phase_increment = o1.phase_increment  * chord[3] + detune[3];
+        o1.phase_increment = inputConverter * osc_mult[0]*FMX_HiOffset;
+        o3.phase_increment = o1.phase_increment  * chord[0]*FMX_HiOffset + detune[0];
+        o5.phase_increment = o1.phase_increment  * chord[1]*FMX_HiOffset + detune[1];
+        o7.phase_increment = o1.phase_increment  * chord[2]*FMX_HiOffset + detune[2];
+        o9.phase_increment = o1.phase_increment  * chord[3]*FMX_HiOffset + detune[3];
         lfo.phase_increment = inputConverter * (osc_mult[1] / 4.0);
       }
 
@@ -229,26 +229,28 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
 
     case 0:
       UPDATECONTROLS_FM();
-       o10.phase_increment = inputConverter * 1;
-      FMX_HiOffset = 0;
+       o1.phase_SUB = inputConverter * 1;
+      FMX_HiOffset = 1;
       FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
       break;
     case 1:
       UPDATECONTROLS_CZ();
-      o10.phase_increment = 0;
-      FMX_HiOffset = 0;
+      
+      o1.phase_SUB = 0;
+      FMX_HiOffset = 1;
       FMIndex = 0;
       break;
     case 2:
       UPDATECONTROLS_FMALT();
-      o10.phase_increment = inputConverter * 1;
-      FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont);
+      o1.phase_SUB = inputConverter * 1;
+      FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
       FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
       break;
     case 3:
       UPDATECONTROLS_CZALT();
-      o10.phase_increment = 0;
-      FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont) << 5;
+      
+      o1.phase_SUB = 0;
+      FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
       FMIndex = 0;
       break;
   }
@@ -275,22 +277,22 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
        
     o1.pulseAdd = (inputConverterF * osc_mult[2]) * (float)(CZMix / 6.0);
 
-    o1.phase_increment = inputConverter * osc_mult[0] + FMX_HiOffset;
+    o1.phase_increment = inputConverter * osc_mult[0] * FMX_HiOffset;
     o2.phase_increment = inputConverterF * osc_mult[1];
     o3.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;
     if (o1.phase_increment > (o3.phase_increment<<1))o3.phase_increment = o1.phase_increment>>1;//these stop the pulsar envelope getting longer than the pitch.
 
-    o4.phase_increment = inputConverter   * chord[1] * osc_mult[0] + FMX_HiOffset + detune[1];
+    o4.phase_increment = inputConverter   * chord[1] * osc_mult[0] * FMX_HiOffset + detune[1];
     o5.phase_increment = inputConverterF * osc_mult[1];
     o6.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;
     if (o4.phase_increment > (o6.phase_increment<<1))o6.phase_increment = o4.phase_increment>>1;
 
-    o7.phase_increment = inputConverter  * chord[2] * osc_mult[0] + FMX_HiOffset + detune[2];
+    o7.phase_increment = inputConverter  * chord[2] * osc_mult[0] * FMX_HiOffset + detune[2];
     o8.phase_increment = inputConverterF * osc_mult[1];
     o9.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;
     if (o7.phase_increment > (o9.phase_increment<<1))o9.phase_increment = o7.phase_increment>>1;
 
-    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] + FMX_HiOffset - detune[1];
+    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] * FMX_HiOffset - detune[3];
     o11.phase_increment = inputConverterF * osc_mult[1];
     o12.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;
     if (o10.phase_increment > (o12.phase_increment<<1))o12.phase_increment = o10.phase_increment>>1;
@@ -301,30 +303,30 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
   }
   else {
     if (FX == 6) FMMult = (float)((((analogControls[3] >> 4) / 14.0)) + 1.0) ;    
-    else FMMult = (float)((((averageratio >> 5) / 10.0)) + 1.0) * aInModRatio;
+    else FMMult = (float)((((averageratio >> 5) / 5.0)) + 1) * aInModRatio;
     osc_mult[0] = 4;
     osc_mult[1] = FMMult;
     osc_mult[2] = 4;
 
     o1.pulseAdd = (inputConverterF * osc_mult[2]) * (float)(CZMix / 6.0);
 
-    o1.phase_increment = inputConverter * osc_mult[0] + FMX_HiOffset;
+    o1.phase_increment = inputConverter * osc_mult[0] * FMX_HiOffset;
     o2.phase_increment = inputConverter * osc_mult[1];
     o3.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;   
      if (o1.phase_increment > (o3.phase_increment<<1))o3.phase_increment = o1.phase_increment>>1;//these stop the pulsar envelope getting longer than the pitch. 
 
-    o4.phase_increment = ((inputConverter * chord[1]) * osc_mult[0]) + (FMX_HiOffset + detune[1]);
+    o4.phase_increment = inputConverter * chord[1] * osc_mult[0] * FMX_HiOffset + detune[1];
     o5.phase_increment = inputConverter * osc_mult[1] + detune[1];
     o6.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;
     if (o4.phase_increment > (o6.phase_increment<<1))o6.phase_increment = o4.phase_increment>>1;
 
-    o7.phase_increment = ((inputConverter * chord[2]) * osc_mult[0]) + (FMX_HiOffset + detune[2]);
+    o7.phase_increment = inputConverter * chord[2] * osc_mult[0] * FMX_HiOffset + detune[2];
     o8.phase_increment = inputConverter * osc_mult[1] + detune[2];
     o9.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;
      if (o7.phase_increment > (o9.phase_increment<<1))o9.phase_increment = o7.phase_increment>>1;
 
-    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] + FMX_HiOffset - detune[1];
-    o11.phase_increment = inputConverterF * osc_mult[1]- detune[1];;
+    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] * FMX_HiOffset + detune[3];
+    o11.phase_increment = inputConverter * osc_mult[1]+ detune[3];
     o12.phase_increment = inputConverterF * osc_mult[2] + o1.pulseAdd;
     if (o10.phase_increment > (o12.phase_increment<<1))o12.phase_increment = o10.phase_increment>>1;
     
@@ -341,19 +343,19 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
 
      o1.pulseAdd = (inputConverter * osc_mult[2]) * (float)(CZMix / 255.0);
 
-    o1.phase_increment = inputConverter * osc_mult[0] + FMX_HiOffset;
+    o1.phase_increment = inputConverter * osc_mult[0] * FMX_HiOffset;
     o2.phase_increment = inputConverterF * osc_mult[1];
     o3.phase_increment = inputConverter * osc_mult[2] + o1.pulseAdd;
 
-    o4.phase_increment = inputConverter   * chord[1] * osc_mult[0] + FMX_HiOffset + detune[1];
+    o4.phase_increment = inputConverter   * chord[1] * osc_mult[0] * FMX_HiOffset + detune[1];
     o5.phase_increment = inputConverterF * osc_mult[1];
     o6.phase_increment = inputConverter * osc_mult[2] + o1.pulseAdd;
 
-    o7.phase_increment = inputConverter  * chord[2] * osc_mult[0] + FMX_HiOffset + detune[2];
+    o7.phase_increment = inputConverter  * chord[2] * osc_mult[0] * FMX_HiOffset + detune[2];
     o8.phase_increment = inputConverterF * osc_mult[1];
     o9.phase_increment = inputConverter * osc_mult[2] + o1.pulseAdd;
 
-    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] + FMX_HiOffset + detune[3];
+    o10.phase_increment = inputConverter  * chord[3] * osc_mult[0] * FMX_HiOffset + detune[3];
     o11.phase_increment = inputConverterF * osc_mult[1];
     o12.phase_increment = inputConverter * osc_mult[2] + o1.pulseAdd;
 
@@ -369,19 +371,19 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
 
     o1.pulseAdd = (inputConverter * osc_mult[2]) * (float)(CZMix / 255.0);
 
-    o1.phase_increment = inputConverter * osc_mult[0] + FMX_HiOffset;
+    o1.phase_increment = inputConverter * osc_mult[0] * FMX_HiOffset;
     o2.phase_increment = inputConverter * osc_mult[1];
     o3.phase_increment = inputConverter * osc_mult[2]+ o1.pulseAdd;    
 
-    o4.phase_increment = ((inputConverter * chord[1]) * osc_mult[0]) + (FMX_HiOffset + detune[1]);
+    o4.phase_increment = inputConverter * chord[1] * osc_mult[0] * FMX_HiOffset + detune[1];
     o5.phase_increment = inputConverter * osc_mult[1] + detune[1];
     o6.phase_increment = inputConverter * osc_mult[2]+ o1.pulseAdd;
 
-    o7.phase_increment = ((inputConverter * chord[2]) * osc_mult[0]) + (FMX_HiOffset + detune[2]);
+    o7.phase_increment = inputConverter * chord[2] * osc_mult[0] * FMX_HiOffset + detune[2];
     o8.phase_increment = inputConverter * osc_mult[1] + detune[2];
     o9.phase_increment = inputConverter * osc_mult[2]+ o1.pulseAdd;
 
-     o10.phase_increment = ((inputConverter * chord[3]) * osc_mult[0]) + (FMX_HiOffset + detune[3]);
+     o10.phase_increment = inputConverter * chord[3] * osc_mult[0] * FMX_HiOffset + detune[3];
     o11.phase_increment = inputConverter * osc_mult[1] + detune[3];
     o12.phase_increment = inputConverter * osc_mult[2]+ o1.pulseAdd;
 
@@ -459,16 +461,16 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
       FMIndexContCubing = FMIndexCont / 256.0;
       FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
 
-
-      //FMX_HiOffset=int32_t(mixHi*FMX_HiOffsetCont)>>10;
+FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
+    
       if (FMFixedOn) {
         float avgcubing = analogControls[3] / 500.0; //change to adjust "LFO" in fm fixed
         FMMult = ((((float)(avgcubing * avgcubing * avgcubing))) + 0.001); //FM+fixed mult control
         osc_mult[0] = FMMult;
         osc_mult[1] = 4;
-        FMX_HiOffset = mixHi * FMX_HiOffsetCont;
+        
         o1.phase_increment = inputConverterF * osc_mult[0] ;
-        o2.phase_increment = inputConverter * osc_mult[1] + FMX_HiOffset ;
+        o2.phase_increment = inputConverter * osc_mult[1] * FMX_HiOffset ;
        
        
 
@@ -478,9 +480,9 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
         FMMult = ((int)((analogControls[3] >> 9) + 1)); //FM + free
         osc_mult[0] = FMMult;
         osc_mult[1] = 4;
-        FMX_HiOffset = mixHi * FMX_HiOffsetCont;
+        
         o1.phase_increment = inputConverter * osc_mult[0] ;
-        o2.phase_increment = inputConverter * osc_mult[1] + FMX_HiOffset ;
+        o2.phase_increment = inputConverter * osc_mult[1] * FMX_HiOffset ;
        
        
 
@@ -516,17 +518,15 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
     case 3://ALT CZ
 
       UPDATECONTROLS_CZALT();
-
+FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
 
       if (FMFixedOn) {
         FMMult = (float)((((analogControls[3] >> 2) + 1) / 3.0)); //CZ + fixed + free
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
-        FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont) >> 10;
-        o2.phase_increment = inputConverterF * osc_mult[1]; //modulation not detuned
-
-        o1.phase_increment = inputConverter * osc_mult[0] ;
-       
+        
+        o2.phase_increment = inputConverterF * osc_mult[1] ; //modulation not detuned
+        o1.phase_increment = inputConverter * osc_mult[0] *FMX_HiOffset;    
        
         lfo.phase_increment = inputConverterF * (osc_mult[1] / 8.0);
       }
@@ -534,10 +534,9 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
         FMMult = (float)((((analogControls[3] >> 5))) + 1.0); //CZ + free + free
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
-        FMX_HiOffset = int32_t(mixHi * FMX_HiOffsetCont) >> 10;
+        
         o2.phase_increment = inputConverter * osc_mult[1];
-
-        o1.phase_increment = inputConverter * osc_mult[0];
+        o1.phase_increment = inputConverter * osc_mult[0] * FMX_HiOffset;
        
         lfo.phase_increment = inputConverter * (osc_mult[1] / 2.0);
        
@@ -574,20 +573,20 @@ void ASSIGNINCREMENTS_DRUM() { //-----------------------------------------------
     osc_mult[0] = 250.0;
     osc_mult[1] = 4.0;
     o1.phase_increment = inputConverter * osc_mult[1]  ;
-    o2.phase_increment = inputConverterF * osc_mult[0] * detune[0];
-    o3.phase_increment = inputConverterF * osc_mult[0] * detune[1];
-    o4.phase_increment = inputConverterF * osc_mult[0] * detune[2];
-    o5.phase_increment = inputConverterF * osc_mult[0] * detune[3];
+    o2.phase_increment = inputConverterF * osc_mult[0] * chord[0];
+    o3.phase_increment = inputConverterF * osc_mult[0] * chord[1];
+    o4.phase_increment = inputConverterF * osc_mult[0] * chord[2];
+    o5.phase_increment = inputConverterF * osc_mult[0] * chord[3];
   }
   else {
     FMMult = ((int)((averageratio >> 9) + 1)) * aInModRatio; //FM + free
     osc_mult[0] = FMMult;
     osc_mult[1] = 4.0;
     o1.phase_increment = inputConverter * osc_mult[1]  ;
-    o2.phase_increment = (inputConverter * osc_mult[1]) * detune[0];
-    o3.phase_increment = (inputConverter * osc_mult[1]) * detune[1];
-    o4.phase_increment = (inputConverter * osc_mult[1]) * detune[2];
-    o5.phase_increment = (inputConverter * osc_mult[1]) * detune[3];
+    o2.phase_increment = (inputConverter * osc_mult[1]) * chord[0];
+    o3.phase_increment = (inputConverter * osc_mult[1]) * chord[1];
+    o4.phase_increment = (inputConverter * osc_mult[1]) * chord[2];
+    o5.phase_increment = (inputConverter * osc_mult[1]) * chord[3];
   }
 
   oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
@@ -646,7 +645,7 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
         osc_mult[0] = FMMult;
       }
 
-      FMX_HiOffset = 0;
+      FMX_HiOffset = 1;
       break;
 
 
@@ -670,8 +669,8 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
       FMIndexContCubing = FMIndexCont / 256.0;
       FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
 
-      FMX_HiOffset = mixHi * FMX_HiOffsetCont;
-
+      FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
+      
       if (FMFixedOn) {
         float avgcubing = averageratio / 500.0; //change to adjust "LFO" in fm fixed
         FMMult = ((((float)(avgcubing * avgcubing * avgcubing))) + 0.001) * (aInModRatio * 8.0); //FM+fixed mult control
@@ -707,7 +706,7 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
         osc_mult[0] = FMMult;
       }
 
-      FMX_HiOffset = 0;
+      FMX_HiOffset = 1;
       FMIndex = 0;
       break;
 
@@ -737,7 +736,7 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
         osc_mult[0] = FMMult;
       }
 
-      FMX_HiOffset = mixHi * FMX_HiOffsetCont << 6;
+    FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
       FMIndex = 0;
       break;
   }
@@ -748,15 +747,16 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
   lfo.phase_increment = inputConverterF * (osc_mult[0] / 20.0);}
   else {o1.phase_increment = inputConverter * osc_mult[0] ;
   lfo.phase_increment = inputConverter * (osc_mult[0] / 4.0);}
-  o2.phase_increment = inputConverter * 4.0 + FMX_HiOffset ;
-  o3.phase_increment = inputConverter * 6.0 + detune[0] + FMX_HiOffset;
-  o4.phase_increment = inputConverter * 8.0 + detune[1] + FMX_HiOffset;
-  o5.phase_increment = inputConverter * 12.0 + detune[2] + FMX_HiOffset;
-  o6.phase_increment = inputConverter * 16.0 + detune[3] + FMX_HiOffset;
-  o7.phase_increment = inputConverter * 20.0 +(-detune[0])+ FMX_HiOffset;
-  o8.phase_increment = inputConverter * 24.0 +(-detune[1])+ FMX_HiOffset;
-  o9.phase_increment = inputConverter * 28.0 + (-detune[2]) + FMX_HiOffset;
-  o10.phase_increment = inputConverter * 32.0+ (-detune[3])  + FMX_HiOffset;
+  
+  o2.phase_increment = inputConverter * 4.0 * FMX_HiOffset ;
+  o3.phase_increment = inputConverter * 6.0 * chord[0] * FMX_HiOffset;
+  o4.phase_increment = inputConverter * 8.0 * chord[1] * FMX_HiOffset;
+  o5.phase_increment = inputConverter * 12.0 * chord[2] * FMX_HiOffset;
+  o6.phase_increment = inputConverter * 16.0 * chord[3] * FMX_HiOffset;
+  o7.phase_increment = inputConverter * 20.0 *(-chord[0])* FMX_HiOffset;
+  o8.phase_increment = inputConverter * 24.0 *(-chord[1])* FMX_HiOffset;
+  o9.phase_increment = inputConverter * 28.0 * (-chord[2]) * FMX_HiOffset;
+  o10.phase_increment = inputConverter * 32.0* (-chord[3])  * FMX_HiOffset;
 
 
 

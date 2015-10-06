@@ -1,7 +1,7 @@
 void loop() { 
   
-  SWC ++;
-  if (SWC > 1000){
+//  SWC ++;
+//  if (SWC > 1000){
     
     
   Serial.print("\t");
@@ -19,12 +19,14 @@ void loop() {
   Serial.print("\t");
   Serial.print("A17,freq CV = ");  
   Serial.println(CVinFREQ); 
+
+ analogWrite(aout2, CVinDETUNE);
   
   LEDToggle = ! LEDToggle;
  
  SWC = 0; 
   
-  }
+  
     
   
   

@@ -277,55 +277,50 @@ void SELECT_ISRS() {
 
 
 void GRADUALWAVE() {
+
+ GremLo = (uint32_t)(map((analogControls[8]%546),0,545,0,511)); //get remainder for mix amount
+ GremMid = (uint32_t)(map((analogControls[5]%546),0,545,0,511));
+ GremHi = (uint32_t)(map((analogControls[4]%546),0,545,0,511));
+
+  
   switch (oscMode) {
     case 0:
-      GWTlo1 = FMWTselLo[analogControls[8] >> 9]; //select "from" wave
-      GWTlo2 = FMWTselLo[(((analogControls[8] >> 9) + 1) << 27) >> 27]; //select "to" wave and modulo 16
-      GremLo = (uint32_t)((uint32_t)((analogControls[8] << 23)) >> 23); //get remainder for mix amount
+      GWTlo1 = FMWTselLo[analogControls[8]/ 546]; //select "from" wave /546 gives 15 steps
+      GWTlo2 = FMWTselLo[((analogControls[8]/ 546) + 1) ]; //select "to"     
 
-      GWTmid1 = FMWTselMid[analogControls[5] >> 9];
-      GWTmid2 = FMWTselMid[(((analogControls[5] >> 9) + 1) << 27) >> 27];
-      GremMid = (uint32_t)((uint32_t)((analogControls[5] << 23)) >> 23);
+      GWTmid1 = FMWTselMid[analogControls[5]/ 546];
+      GWTmid2 = FMWTselMid[((analogControls[5]/ 546) + 1)];      
 
-      GWThi1 = FMWTselHi[analogControls[4] >> 9];
-      GWThi2 = FMWTselHi[(((analogControls[4] >> 9) + 1) << 27) >> 27];
-      GremHi = (uint32_t)((uint32_t)((analogControls[4] << 23)) >> 23);
-
+      GWThi1 = FMWTselHi[analogControls[4]/ 546];
+      GWThi2 = FMWTselHi[((analogControls[4]/ 546) + 1)];            
       break;
+      
     case 2:
-      GWTlo1 = FMAltWTselLo[analogControls[8] >> 9];
-      GWTlo2 = FMAltWTselLo[(((analogControls[8] >> 9) + 1) << 27) >> 27];
-      GremLo = (uint32_t)((uint32_t)((analogControls[8] << 23)) >> 23);
+      GWTlo1 = FMAltWTselLo[analogControls[8]/ 546];
+      GWTlo2 = FMAltWTselLo[((analogControls[8]/ 546) + 1)];      
 
-      GWTmid1 = FMAltWTselMid[analogControls[5] >> 9];
-      GWTmid2 = FMAltWTselMid[(((analogControls[5] >> 9) + 1) << 27) >> 27];
-      GremMid = (uint32_t)((uint32_t)((analogControls[5] << 23)) >> 23);
+      GWTmid1 = FMAltWTselMid[analogControls[5]/ 546];
+      GWTmid2 = FMAltWTselMid[((analogControls[5]/ 546) + 1)];      
       break;
 
     case 1:
-      GWTlo1 = CZWTselLo[analogControls[8] >> 9];
-      GWTlo2 = CZWTselLo[(((analogControls[8] >> 9) + 1) << 27) >> 27];
-      GremLo = (uint32_t)((uint32_t)((analogControls[8] << 23)) >> 23);
+      GWTlo1 = CZWTselLo[analogControls[8]/ 546];
+      GWTlo2 = CZWTselLo[((analogControls[8]/ 546) + 1) ];      
 
-      GWTmid1 = CZWTselMid[analogControls[5] >> 9];
-      GWTmid2 = CZWTselMid[(((analogControls[5] >> 9) + 1) << 27) >> 27];
-      GremMid = (uint32_t)((uint32_t)((analogControls[5] << 23)) >> 23);
+      GWTmid1 = CZWTselMid[analogControls[5]/ 546];
+      GWTmid2 = CZWTselMid[((analogControls[5]/ 546) + 1)];     
 
-      GWThi1 = CZWTselHi[analogControls[4] >> 9];
-      GWThi2 = CZWTselHi[(((analogControls[4] >> 9) + 1) << 27) >> 27];
-      GremHi = (uint32_t)((uint32_t)((analogControls[4] << 23)) >> 23);
+      GWThi1 = CZWTselHi[analogControls[4]/ 546];
+      GWThi2 = CZWTselHi[((analogControls[4]/ 546) + 1)];     
 
       break;
     case 3:
-      GWTlo1 = CZAltWTselLo[analogControls[8] >> 9];
-      GWTlo2 = CZAltWTselLo[(((analogControls[8] >> 9) + 1) << 27) >> 27];
-      GremLo = (uint32_t)((uint32_t)((analogControls[8] << 23)) >> 23);
-
-      GWTmid1 = CZAltWTselMid[analogControls[5] >> 9];
-      GWTmid2 = CZAltWTselMid[(((analogControls[5] >> 9) + 1) << 27) >> 27];
-      GremMid = (uint32_t)((uint32_t)((analogControls[5] << 23)) >> 23);
-
-
+      GWTlo1 = CZAltWTselLo[analogControls[8]/ 546];
+      GWTlo2 = CZAltWTselLo[((analogControls[8]/ 546) + 1)];
+      
+      GWTmid1 = CZAltWTselMid[analogControls[5]/ 546];
+      GWTmid2 = CZAltWTselMid[((analogControls[5]/ 546) + 1) ];
+      
 
       break;
   }

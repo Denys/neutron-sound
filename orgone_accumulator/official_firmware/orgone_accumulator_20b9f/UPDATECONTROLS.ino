@@ -119,7 +119,7 @@ void UPDATECONTROLS_CZALT() {
     case 6: //no hi wave in alt(x) mode
 
       FMX_HiOffsetContCub = (analogControls[4] >> 3) - 512;
-      FMX_HiOffsetCont = (int32_t)(FMX_HiOffsetContCub * FMX_HiOffsetContCub * FMX_HiOffsetContCub) >> 20;
+      FMX_HiOffsetCont = (float)(FMX_HiOffsetContCub * FMX_HiOffsetContCub * FMX_HiOffsetContCub) / 1073741824.0;
     
 
     case 1:
@@ -258,9 +258,8 @@ void UPDATECONTROLS_FMALT() {
       break;
 
     case 6: //select hi pitch offset
-      FMX_HiOffsetContCub = ((analogControls[4]) - 2048) / 164.0 ;
-      FMX_HiOffsetCont = FMX_HiOffsetContCub * FMX_HiOffsetContCub * FMX_HiOffsetContCub  ;
-
+     FMX_HiOffsetContCub = (analogControls[4] >> 3) - 512;
+      FMX_HiOffsetCont = (float)(FMX_HiOffsetContCub * FMX_HiOffsetContCub * FMX_HiOffsetContCub) / 134217728.0;
       break;
 
     case 1:

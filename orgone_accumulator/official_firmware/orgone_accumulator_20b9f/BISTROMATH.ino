@@ -94,6 +94,11 @@ static inline int32_t ssat13(int32_t a)
   return out;
 }
 
+static inline int16_t Interp512(int16_t wave, int16_t wavenext, uint32_t phase) __attribute__((always_inline, unused));
+static inline int16_t Interp512(int16_t wave, int16_t wavenext, uint32_t phase) {  
+  return wave + ((wavenext - wave) * static_cast<int32_t>((phase << 9) >> 17) >> 15);
+}
+
 
 static void inline NOISELIVE0() {
 
@@ -144,6 +149,17 @@ static void inline NOISELIVE1() {
   noiseLive1[1] = noiseLive1[0] =  nosc1.nextwave;
 }
 
+static void inline DECLICK_CHECK() {
+if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
+  else declickRampOut = 0;
+  declickValue = (declickValue * declickRampOut) >> 12;
+  declickRampIn = abs(4095 - declickRampOut);
+}
+
+static void inline SUBMULOC() {
+oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
+  digitalWriteFast (oSQout, (oSQ.phase < oSQ.PW)); //pulse out
+}
 
 
 

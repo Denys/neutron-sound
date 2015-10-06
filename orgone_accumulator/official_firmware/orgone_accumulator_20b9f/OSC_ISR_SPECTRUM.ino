@@ -1,13 +1,9 @@
 void FASTRUN outUpdateISR_SPECTRUM(void) {
 
-  oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
-  digitalWriteFast (oSQout, (oSQ.phase < oSQ.PW)); //pulse out
-
-  if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
-  else declickRampOut = 0;
-  declickValue = (declickValue * declickRampOut) >> 12;
-  declickRampIn = abs(4095 - declickRampOut);
-
+  SUBMULOC();
+  DECLICK_CHECK();
+   NOISELIVE0();
+  NOISELIVE1();
 
 
     noiseTable3[0] = noiseTable3[1] = (noiseTable3[0] + NT3Rate);
@@ -18,17 +14,14 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       o1.phaseRemain = (o1.phase << 9) >> 17;
       o1.wave = (FMTable[o1.phase >> WTShiftFM]);
       o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
-      o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
-      
-
-      
+      o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);     
       
      
 
 
       o2.phase = o2.phase +  (o2.phase_increment + o1.index) ;
        if (o1.phaseOld > o2.phase) {
-        //lfo.phase = 0; //check for sync reset osc in CZ mode.
+        //lfo.phase = 0; 
         if(!FMmodeOn)o1.phase=0;
       }     
       o1.phaseOld = o2.phase;
@@ -43,28 +36,28 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       
 
       //harmonic oscillators  ------------3-10---------
-      o3.phase = o3.phase +  (o3.phase_increment + o1.index) + (FXMixer[0] * o2.wave) + (FXMixer[1] * o9.wave) + o1.phaseOffset;
+      o3.phase = o3.phase +  (o3.phase_increment + o1.index) + (FXMixer[0] * o2.wave) + (FXMixer[1] * o4.wave) + o1.phaseOffset;
       o3.phaseRemain = (o3.phase << 9) >> 17; //5th
 
-      o4.phase = o4.phase +  (o4.phase_increment + o1.index) + (FXMixer[0] * o3.wave) + (FXMixer[1] * o8.wave) + o1.phaseOffset;
+      o4.phase = o4.phase +  (o4.phase_increment + o1.index) + (FXMixer[0] * o3.wave) + (FXMixer[1] * o5.wave) + o1.phaseOffset;
       o4.phaseRemain = (o4.phase << 9) >> 17; //OCT
 
-      o5.phase = o5.phase +  (o5.phase_increment + o1.index) + (FXMixer[0] * o4.wave) + (FXMixer[1] * o7.wave) + o1.phaseOffset;
+      o5.phase = o5.phase +  (o5.phase_increment + o1.index) + (FXMixer[0] * o4.wave) + (FXMixer[1] * o6.wave) + o1.phaseOffset;
       o5.phaseRemain = (o5.phase << 9) >> 17; //3rd harm
 
-      o6.phase = o6.phase + (o6.phase_increment + o1.index) + (FXMixer[0] * o5.wave) + (FXMixer[1] * o6.wave) + o1.phaseOffset;
+      o6.phase = o6.phase + (o6.phase_increment + o1.index) + (FXMixer[0] * o5.wave) + (FXMixer[1] * o3.wave) + o1.phaseOffset;
       o6.phaseRemain = (o6.phase << 9) >> 17; //4th harm
 
-      o7.phase = o7.phase +  (o7.phase_increment + o1.index) + (FXMixer[0] * o6.wave) + (FXMixer[1] * o5.wave) + o1.phaseOffset;
+      o7.phase = o7.phase +  (o7.phase_increment + o1.index) + (FXMixer[0] * o6.wave) + (FXMixer[1] * o2.wave) + o1.phaseOffset;
       o7.phaseRemain = (o7.phase << 9) >> 17; //5th harm
 
-      o8.phase = o8.phase +  (o8.phase_increment + o1.index) + (FXMixer[0] * o7.wave) + (FXMixer[1] * o4.wave) + o1.phaseOffset;
+      o8.phase = o8.phase +  (o8.phase_increment + o1.index) + (FXMixer[0] * o7.wave) + (FXMixer[1] * o7.wave) + o1.phaseOffset;
       o8.phaseRemain = (o8.phase << 9) >> 17; //6th harm
 
-      o9.phase = o9.phase +  (o9.phase_increment + o1.index) + (FXMixer[0] * o8.wave) + (FXMixer[1] * o3.wave) + o1.phaseOffset;
+      o9.phase = o9.phase +  (o9.phase_increment + o1.index) + (FXMixer[0] * o8.wave) + (FXMixer[1] * o8.wave) + o1.phaseOffset;
       o9.phaseRemain = (o9.phase << 9) >> 17; //7th harm
 
-      o10.phase = o10.phase + (o10.phase_increment + o1.index) + (FXMixer[0] * o9.wave) + (FXMixer[1] * o2.wave) + o1.phaseOffset;
+      o10.phase = o10.phase + (o10.phase_increment + o1.index) + (FXMixer[0] * o9.wave) + (FXMixer[1] * o9.wave) + o1.phaseOffset;
       o10.phaseRemain = (o10.phase << 9) >> 17;//8th harm
       //-----------------------------------------------------------------------
 
@@ -104,7 +97,7 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       
       o1.phaseOffset = o2.wave>>3;
       
-      o2.wave = (o2.wave *o2.index)>>12;
+      o12.wave = (o2.wave *o2.index)>>12;
       o3.wave = (o3.wave *o3.index)>>12;
       o4.wave = (o4.wave *o4.index)>>12;
       o5.wave = (o5.wave *o5.index)>>12;
@@ -117,18 +110,19 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       
       
       
-      o4.wave = (o10.wave + o4.wave + o6.wave + o8.wave + o2.wave + o3.wave + o5.wave + o7.wave + o9.wave)>>3; //main out and mix detune
+      
 
-     if (pulsarOn){
-     if (!FMmodeOn){ o4.wave = (o4.wave*(2047-CZMix)>>11)+((((o1.phaseOffset*o1.wave)>>12) * CZMix) >> 14);}
-     o1.index = (FMIndex * lfo.wave);
-     //else o1.phaseOffset = (int32_t)(((o1.phaseOffset) * ((o1.wave * CZMix) >> 11)) >> 12); //FM modulator
+     if (pulsarOn) {
+     o4.wave = (o10.wave + o4.wave + o6.wave + o8.wave + o3.wave + o5.wave + o7.wave + o9.wave)>>3; //main out and mix detune     
+     o4.wave = (o4.wave * max(o2.wave,0))>>15;
      }
-     else{
+     else o4.wave = (o10.wave + o4.wave + o6.wave + o8.wave + o12.wave + o3.wave + o5.wave + o7.wave + o9.wave)>>3; //main out and mix detune
+//     
+     
      if (!FMmodeOn){ o4.wave = (o4.wave*(2047-CZMix)>>11)+((((o4.wave*o1.wave)>>12) * CZMix) >> 14);}
      o1.index = (FMIndex * o1.wave);
      //else o1.phaseOffset = (int32_t)((o4.wave * CZMix) >> 11) ; //FM modulator
-     }
+    
      
       
       FinalOut = declickValue + ((o4.wave * declickRampIn) >> 12);

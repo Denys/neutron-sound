@@ -4,7 +4,7 @@ void DODETUNING() {
   pcounter = millis() - pcounterOld;//used for LED flash
   pcounterOld = millis();
 
-Serial.println(CZMix);
+Serial.println(analogControls[4]>>8);
   switch (FX) {
     case 0: //symetrical detune - primes (bipolar)
     mixEffectUp = mixEffect * 0.77; 
@@ -41,6 +41,9 @@ Serial.println(CZMix);
       break;
 
     case 2: //crush/fold distortions 1 (bipolar)
+mixEffectUp = mixEffect * 0.97; 
+    mixEffectDn =  (2047 - mixEffect) * 0.97; 
+    
       bipolarFX = (constrain((((4095 - aInEffectReading) << 1) + (analogControls[2] - 4095)), -4095, 4095));
       if (bipolarFX > 0) {
         o1.amp = bipolarFX;
@@ -67,7 +70,7 @@ Serial.println(CZMix);
 
     case 3: //Distortions2 (bipolar)
 
- mixEffectUp = mixEffect * 0.77; 
+ mixEffectUp = mixEffect * 0.97; 
     mixEffectDn =  (2047 - mixEffect) * 0.97; 
     
       bipolarFX = (constrain((((4095 - aInEffectReading )<< 1) + (analogControls[2] - 4095)), -4095, 4095));
@@ -89,7 +92,7 @@ Serial.println(CZMix);
       GRADUALWAVE();
 
     case 4: //chord allready bipolar
-    mixEffectUp = mixEffect * 0.77; 
+    mixEffectUp = mixEffect * 0.87; 
     mixEffectDn =  (2047 - mixEffect) * 0.97; 
     
       chordArrayOffset = ((constrain(((4095 - aInEffectReading) + (analogControls[2])), 0, 8190)) >> 10) * 3;
@@ -99,23 +102,26 @@ Serial.println(CZMix);
       break;
 
     case 5: //spectrum bipolar
+    mixEffectUp = mixEffect * 0.77; 
+    mixEffectDn =  (2047 - mixEffect) * 0.97; 
+    
       bipolarFX = (constrain((((4095 - aInEffectReading )<< 1) + (analogControls[2] - 4095)), -4095, 4095));
       aInModEffectCubing = bipolarFX / 64.0;
-      effectScaler = (aInModEffectCubing * aInModEffectCubing * aInModEffectCubing) / 200.0;
+      effectScaler = (aInModEffectCubing * aInModEffectCubing * aInModEffectCubing) / 5000.0;
       if (bipolarFX > 0) {
         FXMixer[0] = 0;
-       effectScaler = (effectScaler * mixEffect) / 4095.0;
+       effectScaler = (float)((effectScaler * mixEffect) / 4095.0);
          
-        detune[0] = (int32_t)((effectScaler * primes[0])) ;
-        detune[1] = (int32_t)((effectScaler * primes[1])) ;
-        detune[2] = (int32_t)((effectScaler * primes[2])) ;
-        detune[3] = (int32_t)((effectScaler * primes[3]));
+        chord[0] = (float)(1.0+((effectScaler * primes[0])/1000000.0)) ;
+        chord[1] = (float)(1.0+((effectScaler * primes[1])/1000000.0)) ;
+        chord[2] = (float)(1.0+((effectScaler * primes[2])/1000000.0)) ;
+        chord[3] = (float)(1.0+((effectScaler * primes[3])/1000000.0));
       }
       else {
         if (pulsarOn){ FXMixer[1] = abs(bipolarFX) * mixEffect >> 9; FXMixer[0]=0;}
         else {FXMixer[0] = abs(bipolarFX) * mixEffect >> 9;FXMixer[1]=0;}
         effectScaler = 0;
-        detune[0]=detune[1]=detune[2]=detune[3]=0;
+        detune[0]=detune[1]=detune[2]=detune[3]=1;
       }
       
       Lbuh = (analogControls[8] >> 9) * 9;
@@ -162,16 +168,16 @@ Serial.println(CZMix);
       //effectScaler = 0;       
       
       if (bipolarFX > 0) {
-        detune[0] = (int32_t)((effectScaler * primes[0])+1 );
-        detune[1] = (int32_t)((effectScaler * primes[1])+1 );
-        detune[2] = (int32_t)((effectScaler * primes[2])+1);
-        detune[3] = (int32_t)((effectScaler * primes[3])+1);
+        chord[0] = ((effectScaler * primes[0])+1 );
+        chord[1] = ((effectScaler * primes[1])+1 );
+        chord[2] = ((effectScaler * primes[2])+1);
+        chord[3] = ((effectScaler * primes[3])+1);
       }
       else {
-        detune[0] = (int32_t)((effectScaler * fibi[0] * 55.0) +1);
-        detune[1] = (int32_t)((effectScaler * fibi[1]* 55.0)+1 );
-        detune[2] = (int32_t)((effectScaler * fibi[2]* 55.0)+1);
-        detune[3] = (int32_t)((effectScaler * fibi[3]* 55.0)+1);
+        chord[0] = ((effectScaler * fibi[0] * 55.0) +1);
+        chord[1] = ((effectScaler * fibi[1]* 55.0)+1 );
+        chord[2] = ((effectScaler * fibi[2]* 55.0)+1);
+        chord[3] = ((effectScaler * fibi[3]* 55.0)+1);
       }
       break;
   }

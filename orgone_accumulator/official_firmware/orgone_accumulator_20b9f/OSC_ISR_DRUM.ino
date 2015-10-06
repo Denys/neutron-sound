@@ -4,13 +4,8 @@ void FASTRUN outUpdateISR_DRUM(void) {
   //digitalWriteFast (oSQout,0);//temp testing OC
 
 
-  oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
-  digitalWriteFast (oSQout, (oSQ.phase < oSQ.PW)); //pulse out
-
-  if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
-  else declickRampOut = 0;
-  declickValue = (declickValue * declickRampOut) >> 12;
-  declickRampIn = abs(4095 - declickRampOut);
+  SUBMULOC();
+  DECLICK_CHECK();
 
   ditherbit = random(0, 2);
 

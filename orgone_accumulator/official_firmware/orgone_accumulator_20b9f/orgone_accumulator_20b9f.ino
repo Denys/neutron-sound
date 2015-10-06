@@ -1162,6 +1162,40 @@ const int16_t AKWF_1099[] = {
     -1703,-1595,-1486,-1378,-1268,-1159,-1049,-939,-828,-718,-605,-491,-378,-263,-150,-30
 };
 
+const int16_t AKWF_distorted_0003[] = {
+    8111,13807,14180,16019,16292,17478,17711,18596,18818,19501,19730,20274,20512,20954,21200,21556,
+    21809,22103,22360,22602,22863,23059,23321,23491,23742,23892,24133,24271,24501,24625,24838,24960,
+    25157,25280,25463,25581,25746,25868,26016,26138,26275,26397,26524,26642,26757,26878,26985,27101,
+    27201,27315,27411,27518,27610,27715,27804,27906,27988,28086,28169,28256,28342,28426,28507,28587,
+    28665,28743,28819,28896,28971,29043,29111,29179,29249,29316,29385,29450,29513,29578,29639,29700,
+    29760,29823,29879,29936,29993,30045,30104,30155,30207,30264,30312,30362,30413,30461,30511,30555,
+    30603,30651,30695,30739,30784,30825,30869,30911,30952,30994,31033,31073,31111,31148,31186,31224,
+    31259,31299,31331,31366,31399,31432,31467,31499,31532,31563,31595,31623,31656,31686,31714,31742,
+    31770,31799,31827,31854,31879,31905,31931,31956,31981,32005,32027,32051,32073,32100,32118,32142,
+    32163,32182,32203,32223,32244,32265,32285,32299,32320,32339,32355,32372,32387,32404,32424,32439,
+    32453,32467,32483,32497,32511,32525,32538,32552,32562,32576,32587,32601,32615,32622,32632,32645,
+    32654,32664,32673,32683,32691,32701,32709,32716,32726,32732,32739,32747,32754,32759,32766,32724,
+    32529,32319,32207,32169,32191,32222,32244,32226,32169,32064,31945,31799,31664,31523,31413,31302,
+    31225,31140,31074,30979,30896,30768,30653,30498,30363,30202,30067,29917,29782,29657,29519,29400,
+    29240,29122,28934,28809,28587,28466,28224,28112,27850,27759,27483,27394,27103,27004,26698,26570,
+    26259,26085,25778,25554,25260,24964,24694,24290,24007,23413,22535,21832,21816,20922,20867,19739,
+    19770,18327,18472,16563,16895,13928,14775,5508,-13512,-13519,-15841,-16353,-17433,-18044,-18628,-19295,
+    -19618,-20284,-20463,-21112,-21209,-21831,-21878,-22453,-22488,-23010,-23047,-23510,-23562,-23962,-24035,-24382,
+    -24479,-24768,-24892,-25128,-25277,-25468,-25632,-25793,-25967,-26097,-26276,-26385,-26568,-26663,-26838,-26927,
+    -27097,-27181,-27340,-27420,-27571,-27650,-27788,-27870,-27996,-28080,-28190,-28279,-28381,-28469,-28562,-28649,
+    -28733,-28822,-28901,-28985,-29063,-29140,-29214,-29293,-29359,-29437,-29500,-29571,-29634,-29704,-29763,-29829,
+    -29889,-29949,-30006,-30063,-30120,-30174,-30227,-30279,-30329,-30381,-30427,-30475,-30523,-30567,-30610,-30657,
+    -30698,-30738,-30778,-30815,-30854,-30892,-30931,-30965,-30999,-31033,-31066,-31095,-31127,-31156,-31185,-31215,
+    -31240,-31267,-31293,-31317,-31342,-31362,-31385,-31409,-31426,-31443,-31466,-31483,-31499,-31516,-31529,-31543,
+    -31556,-31570,-31582,-31590,-31604,-31611,-31620,-31628,-31632,-31640,-31643,-31648,-31651,-31655,-31658,-31655,
+    -31658,-31656,-31651,-31651,-31647,-31641,-31637,-31632,-31626,-31616,-31607,-31599,-31587,-31574,-31562,-31549,
+    -31534,-31517,-31502,-31485,-31466,-31449,-31427,-31406,-31381,-31358,-31336,-31308,-31280,-31252,-31221,-31192,
+    -31156,-31119,-31085,-31045,-30991,-30924,-30854,-30791,-30739,-30694,-30649,-30597,-30545,-30479,-30408,-30329,
+    -30250,-30166,-30083,-29998,-29919,-29834,-29757,-29666,-29585,-29489,-29404,-29300,-29199,-29090,-28983,-28875,
+    -28763,-28657,-28536,-28434,-28306,-28199,-28059,-27954,-27800,-27694,-27526,-27417,-27242,-27130,-26946,-26835,
+    -26642,-26517,-26321,-26183,-25982,-25819,-25622,-25433,-25238,-25010,-24827,-24553,-24378,-24048,-23873,-23461,
+    -23272,-22736,-22387,-21212,-20986,-20512,-20209,-19506,-19141,-18314,-17843,-16863,-16188,-14909,-13672,-11113
+};
 
 
 const int16_t AKWF_sinharm_0015[] = {
@@ -1215,16 +1249,16 @@ int16_t noiseLive1ValOld;
 //Arrays assign wavetables to wave slots on low, medium and high positions
 //CZ
 
-const int16_t *CZWTselLo[] = {nothingTable, sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                              , bassTable2 , celloTable , violTable , distoTable , blipTable , AKWF_0447 , primeTable
+const int16_t *CZWTselLo[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
+                              , bassTable2 , celloTable , violTable , distoTable ,AKWF_distorted_0003,  AKWF_0447 , primeTable, nothingTable,  nothingTable //extra nothingtables dont do anything. needed to stop out of bounds crash
                              };
 
 const int16_t *CZWTselMid[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                               , bassTable2 , celloTable , violTable , distoTable , blipTable , AKWF_0447 , noiseTable2 , noiseTable
+                               , bassTable2 , celloTable , violTable , distoTable , AKWF_distorted_0003,  AKWF_0447 , noiseTable2 , noiseTable ,nothingTable
                               };
 
 const int16_t *CZWTselHi[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                              , bassTable2 , celloTable , violTable , distoTable , blipTable , AKWF_0447 , noiseTable2 , noiseLive0
+                              , bassTable2 , celloTable , violTable , distoTable , AKWF_distorted_0003 ,  AKWF_0447 , noiseTable2 , noiseLive0 ,nothingTable
                              };
 
 const int16_t *CZWTselFM[] = {sinTable, triTable, FMTableS180 , FMTableSQ , FMTableSQR , AKWF_0003 , pnoTable , bassTable1
@@ -1232,12 +1266,12 @@ const int16_t *CZWTselFM[] = {sinTable, triTable, FMTableS180 , FMTableSQ , FMTa
                              };
 
 //CZALT
-const int16_t *CZAltWTselLo[] = { nothingTable, sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                                  , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , primeTable ,
+const int16_t *CZAltWTselLo[] = { sinTable, triTable, sawTable , scarabTable1 ,  pulseTable , pnoTable , bassTable1
+                                  , bassTable2 , celloTable , violTable , distoTable , AKWF_distorted_0003 , blipTable , voiceTable , primeTable ,nothingTable  ,nothingTable
                                 };
 
-const int16_t *CZAltWTselMid[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable , pnoTable , bassTable1
-                                  , bassTable2 , celloTable , violTable , distoTable , blipTable , voiceTable , noiseTable2 , noiseLive0
+const int16_t *CZAltWTselMid[] = {sinTable, triTable, sawTable , scarabTable1 , scarabTable2 , pulseTable ,  bassTable1
+                                  , bassTable2 , celloTable , violTable , distoTable , AKWF_distorted_0003 , blipTable , voiceTable , noiseTable2 , noiseLive0 ,nothingTable
                                  };
 
 const int16_t *CZAltWTselFM[] = {sinTable, sinTable, triTable , FMTableSQ , FMTableSQR , AKWF_0003 , pnoTable , bassTable1
@@ -1250,16 +1284,16 @@ const int16_t *CZAltWTselFMAMX[] = {DCTable, sinTable, FMTableSQ , FMTableSQ , F
 
 //FM
 
-const int16_t *FMWTselLo[] = { nothingTable, sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
-                               , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2
+const int16_t *FMWTselLo[] = { sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
+                               , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_distorted_0003 , AKWF_0003 ,  FMTableFM98 , noiseTable2, nothingTable, nothingTable, 
                              };
 
-const int16_t *FMWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
-                               , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , AKWF_squ_0011
+const int16_t *FMWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 ,  AKWF_symetric_0013 , pnoTable , FMTableS180
+                               , AKWF_gapsaw_0017 , FMTableSQR , distoTable  , AKWF_distorted_0003, AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , AKWF_squ_0011 ,nothingTable,
                               };
 
-const int16_t *FMWTselHi[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , bassTable1
-                              , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , noiseLive1
+const int16_t *FMWTselHi[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , bassTable1
+                              , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_distorted_0003 , AKWF_0003 , voiceTable , FMTableFM98 , noiseTable2 , noiseLive1, nothingTable,
                              };
 
 const int16_t *FMWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTableSQ , FMTableSQR , AKWF_symetric_0013 , AKWF_symetric_0010 , bassTable1
@@ -1268,12 +1302,12 @@ const int16_t *FMWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTableSQ
 
 //FMALT
 
-const int16_t *FMAltWTselLo[] = { nothingTable, sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
-                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2
+const int16_t *FMAltWTselLo[] = { sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180  ,nothingTable
+                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable ,  AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2 ,nothingTable
                                 };
 
-const int16_t *FMAltWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180
-                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2 , noiseLive1
+const int16_t *FMAltWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , FMTableS180
+                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable , AKWF_distorted_0003 , AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2 , noiseLive1 ,nothingTable
                                  };
 
 
@@ -1296,8 +1330,8 @@ const int16_t *drumWT[] = {sinTable, triTable, distoTable , AKWF_0447 , FMTableS
                            AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , noiseTable
                           };
 
-const int16_t *drumWT2[] = {sinTable, triTable, distoTable , FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
-                            AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , noiseLive0
+const int16_t *drumWT2[] = {sinTable, triTable, distoTable , AKWF_distorted_0003,FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
+                            AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable ,  noiseTable2 , noiseLive0
                            };
 
 
@@ -1355,6 +1389,9 @@ int32_t declickRampIn;
 int32_t declickValue;
 const int declick = DECLICK;
 
+const int Temporal_Shift_CZ = 18;
+const int Temporal_Shift_P = 18;
+
 struct oscillatorSQUARE //PWM osc
 {
   uint32_t phase = 0;
@@ -1366,6 +1403,7 @@ oSQ;
 struct oscillator1
 {
   uint32_t phase = 0;
+  uint32_t phase_SUB;
   double freq = 0;
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;
@@ -1409,6 +1447,7 @@ o3;
 struct oscillator4
 {
   uint32_t phase = 0;
+  uint32_t phaseOld = 0;
   uint32_t phaseAdd = 0;
   int32_t phaseRemain = 0;
   int32_t nextwave;
@@ -1419,7 +1458,7 @@ struct oscillator4
 o4;
 struct oscillator5
 {
-  uint32_t phase = 0;
+  uint32_t phase = 0;  
   int32_t phaseRemain = 0;
   int32_t nextwave;
   int32_t phaseOffset = 0;
@@ -1606,11 +1645,9 @@ const int PWM_Div = PWM_SUB;
 const int PWM_Min = PWM_MINIMUM << 4;
 const int PWM_Cont = PWM_CONTROL;
 const int FX_Count = 7;
-//const int FXa[] = {0, 1, 2, 3, 4, 5, 6, 7};
 const int LED_MST = LED_MODESWITCH_TIME;
 const uint8_t SEL_LED_ARRAY[] = {3, 32, 24, 33, 31, 30, 29, 15};
-//const uint8_t HW2_FXa[] = {0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0}; //hw2 effects order
-const float primes[] = {351.1, 442.3, 398.9, 327.1,};
+const float primes[] = {199.1221, 621.6538, 1074.5242, 1343.189,};
 const float fibi[] = {2.0, 3.0, 5.0, 8.0, 13.0};
 uint8_t WTShiftFM = 23;
 uint8_t WTShiftHi = 23;
@@ -1681,13 +1718,18 @@ int totalratio;
 int averageratio;
 int loopReset;
 
-const int numreadingsaInRAv = 16; //higher number if FM is noisy. but it slows down response.
+const int numreadingsaInRAv = 16; 
+const int numreadingsCV = 6; 
 float readingsaInRAv[numreadingsaInRAv];
 float readingsaInIAv[numreadingsaInRAv];
+float readingsaInCV[numreadingsCV];
 int indexaInRAv = 0;
+int indexInCV = 0;
 float totalaInRAv;
 float totalaInIAv;
+float totalInCV;
 float averageaInRAv;
+float averageaInCV;
 float averageaInIAvCubing;
 float averageaInIAv;
 float avgcubing;
@@ -1724,8 +1766,8 @@ int32_t AGCtest;
 int32_t AGCtestPeriod;
 int32_t AGCtestSmooth;
 int32_t FinalOut;
-int32_t FMX_HiOffset;
-int32_t FMX_HiOffsetCont;
+float FMX_HiOffset;
+float FMX_HiOffsetCont;
 int32_t FMX_HiOffsetContCub;
 
 int fuh;
@@ -1753,7 +1795,8 @@ uint8_t FMFixedOnToggle;
 uint8_t oscSync;
 uint8_t oscSyncTest;
 uint8_t buh;
-int inCV = 1200;
+float inCV = 1200;
+float inCVraw;
 int cycleCounter;
 uint8_t CRUSHBITS = 0;
 int32_t CRUSH_Remain = 0;
@@ -1774,14 +1817,15 @@ Bounce xModeButton = Bounce(xModeSwitch, 20);
 
 
 void setup() {
+  analogReadResolution(16);
   pinMode(33, OUTPUT);
   pinMode(aout2, OUTPUT);
   pinMode(oSQout, OUTPUT);
   pinMode(31, INPUT_PULLUP);//turn this to an input to check for presence of LED. (hw2 detect)
 
   if (digitalRead(31) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
-    IsHW2 = 1;
 
+    IsHW2 = 1;
     FXButton = 25;
 
     LED_TuneLock = 0;
@@ -1795,8 +1839,7 @@ void setup() {
     //-------------these do not exist in 1x hardware
 
     pinMode(LED_LoSel, OUTPUT);
-    pinMode(LED_pulsarON, OUTPUT);
-    //pinMode(LED_pulsarON, INPUT);
+    pinMode(LED_pulsarON, INPUT);   
     pinMode(LED_MidSel, OUTPUT);
     pinMode(LED_FXSelUp, OUTPUT);
     digitalWrite(LED_FXSelUp, HIGH); //turn off LED for animatioon
@@ -1881,16 +1924,17 @@ void setup() {
   analogReference(EXTERNAL);
   analogWriteResolution(13);
   analogReadResolution(13);
-  analogReadAveraging(16);
-  analogWriteFrequency(LED_Lo, 46875);//LED PWM Hz
-  analogWriteFrequency(LED_Mid, 46875);
-  analogWriteFrequency(LED_Hi, 46875);
+  analogReadAveraging(32);
+  analogWriteFrequency(LED_Lo, 20000);//LED PWM Hz
+  analogWriteFrequency(LED_Mid, 20000);
+  analogWriteFrequency(LED_Hi, 20000);
 
   digitalWrite(LED_TuneLock, HIGH);
   delay(75);
   digitalWrite(LED_LoSel, HIGH);
   delay(75);
-  digitalWrite(LED_pulsarON, HIGH);
+  pinMode(LED_pulsarON, OUTPUT); 
+  digitalWrite(LED_pulsarON, HIGH);  
   delay(75);
   digitalWrite(LED_MidSel, HIGH);
   delay(75);
