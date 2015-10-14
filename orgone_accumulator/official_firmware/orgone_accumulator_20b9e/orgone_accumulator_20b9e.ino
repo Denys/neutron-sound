@@ -1,5 +1,5 @@
 //Neutron-sound.com
-//Orgone Accumulator 2 beta9g
+//Orgone Accumulator 2 beta9f
 // optimization of ISRs
 
 //pre 2.0 firmware orgones
@@ -1389,9 +1389,6 @@ int32_t declickRampIn;
 int32_t declickValue;
 const int declick = DECLICK;
 
-const int Temporal_Shift_CZ = 9;
-const int Temporal_Shift_P = 18;
-
 struct oscillatorSQUARE //PWM osc
 {
   uint32_t phase = 0;
@@ -1447,7 +1444,6 @@ o3;
 struct oscillator4
 {
   uint32_t phase = 0;
-  uint32_t phaseOld = 0;
   uint32_t phaseAdd = 0;
   int32_t phaseRemain = 0;
   int32_t nextwave;
@@ -1458,7 +1454,7 @@ struct oscillator4
 o4;
 struct oscillator5
 {
-  uint32_t phase = 0;  
+  uint32_t phase = 0;
   int32_t phaseRemain = 0;
   int32_t nextwave;
   int32_t phaseOffset = 0;
@@ -1718,18 +1714,13 @@ int totalratio;
 int averageratio;
 int loopReset;
 
-const int numreadingsaInRAv = 16; 
-const int numreadingsCV = 3; 
+const int numreadingsaInRAv = 16; //higher number if FM is noisy. but it slows down response.
 float readingsaInRAv[numreadingsaInRAv];
 float readingsaInIAv[numreadingsaInRAv];
-float readingsaInCV[numreadingsCV];
 int indexaInRAv = 0;
-int indexInCV = 0;
 float totalaInRAv;
 float totalaInIAv;
-float totalInCV;
 float averageaInRAv;
-float averageaInCV;
 float averageaInIAvCubing;
 float averageaInIAv;
 float avgcubing;
@@ -1760,15 +1751,14 @@ uint8_t xModeOn = 0;
 uint8_t FMmodeOn = 0;
 int32_t envVal;
 int chordArrayOffset;
-float tuner;
-float dtuner;
+int tuner;
 
 int32_t AGCtest;
 int32_t AGCtestPeriod;
 int32_t AGCtestSmooth;
 int32_t FinalOut;
-float FMX_HiOffset;
-float FMX_HiOffsetCont;
+int32_t FMX_HiOffset;
+int32_t FMX_HiOffsetCont;
 int32_t FMX_HiOffsetContCub;
 
 int fuh;
@@ -1796,8 +1786,7 @@ uint8_t FMFixedOnToggle;
 uint8_t oscSync;
 uint8_t oscSyncTest;
 uint8_t buh;
-float inCV = 1200;
-float inCVraw;
+int inCV = 1200;
 int cycleCounter;
 uint8_t CRUSHBITS = 0;
 int32_t CRUSH_Remain = 0;
@@ -1818,15 +1807,14 @@ Bounce xModeButton = Bounce(xModeSwitch, 20);
 
 
 void setup() {
-  analogReadResolution(16);
   pinMode(33, OUTPUT);
   pinMode(aout2, OUTPUT);
   pinMode(oSQout, OUTPUT);
   pinMode(31, INPUT_PULLUP);//turn this to an input to check for presence of LED. (hw2 detect)
 
   if (digitalRead(31) == 0) { //detect if an LED is on the pin. if so, then it is 2.0 hardware module.
-
     IsHW2 = 1;
+
     FXButton = 25;
 
     LED_TuneLock = 0;
@@ -1839,10 +1827,9 @@ void setup() {
 
     //-------------these do not exist in 1x hardware
 
-    *portConfigRegister(32) = PORT_PCR_MUX(3) | PORT_PCR_PE;
-
     pinMode(LED_LoSel, OUTPUT);
-    pinMode(LED_pulsarON, INPUT);   
+    pinMode(LED_pulsarON, OUTPUT);
+    //pinMode(LED_pulsarON, INPUT);
     pinMode(LED_MidSel, OUTPUT);
     pinMode(LED_FXSelUp, OUTPUT);
     digitalWrite(LED_FXSelUp, HIGH); //turn off LED for animatioon
@@ -1925,19 +1912,18 @@ void setup() {
   pinMode(LED_Hi, OUTPUT);
 
   analogReference(EXTERNAL);
-  analogWriteResolution(16);
+  analogWriteResolution(13);
   analogReadResolution(13);
-  analogReadAveraging(32);
-  analogWriteFrequency(LED_Lo, 20000);//LED PWM Hz
-  analogWriteFrequency(LED_Mid, 20000);
-  analogWriteFrequency(LED_Hi, 20000);
+  analogReadAveraging(16);
+  analogWriteFrequency(LED_Lo, 46875);//LED PWM Hz
+  analogWriteFrequency(LED_Mid, 46875);
+  analogWriteFrequency(LED_Hi, 46875);
 
   digitalWrite(LED_TuneLock, HIGH);
   delay(75);
   digitalWrite(LED_LoSel, HIGH);
   delay(75);
-  pinMode(LED_pulsarON, OUTPUT); 
-  digitalWrite(LED_pulsarON, HIGH);  
+  digitalWrite(LED_pulsarON, HIGH);
   delay(75);
   digitalWrite(LED_MidSel, HIGH);
   delay(75);

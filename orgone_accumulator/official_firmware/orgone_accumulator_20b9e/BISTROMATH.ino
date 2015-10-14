@@ -94,24 +94,6 @@ static inline int32_t ssat13(int32_t a)
   return out;
 }
 
-//  signed saturate to 15 bits  
-static inline int32_t ssat15(int32_t a) __attribute__((always_inline, unused));
-static inline int32_t ssat15(int32_t a)
-{
-  int32_t out;
-  asm volatile("ssat %0, #15, %1" : "=r" (out) : "r" (a));
-  return out;
-}
-
-//// computes (((uint64_t)a[31:0] * (uint64_t)b[31:0]) >> 32) 
-//static inline uint32_t unsigned_multiply_32x32_rshift32(uint32_t a, uint32_t b) __attribute__((always_inline, unused));
-//static inline uint32_t unsigned_multiply_32x32_rshift32(uint32_t a, uint32_t b)
-//{
-//  int32_t out;
-//  asm volatile("ummul %4 ,%0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
-//  return out;
-//}
-
 static inline int16_t Interp512(int16_t wave, int16_t wavenext, uint32_t phase) __attribute__((always_inline, unused));
 static inline int16_t Interp512(int16_t wave, int16_t wavenext, uint32_t phase) {  
   return wave + ((wavenext - wave) * static_cast<int32_t>((phase << 9) >> 17) >> 15);

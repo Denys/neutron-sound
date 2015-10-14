@@ -1,7 +1,7 @@
 //neutron orgone accumulator config file. 
 
 
-#define TUNEMULT 159000 
+#define TUNEMULT 147500 
 //#define TUNEMULT 5900000
 //this is the base frequency. halving it will lower the entire oscillator by 1 octave 
 //real frequency is sent to the broadcast application for tuning
@@ -16,14 +16,14 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 
 //DIY hardware 1.x boards--------------------------------------------------------------------start
 
-#define LED_MODESWITCH_TIME 5000 //time LEDs stay on when effect is switched in main loop cycles, about 2-3000 per second depending on am/fm effects etc.
+#define LED_MODESWITCH_TIME 5000 //time LEDs stay on when mode is switched in main loop cycles, about 2-3000 per second depending on am/fm effects etc.
 
 //LED compensation. adjusts how the LEDs fade across positions
 
 //DIY hardware 1.x boards--------------------------------------------------------------------end
 //everyone gets all effects now.
 
-#define FX_SWITCH 1 //dont change for HW2!
+#define FX_SWITCH 1
 
 //0 = momentary
 //1 = toggle
@@ -66,7 +66,7 @@ extern const int chordTable[] = {
   1, 4, 9,
 };
 
-#define DECLICK 32
+#define DECLICK 8
 //declicking. 4000 = normal operation
 //higher number is faster ramp
 //do not change the

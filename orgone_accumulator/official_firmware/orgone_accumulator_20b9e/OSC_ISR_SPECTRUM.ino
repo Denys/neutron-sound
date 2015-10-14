@@ -21,7 +21,7 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
 
       o2.phase = o2.phase +  (o2.phase_increment + o1.index) ;
        if (o1.phaseOld > o2.phase) {
-        //lfo.phase = 0; 
+        //lfo.phase = 0; //check for sync reset osc in CZ mode.
         if(!FMmodeOn)o1.phase=0;
       }     
       o1.phaseOld = o2.phase;
@@ -113,13 +113,13 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       
 
      if (pulsarOn) {
-     o4.wave = (o10.wave + o4.wave + o6.wave + o8.wave + o3.wave + o5.wave + o7.wave + o9.wave); //main out and mix detune     
-     o4.wave = (o4.wave * max(o2.wave,0))>>14;
+     o4.wave = (o10.wave + o4.wave + o6.wave + o8.wave + o3.wave + o5.wave + o7.wave + o9.wave)>>3; //main out and mix detune     
+     o4.wave = (o4.wave * max(o2.wave,0))>>15;
      }
-     else o4.wave = (o10.wave + o4.wave + o6.wave + o8.wave + o12.wave + o3.wave + o5.wave + o7.wave + o9.wave); //main out and mix detune
+     else o4.wave = (o10.wave + o4.wave + o6.wave + o8.wave + o12.wave + o3.wave + o5.wave + o7.wave + o9.wave)>>3; //main out and mix detune
 //     
      
-     if (!FMmodeOn){ o4.wave = (o4.wave*(2047-CZMix)>>11)+((((o4.wave*o1.wave)>>13) * CZMix) >> 13);}
+     if (!FMmodeOn){ o4.wave = (o4.wave*(2047-CZMix)>>11)+((((o4.wave*o1.wave)>>12) * CZMix) >> 14);}
      o1.index = (FMIndex * o1.wave);
      //else o1.phaseOffset = (int32_t)((o4.wave * CZMix) >> 11) ; //FM modulator
     
@@ -127,7 +127,7 @@ void FASTRUN outUpdateISR_SPECTRUM(void) {
       
       FinalOut = declickValue + ((o4.wave * declickRampIn) >> 12);
 
-      analogWrite(aout2, FinalOut + 32000);
+      analogWrite(aout2, FinalOut + 4000);
 
  
 

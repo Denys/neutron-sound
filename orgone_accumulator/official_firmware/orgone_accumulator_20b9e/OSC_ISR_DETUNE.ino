@@ -165,44 +165,42 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
     case 1://-------------------------------------------CZ MODE OSCILLATORS-----------------------------------------------
 
 
-      o1.phase = o1.phase + o1.phase_increment;     
-      o2.phase = o2.phase +  o2.phase_increment;
-      o2.phaseRemain = (o2.phase << 9) >> 17; 
-      o1.phaseRemain = (o1.phase << 9) >> 17;
-       if (o1.phaseOld > o1.phase)o2.phase = (uint32_t)((o2.phase_increment * o1.phase)>>Temporal_Shift_CZ);  
+      o1.phase = o1.phase + o1.phase_increment;
+      if (o1.phaseOld > o1.phase) {
+        o2.phase = 0;  //check for sync reset osc in CZ mode.
+      }
       o1.phaseOld = o1.phase;
-
-       o2.phaseRemain = (o2.phase << 9) >> 17; 
+      o2.phase = o2.phase +  o2.phase_increment;
+      o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
       o1.phaseRemain = (o1.phase << 9) >> 17;
+
       //unisone oscillators  ------------3-4---------
       o3.phase = o3.phase + o3.phase_increment + o7.phase_increment2;
-      o4.phase = o4.phase +  o4.phase_increment;
-      if (o3.phaseOld > o3.phase) o4.phase = (uint32_t)((o4.phase_increment * o3.phase)>>Temporal_Shift_CZ);
+      if (o3.phaseOld > o3.phase) o4.phase = 0;
       o3.phaseOld = o3.phase;
-      
-      o4.phaseRemain = (o4.phase << 9) >> 17; 
+      o4.phase = o4.phase +  o4.phase_increment;
+      o4.phaseRemain = (o4.phase << 9) >> 17; //used for fake interpolation
       o3.phaseRemain = (o3.phase << 9) >> 17;
       //---------------------------------5-6------------
       o5.phase = o5.phase + o5.phase_increment;
-      o6.phase = o6.phase + o6.phase_increment;
-      if (o5.phaseOld > o5.phase) o6.phase = (uint32_t)((o6.phase_increment * o5.phase)>>Temporal_Shift_CZ);
+      if (o5.phaseOld > o5.phase) o6.phase = 0;
       o5.phaseOld = o5.phase;
-      
-      o6.phaseRemain = (o6.phase << 9) >> 17; 
+      o6.phase = o6.phase + o6.phase_increment;
+      o6.phaseRemain = (o6.phase << 9) >> 17; //used for fake interpolation
       o5.phaseRemain = (o5.phase << 9) >> 17;
       //-------------------------------7-8--------------
       o7.phase = o7.phase + o7.phase_increment;
+      if (o7.phaseOld > o7.phase) o8.phase = 0;
+      o7.phaseOld = o7.phase;
       o8.phase = o8.phase +  o8.phase_increment;
-      if (o7.phaseOld > o7.phase) o8.phase = (uint32_t)((o8.phase_increment * o7.phase)>>Temporal_Shift_CZ);
-      o7.phaseOld = o7.phase;      
-      o8.phaseRemain = (o8.phase << 9) >> 17; 
+      o8.phaseRemain = (o8.phase << 9) >> 17; //used for fake interpolation
       o7.phaseRemain = (o7.phase << 9) >> 17;
       //------------------------------9-10-------------------
       o9.phase = o9.phase + o9.phase_increment;
+      if (o9.phaseOld > o9.phase) o10.phase = 0;
+      o9.phaseOld = o9.phase;
       o10.phase = o10.phase + o10.phase_increment;
-      if (o9.phaseOld > o9.phase) o10.phase = (uint32_t)((o10.phase_increment * o9.phase)>>Temporal_Shift_CZ);
-      o9.phaseOld = o9.phase;      
-      o10.phaseRemain = (o10.phase << 9) >> 17; 
+      o10.phaseRemain = (o10.phase << 9) >> 17; //used for fake interpolation
       o9.phaseRemain = (o9.phase << 9) >> 17;
 
       //-----------------------------------------------------------------------
@@ -259,48 +257,47 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
       lfo.wave = FMTableAMX[lfo.phase >> 23];
       o1.phaseOffset = (FMX_HiOffset * lfo.wave);
       o1.phase = o1.phase + (o1.phase_increment + o1.phaseOffset);
-      o2.phase = o2.phase +  o2.phase_increment;
-      if (o1.phaseOld > o1.phase) o2.phase = (uint32_t)((o2.phase_increment * o1.phase)>>Temporal_Shift_CZ);         
+      if (o1.phaseOld > o1.phase) {
+        o2.phase = 0;  //check for sync reset osc in CZ mode.
+        //        AGCtest = AGCtestPeriod;
+        //        AGCtestPeriod = 2000;
+      }
       o1.phaseOld = o1.phase;
-      
-      o2.phaseRemain = (o2.phase << 9) >> 17; 
+      o2.phase = o2.phase +  o2.phase_increment;
+      o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
       o1.phaseRemain = (o1.phase << 9) >> 17;
 
       //unisone oscillators  ------------3-4---------
       o3.phaseOffset = (FMX_HiOffset * lfo.wave);
       o3.phase = o3.phase + (o3.phase_increment + o3.phaseOffset);
-      o4.phase = o4.phase +  o4.phase_increment;
-      if (o3.phaseOld > o3.phase) o4.phase = (uint32_t)((o4.phase_increment * o3.phase)>>Temporal_Shift_CZ);
+      if (o3.phaseOld > o3.phase) o4.phase = 0;
       o3.phaseOld = o3.phase;
-      
-      o4.phaseRemain = (o4.phase << 9) >> 17; 
+      o4.phase = o4.phase +  o4.phase_increment;
+      o4.phaseRemain = (o4.phase << 9) >> 17; //used for fake interpolation
       o3.phaseRemain = (o3.phase << 9) >> 17;
       //---------------------------------5-6------------
       o5.phaseOffset = (FMX_HiOffset * lfo.wave);
       o5.phase = o5.phase + (o5.phase_increment + o5.phaseOffset);
-      o6.phase = o6.phase + o6.phase_increment;
-      if (o5.phaseOld > o5.phase) o6.phase = (uint32_t)((o6.phase_increment * o5.phase)>>Temporal_Shift_CZ);
+      if (o5.phaseOld > o5.phase) o6.phase = 0;
       o5.phaseOld = o5.phase;
-      
-      o6.phaseRemain = (o6.phase << 9) >> 17; 
+      o6.phase = o6.phase + o6.phase_increment;
+      o6.phaseRemain = (o6.phase << 9) >> 17; //used for fake interpolation
       o5.phaseRemain = (o5.phase << 9) >> 17;
       //-------------------------------7-8--------------
       o7.phaseOffset = (FMX_HiOffset * lfo.wave);
       o7.phase = o7.phase + (o7.phase_increment + o7.phaseOffset);
-      o8.phase = o8.phase +  o8.phase_increment;
-      if (o7.phaseOld > o7.phase) o8.phase = (uint32_t)((o8.phase_increment * o7.phase)>>Temporal_Shift_CZ);
+      if (o7.phaseOld > o7.phase) o8.phase = 0;
       o7.phaseOld = o7.phase;
-      
-      o8.phaseRemain = (o8.phase << 9) >> 17; 
+      o8.phase = o8.phase +  o8.phase_increment;
+      o8.phaseRemain = (o8.phase << 9) >> 17; //used for fake interpolation
       o7.phaseRemain = (o7.phase << 9) >> 17;
       //------------------------------9-10-------------------
       o9.phaseOffset = (FMX_HiOffset * lfo.wave);
       o9.phase = o9.phase + (o9.phase_increment + o9.phaseOffset);
-      o10.phase = o10.phase + o10.phase_increment;
-      if (o9.phaseOld > o9.phase) o10.phase = (uint32_t)((o10.phase_increment * o9.phase)>>Temporal_Shift_CZ);
+      if (o9.phaseOld > o9.phase) o10.phase = 0;
       o9.phaseOld = o9.phase;
-      
-      o10.phaseRemain = (o10.phase << 9) >> 17; 
+      o10.phase = o10.phase + o10.phase_increment;
+      o10.phaseRemain = (o10.phase << 9) >> 17; //used for fake interpolation
       o9.phaseRemain = (o9.phase << 9) >> 17;
 
       //-----------------------------------------------------------------------
@@ -362,10 +359,10 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
   o9.wave = (o3.wave>>3);
   o9.wave = (-((o9.wave * o9.wave *o9.wave)>>15))+(o3.wave+(o3.wave>>1));//soft clipping replaces AGC
 
-  o1.wave = ((o9.wave*(int)(mixEffectUp))>>7) + (((o1.wave * ((int)mixEffectDn)) >> 8)); //main out and mix detune
+  o1.wave = ((o9.wave*(int)(mixEffectUp))>>10) + (((o1.wave * ((int)mixEffectDn)) >> 11)); //main out and mix detune
  
   FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);//remove clicks when oscs reset
-  analogWrite(aout2, o1.wave + 32000);
+  analogWrite(aout2, o1.wave + 4000);
 }
 
 void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
@@ -381,14 +378,12 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
 
   //-------------------------------------pulse1
   o1.phase = o1.phase + o1.phase_increment;
-  o2.phase = o2.phase +  o2.phase_increment ;
   if (o1.phaseOld > o1.phase) {
-    o3.phase = (uint32_t)((o3.phase_increment * o1.phase)>>Temporal_Shift_CZ);
-    o2.phase = (uint32_t)((o2.phase_increment * o1.phase)>>Temporal_Shift_CZ); 
+    o2.phase = o3.phase = 0; //check for sync reset
   }
   o1.phaseOld = o1.phase;
-  
-  o2.phaseRemain = (o2.phase << 9) >> 17; 
+  o2.phase = o2.phase +  o2.phase_increment ;
+  o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
 
   if (o3.phase >> 31 == 0) {
         o3.phase = o3.phase + o3.phase_increment ;
@@ -405,13 +400,11 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
 
   //---------------------------------pulse2
   o4.phase = o4.phase + o4.phase_increment;
-  o5.phase = o5.phase +  o5.phase_increment ;
   if (o4.phaseAdd > o4.phase) {
-     o5.phase = (uint32_t)((o5.phase_increment * o4.phase)>>Temporal_Shift_CZ);
-    o6.phase = (uint32_t)((o6.phase_increment * o4.phase)>>Temporal_Shift_CZ); 
+    o5.phase = o6.phase = 0;
   }
   o4.phaseAdd = o4.phase;
-  
+  o5.phase = o5.phase +  o5.phase_increment ;
   o5.phaseRemain = (o5.phase << 9) >> 17;
 
   if (o6.phase >> 31 == 0) {
@@ -429,13 +422,11 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
 
   //-----------------------------pulse3
   o7.phase = o7.phase + o7.phase_increment;
-  o8.phase = o8.phase +  o8.phase_increment;
   if (o7.phaseOld > o7.phase) {
-    o9.phase = (uint32_t)((o9.phase_increment * o7.phase)>>Temporal_Shift_CZ);
-    o8.phase = (uint32_t)((o8.phase_increment * o7.phase)>>Temporal_Shift_CZ); 
+    o8.phase = o9.phase = 0; //check for sync reset
   }
   o7.phaseOld = o7.phase;
-  
+  o8.phase = o8.phase +  o8.phase_increment;
   o8.phaseRemain = (o8.phase << 9) >> 17;
 
  if (o9.phase >> 31 == 0) {
@@ -452,13 +443,11 @@ void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
 
   //-----------------------------pulse4
   o10.phase = o10.phase + o10.phase_increment;
-  o11.phase = o11.phase +  o11.phase_increment;
   if (o10.phaseOld > o10.phase) {
-    o12.phase = (uint32_t)((o12.phase_increment * o10.phase)>>Temporal_Shift_CZ);
-    o11.phase = (uint32_t)((o11.phase_increment * o10.phase)>>Temporal_Shift_CZ); 
+    o11.phase = o12.phase = 0; //check for sync reset
   }
   o10.phaseOld = o10.phase;
-  
+  o11.phase = o11.phase +  o11.phase_increment;
   o11.phaseRemain = (o11.phase << 9) >> 17;
 
 if (o12.phase >> 31 == 0) {
@@ -524,11 +513,10 @@ if (o12.phase >> 31 == 0) {
   o8.wave = (ssat13((o4.wave + o7.wave + o10.wave + o1.wave)>>4))>>1; 
   o9.wave = (o8.wave>>3);
   o9.wave = (int32_t)((-((o9.wave * o9.wave *o9.wave)>>14))+(o8.wave + (o8.wave>>1)));
-  o8.wave = ((int32_t)(o9.wave * mixEffectUp) >> 7) + (((int32_t)(o1.wave * mixEffectDn)) >> 11);
+  o8.wave = ((int32_t)(o9.wave * mixEffectUp) >> 10) + (((int32_t)(o1.wave * mixEffectDn)) >> 14);
 
-  //FinalOut = declickValue + (int32_t)((o8.wave * declickRampIn) >> 12);
-  FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
-  analogWrite(aout2, o8.wave + 32000);
+  FinalOut = declickValue + (int32_t)((o8.wave * declickRampIn) >> 12);
+  analogWrite(aout2, o8.wave + 4000);
 
 
 }

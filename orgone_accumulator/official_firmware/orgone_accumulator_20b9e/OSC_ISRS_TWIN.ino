@@ -4,46 +4,35 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
   delayCounterShift = delayCounter >> 4 ;
   delayTimeShift = uint16_t(delayCounter - ((8192 - delayTime) << 3)) >> 4;
 
-
+  
   SUBMULOC();
   DECLICK_CHECK();
-  NOISELIVE0();
+   NOISELIVE0();
   NOISELIVE1();
 
 
+ 
 
-//  noiseTable[random(0, 511)] = random(-32767, 32767);
-//
-//
-//  o1.phase = o1.phase + o1.phase_increment;
-//  o4.phase = o1.phase + o1.phaseOffset;
-//  
-//  if (o1.phaseOld > o1.phase) {
-//    o3.phase = (uint32_t)((o3.phase_increment * o1.phase) >> Temporal_Shift_CZ);
-//    o2.phase = (uint32_t)((o2.phase_increment * o1.phase) >> Temporal_Shift_CZ);
-//  }
-//  if (o4.phaseOld > o4.phase) {
-//    o5.phase = (uint32_t)((o2.phase_increment * o4.phase) >> Temporal_Shift_CZ);
-//    o6.phase = (uint32_t)((o6.phase_increment * o4.phase) >> Temporal_Shift_CZ);
-//  }
-//  o1.phaseOld = o1.phase;
-//  o4.phaseOld = o4.phase;
+      
 
-
- o1.phase = o1.phase + o1.phase_increment;
-            
+      o1.phase = o1.phase + o1.phase_increment;
+      
+      o10.phase = o10.phase + o1.phase_SUB;//"fm" button sub osc
+      o10.phaseRemain = (o10.phase << 9) >> 17;
+      o10.wave = (FMTable[o6.phase >> 23]);
+      o10.nextwave = (FMTable[(o6.phase + nextstep)>> 23]);
+      o10.wave = o10.wave + ((((o10.nextwave - o10.wave)) * o10.phaseRemain) >> 15);  
+      
       o4.phase = o1.phase + o1.phaseOffset;
       
       if (o1.phaseOld > o1.phase) {
-        o3.phase = (uint32_t)((o3.phase_increment * o1.phase) >> Temporal_Shift_CZ);
-        o2.phase = (uint32_t)((o2.phase_increment * o1.phase) >> Temporal_Shift_CZ);
+        o2.phase = o3.phase = 0; //check for sync reset osc in CZ mode.
+         noiseTable[random(0,511)] = random(-32767, 32767); 
       }
-      if (o4.phase < (o1.phase_increment<<1)) {
-       o5.phase = o5.phase = (uint32_t)((o2.phase_increment * o4.phase) >> Temporal_Shift_CZ);
-    o6.phase = o6.phase = (uint32_t)((o6.phase_increment * o4.phase) >> Temporal_Shift_CZ);
+      if (o4.phase < (o1.phase_increment << 1)) {
+        o5.phase = o6.phase = 0;
       }
       o1.phaseOld = o1.phase;
-      o4.phaseOld = o4.phase;
       
 
       o2.phase = o2.phase +  o2.phase_increment + ((o10.wave<<10) * FMmodeOn);
@@ -88,7 +77,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
 
     //-----------------------------------------------FM MODE OSCILLATORS-----------------------------------------------
     case 0:
-
+    
 
       o2.wave = (
                   (((int32_t)(((GWThi1[o2.phase >> 23] * (511 - GremHi)) >> 9) + ((GWThi2[o2.phase >> 23] * (GremHi)) >> 9))) * mixHi) +
@@ -115,7 +104,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
     //-----------------------------------------------ALT FM MODE OSCILLATORS-----------------------------------------------
     case 2:
 
-      o2.wave = (
+       o2.wave = (
 
                   (((int32_t)(((GWTlo1[o2.phase >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[o2.phase >> 23] * (GremLo)) >> 9))) * mixLo) +
                   (((int32_t)(((GWTmid1[o2.phase >> 23] * (511 - GremMid)) >> 9) + ((GWTmid2[o2.phase >> 23] * (GremMid)) >> 9))) * (mixMid + mixHi))) >> 15;
@@ -162,13 +151,13 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
                       (((int32_t)(((GWTlo1[(o5.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o5.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo) +
                       (((int32_t)(((GWTmid1[(o5.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o5.phase + nextstep) >> 23] * (GremMid)) >> 9))) * mixMid)) >> 15;
 
-
+       
       break;
 
     //-----------------------------------------------ALT CZ MODE OSCILLATORS-----------------------------------------------
     case 3:
 
-      o2.wave = (
+        o2.wave = (
 
                   (((int32_t)(((GWTlo1[o2.phase >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[o2.phase >> 23] * (GremLo)) >> 9))) * mixLo) +
                   (((int32_t)(((GWTmid1[o2.phase >> 23] * (511 - GremMid)) >> 9) + ((GWTmid2[o2.phase >> 23] * (GremMid)) >> 9))) * (mixMid + mixHi))) >> 15;
@@ -191,21 +180,21 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       break;
 
   }
+  
+      o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
+      o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);  
+      o5.wave = o5.wave + ((((o5.nextwave - o5.wave)) * o5.phaseRemain) >> 15);
+      o6.wave = o6.wave + ((((o6.nextwave - o6.wave)) * o6.phaseRemain) >> 15);     
 
-  o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
-  o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
-  o5.wave = o5.wave + ((((o5.nextwave - o5.wave)) * o5.phaseRemain) >> 15);
-  o6.wave = o6.wave + ((((o6.nextwave - o6.wave)) * o6.phaseRemain) >> 15);
+      o1.wave =   (o2.wave * o3.wave) >> 11; 
+      o4.wave =   (o5.wave * o6.wave) >> 11;     
+      
+      o9.wave = ((4095 - abs(o3.wave >> 3)) * mixEffect) >> 11; //get remaining headroom from pulse envelope
 
-  o1.wave =   (o2.wave * o3.wave) >> 11;
-  o4.wave =   (o5.wave * o6.wave) >> 11;
+      o8.wave = (-o1.wave>>3) + ((o4.wave * o9.wave) >> 15); //add delayed wave in remaining headroom.
 
-  o9.wave = ((32767- abs(o3.wave )) * mixEffect) >> 11; //get remaining headroom from pulse envelope
-
-  o8.wave = (-o1.wave ) + ((o4.wave * o9.wave) >> 15); //add delayed wave in remaining headroom.
-
-  FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
-  analogWrite(aout2, FinalOut + 32000);
+      FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
+      analogWrite(aout2, FinalOut + 4000);
 }
 
 void FASTRUN outUpdateISR_WAVE_TWIN(void) {
@@ -214,8 +203,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
   delayCounterShift = delayCounter >> 4 ;
   delayTimeShift = uint16_t(delayCounter - ((8192 - delayTime) << 3)) >> 4;
 
-  SUBMULOC();
-  DECLICK_CHECK();
+ SUBMULOC();
+ DECLICK_CHECK();
   NOISELIVE0();
   NOISELIVE1();
 
@@ -223,7 +212,7 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
   switch (oscMode) {
     //-----------------------------------------------FM MODE OSCILLATORS-----------------------------------------------
     case 0:
-
+    
       noiseTable3[0] = noiseTable3[1] = (noiseTable3[0] + NT3Rate);
       noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
 
@@ -236,7 +225,7 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
       o1.index = (FMIndex * o1.wave);
       o2.phase = o2.phase +  (o2.phase_increment + o1.index);
       o2.phaseRemain = (o2.phase << 9) >> 17;
-
+      
       o3.phase = o3.phase + o3.phase_increment;
       o3.phaseRemain = (o3.phase << 9) >> 17;
       o3.wave = (FMTable[o3.phase >> WTShiftFM]);
@@ -245,8 +234,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
       o3.index = (FMIndex * o3.wave);
       o4.phase = o2.phase +  o3.index + o1.phaseOffset;
       o4.phaseRemain = (o4.phase << 9) >> 17;
-
-
+      
+     
       //-----------------------------------------------------------------------
 
       o2.wave = (
@@ -258,8 +247,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
                       (((int32_t)(((GWThi1[(o2.phase + nextstep) >> 23] * (511 - GremHi)) >> 9)  +  ((GWThi2[(o2.phase + nextstep) >> 23] * (GremHi)) >> 9))) * mixHi) +
                       (((int32_t)(((GWTlo1[(o2.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o2.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo) +
                       (((int32_t)(((GWTmid1[(o2.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o2.phase + nextstep) >> 23] * (GremMid)) >> 9))) * mixMid)) >> 11;
-
-      o4.wave = (
+                      
+                       o4.wave = (
                   (((int32_t)(((GWThi1[o4.phase >> 23] * (511 - GremHi)) >> 9) + ((GWThi2[o4.phase >> 23] * (GremHi)) >> 9))) * mixHi) +
                   (((int32_t)(((GWTlo1[o4.phase >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[o4.phase >> 23] * (GremLo)) >> 9))) * mixLo) +
                   (((int32_t)(((GWTmid1[o4.phase >> 23] * (511 - GremMid)) >> 9) + ((GWTmid2[o4.phase >> 23] * (GremMid)) >> 9))) * mixMid)) >> 11;
@@ -269,8 +258,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
                       (((int32_t)(((GWTlo1[(o4.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o4.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo) +
                       (((int32_t)(((GWTmid1[(o4.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o4.phase + nextstep) >> 23] * (GremMid)) >> 9))) * mixMid)) >> 11;
 
-      o2.wave = (o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15)) >> 1;
-      o4.wave = (o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15)) >> 1;
+      o2.wave = (o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15))>>1;       
+       o4.wave = (o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15))>>1;     
       break;
 
     //-----------------------------------------------ALT FM MODE OSCILLATORS-----------------------------------------------
@@ -278,14 +267,14 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
 
 
       noiseTable3[0] = noiseTable3[1] = (noiseTable3[0] + NT3Rate);
-
+     
 
       //main oscillator
       o1.phase = o1.phase + o1.phase_increment;
-      if (o1.phaseOld > o1.phase) {
-        noiseLive1[0] = random(-32767, 32767);
+       if (o1.phaseOld > o1.phase) {
+        noiseLive1[0] = random(-32767, 32767);       
       }
-      o1.phaseOld = o1.phase;
+      o1.phaseOld = o1.phase;      
       o1.phaseRemain = (o1.phase << 9) >> 17;
       o1.wave = (FMTable[o1.phase >> WTShiftFM]);
       o1.nextwave =  (FMTable[(o1.phase + nextstep) >> WTShiftFM]);
@@ -293,8 +282,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
       o1.index = (FMIndex * o1.wave);
       o2.phase = o2.phase +  (o2.phase_increment + o1.index );
       o2.phaseRemain = (o2.phase << 9) >> 17;
-
-      o3.phase = o3.phase + o3.phase_increment;
+      
+       o3.phase = o3.phase + o3.phase_increment;
       o3.phaseRemain = (o3.phase << 9) >> 17;
       o3.wave = (FMTable[o3.phase >> WTShiftFM]);
       o3.nextwave =  (FMTable[(o3.phase + nextstep) >> WTShiftFM]);
@@ -314,8 +303,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
 
                       (((int32_t)(((GWTlo1[(o2.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o2.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo) +
                       (((int32_t)(((GWTmid1[(o2.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o2.phase + nextstep) >> 23] * (GremMid)) >> 9))) * (mixMid + mixHi))) >> 11;
-
-      o4.wave = (
+                      
+                       o4.wave = (
 
                   (((int32_t)(((GWTlo1[o4.phase >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[o4.phase >> 23] * (GremLo)) >> 9))) * mixLo) +
                   (((int32_t)(((GWTmid1[o4.phase >> 23] * (511 - GremMid)) >> 9) + ((GWTmid2[o4.phase >> 23] * (GremMid)) >> 9))) * (mixMid + mixHi))) >> 11;
@@ -325,33 +314,33 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
                       (((int32_t)(((GWTlo1[(o4.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o4.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo) +
                       (((int32_t)(((GWTmid1[(o4.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o2.phase + nextstep) >> 23] * (GremMid)) >> 9))) * (mixMid + mixHi))) >> 11;
 
-      o2.wave = (o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15)) >> 1;
-      o4.wave = (o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15)) >> 1;
+      o2.wave = (o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15))>>1; 
+      o4.wave = (o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15))>>1;      
 
-
+      
       break;
 
 
     case 1://-------------------------------------------CZ MODE OSCILLATORS-----------------------------------------------
 
-
-
-
-
-
-      o1.phase = o1.phase + (o1.phase_increment );
-      o2.phase = o2.phase +  o2.phase_increment;
-      if (o1.phaseOld > o1.phase)o2.phase = (uint32_t)((o2.phase_increment * o1.phase) >> Temporal_Shift_CZ);;
-      o1.phaseOld = o1.phase;
-      o2.phaseRemain = (o2.phase << 9) >> 17;
-      o1.phaseRemain = (o1.phase << 9) >> 17;
-
       
-      o3.phase = o1.phase + (o1.phaseOffset);
+
+   
+      
+      
+      o1.phase = o1.phase + (o1.phase_increment );      
+      if (o1.phaseOld > o1.phase)o2.phase = 0; //check for sync reset osc in CZ mode.
+      o1.phaseOld = o1.phase;
+      o2.phase = o2.phase +  o2.phase_increment;
+      o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
+      o1.phaseRemain = (o1.phase << 9) >> 17;
+      
+      o3.phaseOffset = (FMX_HiOffset * lfo.wave);
+      o3.phase = o1.phase + (o1.phaseOffset);      
+      if (o3.phase < (o3.phase_increment<<1))o4.phase = 0; //check for sync reset osc in CZ mode.
+      //o3.phaseOld = o3.phase;
       o4.phase = o4.phase +  o4.phase_increment;
-      if (o3.phase < (o1.phase_increment<<1))o4.phase = (uint32_t)((o4.phase_increment * o3.phase) >> Temporal_Shift_CZ);
-      o3.phaseOld = o3.phase;
-      o4.phaseRemain = (o4.phase << 9) >> 17;
+      o4.phaseRemain = (o4.phase << 9) >> 17; //used for fake interpolation
       o3.phaseRemain = (o3.phase << 9) >> 17;
 
       //-----------------------------------------------------------------------
@@ -373,8 +362,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
                        (((int32_t)(((GWTlo1[(o1.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o1.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo)   +
                        (((int32_t)(((GWTmid1[(o1.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o1.phase + nextstep) >> 23] * (GremMid)) >> 9))) * mixMid)
                      ) >> 4) >> 11;
-
-      o3.wave = ((
+                     
+                      o3.wave = ((
                    (((int32_t)(((GWThi1[o3.phase >> 23] * (511 - GremHi)) >> 9) + ((GWThi2[o3.phase >> 23] * (GremHi)) >> 9))) * mixHi)   +
                    (((int32_t)(((GWTlo1[o3.phase >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[o3.phase >> 23] * (GremLo)) >> 9))) * mixLo)   +
                    (((int32_t)(((GWTmid1[o3.phase >> 23] * (511 - GremMid)) >> 9) + ((GWTmid2[o3.phase >> 23] * (GremMid)) >> 9))) * mixMid)
@@ -388,14 +377,14 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
 
       o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
-      o4.wave = o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15);
+       o4.wave = o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15);
       o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
 
-      o2.wave = ((o1.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 11)) >> 12));  //cz mixer
-      o4.wave = ((o3.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o3.wave) * ((o4.wave * CZMix) >> 11)) >> 12));  //cz mixer
-
-
-
+      o2.wave = ((o1.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 11)) >> 12));  //cz mixer 
+      o4.wave = ((o3.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o3.wave) * ((o4.wave * CZMix) >> 11)) >> 12));  //cz mixer   
+       
+      
+    
       break;
 
 
@@ -403,28 +392,34 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
     //----------------------------------------------ALT CZ mode-----------------------------------------
     case 3:
 
-     o1.phase = o1.phase + (o1.phase_increment );
-      o2.phase = o2.phase +  o2.phase_increment;
-      if (o1.phaseOld > o1.phase)o2.phase = (uint32_t)((o2.phase_increment * o1.phase) >> Temporal_Shift_CZ);;
-      o1.phaseOld = o1.phase;
-      o2.phaseRemain = (o2.phase << 9) >> 17;
-      o1.phaseRemain = (o1.phase << 9) >> 17;
+      lfo.phase = lfo.phase + lfo.phase_increment;
+      lfo.wave = FMTableAMX[lfo.phase >> 23];
 
+      o3.phaseOffset = (FMX_HiOffset * lfo.wave); //lfo for x mode
       
-      o3.phase = o1.phase + (o1.phaseOffset);
+      
+      o1.phase = o1.phase + (o1.phase_increment + o3.phaseOffset);      
+      if (o1.phaseOld > o1.phase)o2.phase = 0; //check for sync reset osc in CZ mode.
+      o1.phaseOld = o1.phase;
+      o2.phase = o2.phase +  o2.phase_increment;
+      o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
+      o1.phaseRemain = (o1.phase << 9) >> 17;
+      
+      o3.phaseOffset = (FMX_HiOffset * lfo.wave);
+      o3.phase = o1.phase + (o1.phaseOffset + o3.phaseOffset);      
+      if (o3.phase < (o3.phase_increment)<<1)o4.phase = 0; //check for sync reset osc in CZ mode.
+      //o3.phaseOld = o3.phase;
       o4.phase = o4.phase +  o4.phase_increment;
-      if (o3.phase < (o1.phase_increment<<1))o4.phase = (uint32_t)((o4.phase_increment * o3.phase) >> Temporal_Shift_CZ);
-      o3.phaseOld = o3.phase;
-      o4.phaseRemain = (o4.phase << 9) >> 17;
+      o4.phaseRemain = (o4.phase << 9) >> 17; //used for fake interpolation
       o3.phaseRemain = (o3.phase << 9) >> 17;
-
+          
 
 
       //-----------------------------------------------------------------------
 
       o2.wave = (FMTable[o2.phase >> 23]);
       o2.nextwave =  (FMTable[(o2.phase + nextstep) >> 23]);
-      o4.wave = (FMTable[o4.phase >> 23]);
+       o4.wave = (FMTable[o4.phase >> 23]);
       o4.nextwave =  (FMTable[(o4.phase + nextstep) >> 23]);
 
 
@@ -439,8 +434,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
                        (((int32_t)(((GWTlo1[(o1.phase + nextstep) >> 23] * (511 - GremLo)) >> 9)  +  ((GWTlo2[(o1.phase + nextstep) >> 23] * (GremLo)) >> 9))) * mixLo)   +
                        (((int32_t)(((GWTmid1[(o1.phase + nextstep) >> 23] * (511 - GremMid)) >> 9)  +  ((GWTmid2[(o1.phase + nextstep) >> 23] * (GremMid)) >> 9))) * (mixMid + mixHi))
                      ) >> 4) >> 11;
-
-      o3.wave = ((
+                     
+                      o3.wave = ((
 
                    (((int32_t)(((GWTlo1[o3.phase >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[o3.phase >> 23] * (GremLo)) >> 9))) * mixLo)   +
                    (((int32_t)(((GWTmid1[o3.phase >> 23] * (511 - GremMid)) >> 9) + ((GWTmid2[o3.phase >> 23] * (GremMid)) >> 9))) * (mixMid + mixHi))
@@ -455,29 +450,29 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
 
       o2.wave = o2.wave + ((((o2.nextwave - o2.wave)) * o2.phaseRemain) >> 15);
       o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
-      o4.wave = o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15);
+       o4.wave = o4.wave + ((((o4.nextwave - o4.wave)) * o4.phaseRemain) >> 15);
       o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
 
-      o2.wave = ((o1.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 11)) >> 12));  //cz mixer
-      o4.wave = ((o3.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o3.wave) * ((o4.wave * CZMix) >> 11)) >> 12));  //cz mixer
-
-
-
+      o2.wave = ((o1.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o1.wave) * ((o2.wave * CZMix) >> 11)) >> 12));  //cz mixer 
+      o4.wave = ((o3.wave * (2047 - CZMix)) >> 8)  +  ((int32_t)(((o3.wave) * ((o4.wave * CZMix) >> 11)) >> 12));  //cz mixer   
+  
+      
+     
 
       break;
 
-  }
+  }  
+       
+      o1.wave = (int32_t)(o2.wave>>3) + (o4.wave>>3);
+      o1.wave = (int32_t)(o1.wave * mixEffect)>>11;
+      o1.wave = o1.wave + ((int32_t)(o2.wave * mixEffectDn)>>13);
+      
+      FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
 
-  o1.wave = (int32_t)(o2.wave >> 3) + (o4.wave >> 3);
-  o1.wave = (int32_t)(o1.wave * mixEffect) >> 8;
-  o1.wave = o1.wave + ((int32_t)(o2.wave * mixEffectDn) >> 10);
-
-  FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
-
-  analogWrite(aout2, FinalOut + 32000);
-
-  noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
-
+      analogWrite(aout2, FinalOut + 4000);
+      
+       noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
+  
 }
 
 

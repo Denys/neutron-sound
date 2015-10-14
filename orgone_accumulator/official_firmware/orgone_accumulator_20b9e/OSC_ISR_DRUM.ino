@@ -23,7 +23,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   if (drum_envStep[0] == 0) {
     if (drum_st == 0) {
-      drum_envTemp[0] = drum_envVal[0] = drum_envVal[2] = 1 << 30;//o6.wave << 15; //use front of wave as attack
+      drum_envTemp[0] = drum_envVal[0] = drum_envVal[2] = o6.wave << 15; //use front of wave as attack
       drum_envTemp[2] = drum_envVal[0] >> 14;
       o7.phase_increment = 0;
     }
@@ -78,7 +78,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   if (drum_envStep[1] == 0) {
     if (drum_st == 0) {
-      drum_envVal[1] = 1 << 30;//o6.wave << 14;
+      drum_envVal[1] = o6.wave << 14;
       drum_envTemp[1] = drum_envVal[1] >> 14;
     }
     else {
@@ -107,13 +107,16 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o6.wave = (waveTableMidLink[o1.phase >> WTShiftMid]); 
   o6.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShiftMid]);
   
-  if (o6.wave > 30000) drum_st = 1;//trigger decay start at peak of wave 1
-  //removed doubler
+  if (o6.wave > 30000) drum_st = 1;//trigger decay styat at peak of wave 1
+  o11.wave = (waveTableMidLink[(o1.phase+((1 << 31)-(drum_envVal[2]<<1))) >> WTShiftMid]); //o11 is second detuned osc on wave 1
+  o11.nextwave = (waveTableMidLink[( nextstep+o1.phase+((1 << 31)-(drum_envVal[2]<<1))) >> WTShiftMid]); 
+  o11.wave = multiply_32x32_rshift32(drum_envVal[2], o11.wave);
+  o11.nextwave = multiply_32x32_rshift32(drum_envVal[2], o11.nextwave);
   o1.wave = multiply_32x32_rshift32(drum_envVal[2], o6.wave);
   o1.nextwave =  (waveTableMidLink[(o1.phase + nextstep) >> WTShiftMid]);
   o1.nextwave = multiply_32x32_rshift32(drum_envVal[2], o1.nextwave);
   o1.wave = o1.wave + ((((o1.nextwave - o1.wave)) * o1.phaseRemain) >> 15);
-  
+  o11.wave = o11.wave + ((((o11.nextwave - o11.wave)) * o1.phaseRemain) >> 15);
 //   if (o1.phase >> 31 == 0) o1.pulseAdd = o6.wave;
 //  else o1.pulseAdd = 0;
 //  o1.pulseAdd = multiply_32x32_rshift32(drum_envVal[1], o1.pulseAdd);
@@ -174,12 +177,10 @@ void FASTRUN outUpdateISR_DRUM(void) {
   if (xModeOn) o8.wave = (o8.wave * (8191 - (drum_envTemp[2]>>3)))>>13; 
 
 
-  FinalOut = ((((o1.wave) * (2047 - CZMix))) >> 9) + ((o8.wave * CZMix) >> 8);
+  FinalOut = ((((o1.wave+o11.wave) * (2047 - CZMix))) >> 13) + ((o8.wave * CZMix) >> 12);
   //if (FinalOut > 3900) drum_st = 1;
-  //FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12); //declick not good for drum
-  //analogWrite(aout2, FinalOut + 32750);
-  analogWrite(aout2, FinalOut + 32750);
-
+  FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12);
+  analogWrite(aout2, FinalOut + 4000);
 
 
 }

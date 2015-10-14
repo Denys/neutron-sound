@@ -100,10 +100,10 @@ void FASTRUN outUpdateISR_DISTS(void) {
 
 
       o1.phase = o1.phase + o1.phase_increment + o3.index;
+      if (o1.phaseOld > o1.phase)o2.phase = 0; //check for sync reset osc in CZ mode.
+      o1.phaseOld = o1.phase;
       o2.phase = o2.phase +  o2.phase_increment;
-      if (o1.phaseOld > o1.phase)o2.phase = (uint32_t)((o2.phase_increment * o1.phase)>>Temporal_Shift_CZ); 
-      o1.phaseOld = o1.phase;      
-      o2.phaseRemain = (o2.phase << 9) >> 17; 
+      o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
       o1.phaseRemain = (o1.phase << 9) >> 17;
 
       //dummy self mod wave
@@ -146,11 +146,13 @@ void FASTRUN outUpdateISR_DISTS(void) {
     //----------------------------------------------ALT CZ mode-----------------------------------------
     case 3:
 
-      o1.phase = o1.phase + (o1.phase_increment + o3.index);
-      o2.phase = (uint32_t)((((uint64_t)o1.phase) * ((uint64_t)o2.phase_increment))>>25); //different way, experimental
-      //if (o1.phaseOld > o1.phase)o2.phase = ((o1.phase * o2.phase_increment)>>Temporal_Shift_CZ); 
-      //o1.phaseOld = o1.phase;
-      
+      lfo.phase = lfo.phase + lfo.phase_increment;
+      lfo.wave = FMTableAMX[lfo.phase >> 23];
+      o1.phaseOffset = (FMX_HiOffset * lfo.wave);
+      o1.phase = o1.phase + (o1.phase_increment + o1.phaseOffset + o3.index);
+      if (o1.phaseOld > o1.phase)o2.phase = 0; //check for sync reset osc in CZ mode.
+      o1.phaseOld = o1.phase;
+      o2.phase = o2.phase +  o2.phase_increment;
       
 
       //dummy self mod wave
@@ -159,7 +161,7 @@ void FASTRUN outUpdateISR_DISTS(void) {
       o3.wave = (FMTable[o3.phase >> 23]);
       o3.nextwave =  (FMTable[(o3.phase + nextstep) >> 23]);
       o3.wave = o3.wave + ((((o3.nextwave - o3.wave)) * o3.phaseRemain) >> 15);
-      o3.index = (int32_t)(((o3.wave * o1.amp) >> 15) * FXMixer[2]);
+      o3.index = ((o3.wave * o1.amp) >> 16) * FXMixer[2];
 
 
       //-----------------------------------------------------------------------
@@ -213,15 +215,15 @@ void FASTRUN outUpdateISR_DISTS(void) {
   }
 
   o1.wave =
-    (((o2.wave * ((int)mixEffectDn)) >> 10)) //undistorted
-    + (((-o4.wave) * ((int)FXMixer[0])) >> 8) //dists 1 fold
-    + (((o1.wave) * ((int)FXMixer[1])) >> 10)  //dists 1 crush
-    + (((o6.wave) * ((int)FXMixer[3])) >> 11) //dists2 XORrible
-    + (((o7.wave * ((int)FXMixer[2])) >> 11))  ; //dists 2 waveshaper
+    (((o2.wave * ((int)mixEffectDn)) >> 13)) //undistorted
+    + (((-o4.wave) * ((int)FXMixer[0])) >> 11) //dists 1 fold
+    + (((o1.wave) * ((int)FXMixer[1])) >> 13)  //dists 1 crush
+    + (((o6.wave) * ((int)FXMixer[3])) >> 14) //dists2 XORrible
+    + (((o7.wave * ((int)FXMixer[2])) >> 14))  ; //dists 2 waveshaper
 
   FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
 
-  analogWrite(aout2, FinalOut + 32000);
+  analogWrite(aout2, FinalOut + 4000);
 
   noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
 
@@ -234,7 +236,7 @@ void FASTRUN outUpdateISR_PULSAR_DISTS(void) {
   delayTimeShift = uint16_t(delayCounter - ((8192 - delayTime) << 3)) >> 4;
 
 
-  //SUBMULOC();
+  SUBMULOC();
   DECLICK_CHECK();
   NOISELIVE0();
   NOISELIVE1();
@@ -245,16 +247,22 @@ void FASTRUN outUpdateISR_PULSAR_DISTS(void) {
   noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
 
   o1.phase = o1.phase + o1.phase_increment;
-  o2.phase = o2.phase +  o2.phase_increment;
+
+  o10.phase = o10.phase + o1.phase_SUB;//"fm" button sub osc
+  o10.phaseRemain = (o10.phase << 9) >> 17;
+  o10.wave = (FMTable[o6.phase >> 23]);
+  o10.nextwave = (FMTable[(o6.phase + nextstep) >> 23]);
+  o10.wave = o10.wave + ((((o10.nextwave - o10.wave)) * o10.phaseRemain) >> 15);
+
 
   if (o1.phaseOld > o1.phase) {
-    o3.phase = (uint32_t)((o3.phase_increment * o1.phase)>>Temporal_Shift_CZ);
-    o2.phase = (uint32_t)((o2.phase_increment * o1.phase)>>Temporal_Shift_CZ); 
+    o2.phase = o3.phase = 0; //check for sync reset osc in CZ mode.
   }
   o1.phaseOld = o1.phase;
 
-  
-  o2.phaseRemain = (o2.phase << 9) >> 17; 
+
+  o2.phase = o2.phase +  o2.phase_increment + ((o10.wave << 10) * FMmodeOn);
+  o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
 
 
   if (o3.phase >> 31 == 0) {
@@ -369,15 +377,15 @@ void FASTRUN outUpdateISR_PULSAR_DISTS(void) {
   }
 
   o1.wave =
-    (((o2.wave * ((int)mixEffectDn)) >> 10)) //undistorted
-    + (((-o4.wave) * ((int)FXMixer[0])) >> 8) //dists 1 fold
-    + (((o1.wave) * ((int)FXMixer[1])) >> 10)  //dists 1 crush
-    + (((o6.wave) * ((int)FXMixer[3])) >> 11) //dists2 XORrible
-    + (((o7.wave * ((int)FXMixer[2])) >> 11))  ; //dists 2 waveshaper
+    (((o2.wave * ((int)mixEffectDn)) >> 13)) //undistorted
+    + (((-o4.wave) * ((int)FXMixer[0])) >> 11) //dists 1 fold
+    + (((o1.wave) * ((int)FXMixer[1])) >> 13)  //dists 1 crush
+    + (((o6.wave) * ((int)FXMixer[3])) >> 14) //dists2 XORrible
+    + (((o7.wave * ((int)FXMixer[2])) >> 14))  ; //dists 2 waveshaper
 
   FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
 
-  analogWrite(aout2, FinalOut + 32000);
+  analogWrite(aout2, FinalOut + 4000);
 
 
 
