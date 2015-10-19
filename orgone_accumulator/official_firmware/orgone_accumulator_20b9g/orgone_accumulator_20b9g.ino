@@ -1302,8 +1302,8 @@ const int16_t *FMWTselFM[] = {sinTable, triTable, AKWF_symetric_0001 , FMTableSQ
 
 //FMALT
 
-const int16_t *FMAltWTselLo[] = { sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180  ,nothingTable
-                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable ,  AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2 ,nothingTable
+const int16_t *FMAltWTselLo[] = { sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , pnoTable , FMTableS180  
+                                  , AKWF_gapsaw_0017 , FMTableSQR , distoTable ,  AKWF_0003 , AKWF_0447 , FMTableFM98 , noiseTable2 ,nothingTable ,nothingTable
                                 };
 
 const int16_t *FMAltWTselMid[] = {sinTable, triTable, AKWF_symetric_0001 , AKWF_symetric_0010 , scarabTable2 , AKWF_symetric_0013 , FMTableS180
