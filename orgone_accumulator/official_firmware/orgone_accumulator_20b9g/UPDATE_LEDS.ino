@@ -3,13 +3,13 @@ void UPDATE_POSITION_LEDS() {
   if (LED_MCD == 0)  {
     switch (ARC + 1) {
       case 1:
-        analogWrite(LED_Lo, (mixLo << 2) - conf_LED_comp);
+        analogWrite(LED_Lo, (mixLo << 5) - conf_LED_comp);
         break;
       case 2:
-        analogWrite(LED_Mid, (mixMid << 2) - conf_LED_comp);
+        analogWrite(LED_Mid, (mixMid << 5) - conf_LED_comp);
         break;
       case 3:
-        analogWrite(LED_Hi, (mixHi << 2) - conf_LED_comp);
+        analogWrite(LED_Hi, (mixHi << 5) - conf_LED_comp);
         break;
     }
   }
@@ -18,13 +18,13 @@ void UPDATE_POSITION_LEDS() {
     if (IsHW2 == 0) {
       switch (ARC + 1) {
         case 1:
-          analogWrite(LED_Lo, (bitRead(FX, 2) * 8000));
+          analogWrite(LED_Lo, (bitRead(FX, 2) * 64000));
           break;
         case 2:
-          analogWrite(LED_Mid, (bitRead(FX, 1) * 8000));
+          analogWrite(LED_Mid, (bitRead(FX, 1) * 64000));
           break;
         case 3:
-          analogWrite(LED_Hi, (bitRead(FX, 0) * 8000));
+          analogWrite(LED_Hi, (bitRead(FX, 0) * 64000));
           break;
 
       }
