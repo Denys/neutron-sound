@@ -1330,7 +1330,7 @@ const int16_t *drumWT[] = {sinTable, triTable, distoTable , AKWF_0447 , FMTableS
                            AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable , voiceTable , noiseTable2 , noiseTable
                           };
 
-const int16_t *drumWT2[] = {sinTable, triTable, distoTable , AKWF_distorted_0003,FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
+const int16_t *drumWT2[] = {sinTable, triTable, distoTable , AKWF_distorted_0003, FMTableSQR , FMTableS180 , AKWF_sinharm_0015, AKWF_gapsaw_0017 , AKWF_symetric_0001 ,
                             AKWF_symetric_0010 , AKWF_symetric_0013 , FMTableFM98 , AKWF_0003 , sawTable ,  noiseTable2 , noiseLive0
                            };
 

@@ -120,19 +120,20 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
 
 
       if (FMFixedOn) {
-        FMMult = (float)((((averageratio >> 4) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
+        FMMult = (float)((((averageratio >> 3) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
-        o2.phase_increment =
-          o4.phase_increment =
-            o6.phase_increment =
-              o8.phase_increment =
-                o10.phase_increment = inputConverterA * osc_mult[1];
+       
         o1.phase_increment = inputConverter * osc_mult[0];
         o3.phase_increment = inputConverter * chord[0] * osc_mult[0] + detune[0];
         o5.phase_increment = inputConverter * chord[1] * osc_mult[0] + detune[1];
         o7.phase_increment = inputConverter * chord[2] * osc_mult[0] + detune[2];
         o9.phase_increment = inputConverter * chord[3] * osc_mult[0] + detune[3];
+         o2.phase_increment =
+          o4.phase_increment =
+            o6.phase_increment =
+              o8.phase_increment =
+                o10.phase_increment = inputConverterA * osc_mult[1];
       }
       else {
         FMMult = (float)((((averageratio >> 5) / 7.0)) + 1.0) * aInModRatio; //CZ + free + free

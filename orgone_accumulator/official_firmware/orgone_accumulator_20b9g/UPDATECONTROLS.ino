@@ -332,7 +332,7 @@ void UPDATECONTROLS_DRUM() {
 
     case 5:
       
-      waveTableMidLink = drumWT[analogControls[8] >> 9];
+      //waveTableMidLink = drumWT[analogControls[8] >> 9];
 
       break;
 
@@ -364,7 +364,7 @@ void UPDATECONTROLS_DRUM() {
     case 9:
       FMIndexCont = (int)(analogControls[1] >> 2);
 
-      waveTableHiLink = drumWT2[analogControls[4] >> 9]; //drum uses mid wave from fm
+      //waveTableHiLink = drumWT2[analogControls[4] >> 9]; //drum uses mid wave from fm
        //drum uses mid wave from fm
 //      if ((analogControls[3] >> 9) == 15) WTShiftMid = 31;
 //      else WTShiftMid = 23;

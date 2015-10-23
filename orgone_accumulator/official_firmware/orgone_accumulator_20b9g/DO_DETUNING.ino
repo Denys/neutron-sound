@@ -142,6 +142,7 @@ mixEffectUp = mixEffect * 0.97;
       break;
 
     case 7: //drum voice    
+    GRADUALWAVE_D();
       mixEffectUp = mixEffect * 0.787; //because there are 5 oscillators being mixed in the detune mix of ISR
       mixEffectDn =  (2047 - mixEffect) * 0.97;
 
@@ -149,7 +150,7 @@ mixEffectUp = mixEffect * 0.97;
     
       floats[0] = (float)((constrain(((4095-aInModIndex ) + (analogControls[1])), 0.0, 8191.0))/8192.0); //make a log pot of index.
       floats[0] =  (floats[0]*floats[0]*floats[0])*524288.0;
-      o6.phase_increment = ((int32_t)floats[0])>>6; //the amount of xmod
+      o6.phase_increment = ((int32_t)floats[0])>>5; //the amount of xmod
       
       drum_a = EffectEnOn_B * (analogControls[5] << 10); //drum hold time
 
