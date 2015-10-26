@@ -120,7 +120,7 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
 
 
       if (FMFixedOn) {
-        FMMult = (float)((((averageratio >> 3) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
+        FMMult = (float)((((averageratio >> 3) / 1.1)) + 1.0) * aInModRatio; 
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
        
@@ -136,7 +136,7 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
                 o10.phase_increment = inputConverterA * osc_mult[1];
       }
       else {
-        FMMult = (float)((((averageratio >> 5) / 7.0)) + 1.0) * aInModRatio; //CZ + free + free
+        FMMult = (float)((((averageratio >> 5) / 7.0)) + 1.0) * aInModRatio; 
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
         o2.phase_increment = inputConverter * osc_mult[1];
@@ -167,7 +167,7 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
 
 
       if (FMFixedOn) {
-        FMMult = (float)((((averageratio >> 4) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
+        FMMult = (float)((((averageratio >> 3) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
         FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
@@ -432,7 +432,7 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
 
       if (FMFixedOn) {
         avgcubing = (float)(analogControls[3] / 500.0); //change to adjust "LFO" in fm fixed
-        FMMult = ((((float)(avgcubing * avgcubing * avgcubing))) + 0.001); //FM+fixed mult control
+        FMMult = ((((float)(avgcubing * avgcubing * avgcubing))) + 0.001); 
         //Serial.println(FMMult);
         osc_mult[0] = FMMult;
         osc_mult[1] = 4.0;
@@ -444,7 +444,7 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
 
       }
       else {
-        FMMult = ((int)((analogControls[3] >> 9) + 1)); //FM + free
+        FMMult = ((int)((analogControls[3] >> 9) + 1)); 
         osc_mult[0] = FMMult;
         osc_mult[1] = 4.0;
         o1.phase_increment = inputConverter * osc_mult[0] ;
@@ -478,7 +478,7 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
 
       }
       else {
-        FMMult = ((int)((analogControls[3] >> 9) + 1)); //FM + free
+        FMMult = ((int)((analogControls[3] >> 9) + 1)); 
         osc_mult[0] = FMMult;
         osc_mult[1] = 4;
         
@@ -495,7 +495,7 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
       UPDATECONTROLS_CZ();
 
       if (FMFixedOn) {
-        FMMult = (float)((((analogControls[3] >> 4) / 1.1)) + 1.0); //CZ + fixed + free
+        FMMult = (float)((((analogControls[3] >> 3) / 1.1)) + 1.0); //CZ + fixed + free
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
         o1.phase_increment = inputConverter * osc_mult[0];
@@ -522,7 +522,7 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
 FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
 
       if (FMFixedOn) {
-        FMMult = (float)((((analogControls[3] >> 2) + 1) / 3.0)); //CZ + fixed + free
+        FMMult = (float)((((analogControls[3] >> 3) / 1.1)) + 1.0); 
         osc_mult[0] = 4;
         osc_mult[1] = FMMult;
         
