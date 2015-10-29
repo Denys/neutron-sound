@@ -1950,9 +1950,10 @@ void setup() {
   digitalWrite(LED_CZSel, HIGH);
   delay(75);
   digitalWrite(LED_FixSel, HIGH);
-  delay(150);
+  delay(150);  
+   if (IsHW2){
   digitalWrite(LED_TuneLock, LOW);
-  delay(75);
+  delay(75); 
   digitalWrite(LED_LoSel, LOW);
   delay(75);
   pinMode(LED_pulsarON, INPUT); 
@@ -1970,8 +1971,10 @@ void setup() {
   delay(75);
   digitalWrite(LED_FixSel, LOW);
   delay(150);
+  }
 
   OFF_prog_LEDS();
+  tuneLockOn = 0;
 
   for (uint16_t i = 0; i <= 255; i++) {
   uint16_t j = 65535 - (i<<8);  

@@ -26,6 +26,7 @@ void loop() {
   if (ARC > 9) {
     ARC = 0;
   }  //cycle through analog controls. skip tuning controls if tunelock is on.
+  
   if (loopReset == 1)goto evilGoto;
   //--------------------------------------------------------
   inCVraw = (float)(analogRead(A0)); //main v/oct CV in. only use 13 bits of analog in SEPERATE AINS WITH CODE  
