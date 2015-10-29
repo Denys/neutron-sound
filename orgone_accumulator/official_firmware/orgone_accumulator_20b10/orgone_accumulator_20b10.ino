@@ -1,5 +1,5 @@
 //Neutron-sound.com
-//Orgone Accumulator 2 beta9g
+//Orgone Accumulator 2 beta10
 // optimization of ISRs
 
 //pre 2.0 firmware orgones
@@ -1951,21 +1951,39 @@ void setup() {
   delay(75);
   digitalWrite(LED_FixSel, HIGH);
   delay(150);
+  digitalWrite(LED_TuneLock, LOW);
+  delay(75);
+  digitalWrite(LED_LoSel, LOW);
+  delay(75);
+  pinMode(LED_pulsarON, INPUT); 
+  digitalWrite(LED_pulsarON, LOW);  
+  delay(75);
+  digitalWrite(LED_MidSel, LOW);
+  delay(75);
+  digitalWrite(LED_FXSelUp, HIGH); //pin 33 is inverted!
+  delay(75);
+  digitalWrite(LED_HiSel, LOW);
+  delay(75);
+  digitalWrite(LED_xSel, LOW);
+  delay(75);
+  digitalWrite(LED_CZSel, LOW);
+  delay(75);
+  digitalWrite(LED_FixSel, LOW);
+  delay(150);
 
   OFF_prog_LEDS();
 
-
-  analogWrite(LED_Lo, 4000);
-  delay(75);
-  analogWrite(LED_Mid, 4000);
-  delay(75);
-  analogWrite(LED_Hi, 4000);
-  delay(75);
-
+  for (uint16_t i = 0; i <= 255; i++) {
+  uint16_t j = 65535 - (i<<8);  
+  analogWrite(LED_Lo, j);  
+  analogWrite(LED_Mid, j);  
+  analogWrite(LED_Hi, j);
+  delay(1);  
+  }
 
   outUpdateTimer.begin(outUpdateISR_MAIN, ISRrate); //this is the oscillator and DAC output update rate in uS
 
-  delay(10);
+  delay(75);
 
   attachInterrupt(gateIn, gateISR, CHANGE);
 
