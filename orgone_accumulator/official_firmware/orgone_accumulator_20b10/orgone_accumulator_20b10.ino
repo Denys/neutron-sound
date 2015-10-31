@@ -1,5 +1,5 @@
 //Neutron-sound.com
-//Orgone Accumulator 2 beta10
+//Orgone Accumulator 2 beta10b
 // optimization of ISRs
 
 //pre 2.0 firmware orgones

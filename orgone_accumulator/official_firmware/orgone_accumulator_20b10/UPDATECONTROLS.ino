@@ -49,7 +49,7 @@ void UPDATECONTROLS_CZ() {
       break;
 
     case 1:
-      mixPos = (analogControls[6] >> 5) << 4;
+      mixPos = (analogControls[6] >> 1);
 
       OSC_MODE_TOGGLES();
      
@@ -123,7 +123,7 @@ void UPDATECONTROLS_CZALT() {
     
 
     case 1:
-      mixPos = (analogControls[6] >> 5) << 4;
+      mixPos = analogControls[6]>>1;
 
       OSC_MODE_TOGGLES();
     
@@ -343,7 +343,7 @@ void UPDATECONTROLS_DRUM() {
       break;
 
     case 1:
-      mixPos = (analogControls[6] >> 5) << 4; //this is env > pitch control in drum mode
+      mixPos = (analogControls[6] >> 1); //this is drum wave mix
 
       OSC_MODE_TOGGLES();
      

@@ -12,7 +12,7 @@ extern const int tuneStep = 1;//this is how many semitones the tuning knob steps
 // note resolution. lower value will give wider oscillator range, higher will give better resolution
 //you will need to recalibrate the v/oct trimmer if you adjust this. decimal is important, even if zero.
 
-#define LED_COMP 0 //dim the LEDSs higher number = lower brightness. (only for the position LEDs)
+#define LED_COMP 1000 //dim the LEDSs higher number = lower brightness. (only for the position LEDs)
 
 //DIY hardware 1.x boards--------------------------------------------------------------------start
 
