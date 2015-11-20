@@ -166,10 +166,10 @@ void FASTRUN outUpdateISR_DRUM(void) {
   if (xModeOn) o8.wave = (o8.wave * (8191 - (drum_envTemp[2]>>3)))>>13; 
   }
 
-  FinalOut = ((((o1.wave) * (2047 - CZMix))) >> 9) + ((o8.wave * CZMix) >> 9);
-  //if (FinalOut > 3900) drum_st = 1;
-  //FinalOut = declickValue + ((FinalOut * declickRampIn) >> 12); //declick not good for drum
-  //analogWrite(aout2, FinalOut + 32750);
+  o1.wave = ((((o1.wave) * (2047 - CZMix))) >> 9) + ((o8.wave * CZMix) >> 9);
+  
+  FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
+  
   analogWrite(aout2, FinalOut + 32750);
 
 

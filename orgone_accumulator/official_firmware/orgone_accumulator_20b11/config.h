@@ -66,7 +66,7 @@ extern const int chordTable[] = {
   1, 4, 9,
 };
 
-#define DECLICK 8
+#define DECLICK 400
 //declicking. 4000 = normal operation
 //higher number is faster ramp
 //do not change the
