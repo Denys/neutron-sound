@@ -162,7 +162,7 @@ mixEffectUp = mixEffect * 0.97;
         }
         else {
           floats[0] = (float)(analogControls[1] / 8192.0);
-          drum_d = map((constrain(((4095 - aInModIndex)  + analogControls[3]), 0, 8191)), 1, 8191, 24000, 24); //decay 2
+          drum_d = map((constrain(((4095 - aInModIndex)  + analogControls[5]), 0, 8191)), 1, 8191, 24000, 24); //decay 2
         }
         if (!xModeOn) {
           o1.amp = (constrain(((AInRawFilter - 4095) + analogControls[0]), 0, 8191)) >> 3; //amount of pbend on fm freq pot          
@@ -170,7 +170,7 @@ mixEffectUp = mixEffect * 0.97;
         }
         else { //swap CVs with x button (hw0)
           o1.amp = analogControls[0] >> 3; 
-          drum_d2 = map((constrain(((AInRawFilter - 4095) + analogControls[5]), 0, 8191)), 1, 8191, 32000, 24); //decaY 1
+          drum_d2 = map((constrain(((AInRawFilter - 4095) + analogControls[3]), 0, 8191)), 1, 8191, 32000, 24); //decaY 1
         }
 
       }
