@@ -15,7 +15,7 @@ void ARMED_FX() {
   if (effectEnButton_A.update()) {
     if (effectEnButton_A.fallingEdge()) {
       FX = 0;
-      SELECT_ISRS();
+      SELECT_ISRS();      
     }
   }
   if (pulsarButton.update()) {
@@ -201,36 +201,44 @@ void SELECT_ISRS() {
         outUpdateTimer.end();
         o3.phaseOffset = o1.phaseOffset = 0;
         outUpdateTimer.begin(outUpdateISR_MAIN, ISRrate);
+        declick = 8;
 
         break;
       case 1:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_WAVE_TWIN, ISRrate);
+        declick = 16;
 
         break;
       case 2:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DISTS, ISRrate);
+        declick = 16;
         break;
       case 3:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DISTS, ISRrate);
+        declick = 16;
         break;
       case 4:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_MAIN, ISRrate);
+        declick = 8;
         break;
       case 5:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_SPECTRUM, ISRrate);
+        declick = 8;
         break;
       case 6:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_WAVE_DELAY, ISRrate);
+        declick = 100;
         break;
       case 7:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DRUM, ISRrate);
+        declick = 100;
         break;
     }
   }
@@ -239,34 +247,42 @@ void SELECT_ISRS() {
       case 0:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_CHORD, ISRrate);
+        declick = 8;
         break;
       case 1:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_TWIN, ISRrate);
+        declick = 16;
         break;
       case 2:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_DISTS, ISRrate);
+        declick = 16;
         break;
       case 3:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_DISTS, ISRrate);
+        declick = 16;
         break;
       case 4:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_CHORD, ISRrate);//under isr detune
+        declick = 8;
         break;
       case 5:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_SPECTRUM, ISRrate);
+        declick = 8;
         break;
       case 6:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_DELAY, ISRrate);
+        declick = 100;
         break;
       case 7:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DRUM, ISRrate);
+        declick = 100;
         break;
 
 

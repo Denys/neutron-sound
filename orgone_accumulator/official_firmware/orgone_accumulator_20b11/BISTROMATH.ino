@@ -39,6 +39,7 @@
  *=====================================================================*/
 //this above is for the fastpow2 approximation
 
+static inline float fastpow2(float p) __attribute__((always_inline, unused));
 static inline float
 fastpow2 (float p)
 
@@ -117,7 +118,7 @@ static inline int16_t Interp512(int16_t wave, int16_t wavenext, uint32_t phase) 
   return wave + ((wavenext - wave) * static_cast<int32_t>((phase << 9) >> 17) >> 15);
 }
 
-
+static void inline NOISELIVE0() __attribute__((always_inline, unused));
 static void inline NOISELIVE0() {
 
   nosc0.decay  = o1.phase_increment >> 4; //mod on FM, main on cz and puls
@@ -141,6 +142,7 @@ static void inline NOISELIVE0() {
   noiseLive0[1] = noiseLive0[0] =  nosc0.nextwave;
 }
 
+static void inline NOISELIVE1() __attribute__((always_inline, unused));
 static void inline NOISELIVE1() {
 
   nosc1.decay  = o2.phase_increment >> 6; //main on FM, mod on cz and puls
@@ -167,6 +169,7 @@ static void inline NOISELIVE1() {
   noiseLive1[1] = noiseLive1[0] =  nosc1.nextwave;
 }
 
+static void inline DECLICK_CHECK() __attribute__((always_inline, unused));
 static void inline DECLICK_CHECK() {
 if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
   else declickRampOut = 0;
@@ -174,6 +177,7 @@ if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
   declickRampIn = abs(4095 - declickRampOut);
 }
 
+static void inline SUBMULOC() __attribute__((always_inline, unused));
 static void inline SUBMULOC() {
 oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
   digitalWriteFast (oSQout, (oSQ.phase < oSQ.PW)); //pulse out

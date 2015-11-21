@@ -39,8 +39,8 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
         o2.phase = (uint32_t)((o2.phase_increment * o1.phase) >> Temporal_Shift_CZ);
       }
       if (o4.phase < (o1.phase_increment<<1)) {
-       o5.phase = o5.phase = (uint32_t)((o2.phase_increment * o4.phase) >> Temporal_Shift_CZ);
-    o6.phase = o6.phase = (uint32_t)((o6.phase_increment * o4.phase) >> Temporal_Shift_CZ);
+       o5.phase =  (uint32_t)((o2.phase_increment * o4.phase) >> Temporal_Shift_CZ);
+    o6.phase =  (uint32_t)((o6.phase_increment * o4.phase) >> Temporal_Shift_CZ);
       }
       o1.phaseOld = o1.phase;
       o4.phaseOld = o4.phase;

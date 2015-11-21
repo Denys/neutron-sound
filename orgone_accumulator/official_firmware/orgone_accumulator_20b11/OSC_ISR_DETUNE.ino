@@ -365,7 +365,7 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
   o1.wave = ((o9.wave*(int)(mixEffectUp))>>7) + (((o1.wave * ((int)mixEffectDn)) >> 8)); //main out and mix detune
  
   FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);//remove clicks when oscs reset
-  analogWrite(aout2, o1.wave + 32000);
+  analogWrite(aout2, FinalOut + 32000);
 }
 
 void FASTRUN outUpdateISR_PULSAR_CHORD(void) {
@@ -528,7 +528,7 @@ if (o12.phase >> 31 == 0) {
 
   //FinalOut = declickValue + (int32_t)((o8.wave * declickRampIn) >> 12);
   FinalOut = declickValue + ((o8.wave * declickRampIn) >> 12);
-  analogWrite(aout2, o8.wave + 32000);
+  analogWrite(aout2, FinalOut + 32000);
 
 
 }

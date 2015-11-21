@@ -1,6 +1,7 @@
 //Neutron-sound.com
-//Orgone Accumulator 2 beta11
+//Orgone Accumulator 2 beta11b
 // drum CV swap
+// fixed to work with arduino 1.6.6
 
 //tested, works with teensy 3.2
 
@@ -17,6 +18,7 @@
 #include <Bounce.h>
 #include <EEPROM.h>
 #include "Config.h"
+#include <Arduino.h>
 
 const float equalTemprementTable[] = {1, 1, 1.05946, 1.12246, 1.18921, 1.25992, 1.33483, 1.41421, 1.49831, 1.58740, 1.68179, 1.78180, 1.88775, 2};
 const float justTable[] = {1, 1, 1.0417, 1.1250, 1.2, 1.25, 1.33333, 1.4063, 1.5, 1.6, 1.66666, 1.8, 1.875, 2};
@@ -1377,7 +1379,7 @@ uint32_t monopoleFX = 0;
 int32_t declickRampOut;
 int32_t declickRampIn;
 int32_t declickValue;
-const int declick = DECLICK;
+int declick = 8;
 
 const int Temporal_Shift_CZ = 9;
 const int Temporal_Shift_P = 18;

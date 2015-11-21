@@ -4,7 +4,7 @@ void DODETUNING() {
   pcounter = millis() - pcounterOld;//used for LED flash
   pcounterOld = millis();
 
-Serial.println(analogControls[4]>>8);
+//Serial.println(inputScaler);
   switch (FX) {
     case 0: //symetrical detune - primes (bipolar)
     mixEffectUp = mixEffect * 0.77; 
