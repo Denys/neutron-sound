@@ -44,11 +44,6 @@ extern const int TUNELOCK_SWITCH = 1;
 
 //128ths of a cycle the thinnest pulse can be. 0 will allow silence to fall.
 
-#define PWM_CONTROL 1
-
-//0 = position control and CV controls PWM across range
-//1 = index controls PWM minimum PW to 50%, modified by index CV
-
 // Broadcast ---------------------------
 extern int BROADCAST;
 // Broadcast ---------------------------

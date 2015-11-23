@@ -1387,7 +1387,10 @@ const int Temporal_Shift_P = 18;
 struct oscillatorSQUARE //PWM osc
 {
   uint32_t phase = 0;
-  uint32_t PW = 0;
+  int32_t phaseRemain = 0;
+  int32_t wave;
+  int32_t nextwave;
+  int32_t PW = 0;
   int32_t phase_increment = 0;
 }
 oSQ;
@@ -1634,8 +1637,7 @@ uint32_t conf_TuneMult = TUNEMULT;
 const float conf_NoteSize = NOTESIZE;
 const int FXSw = FX_SWITCH;
 const int PWM_Div = PWM_SUB;
-const int PWM_Min = PWM_MINIMUM << 4;
-const int PWM_Cont = PWM_CONTROL;
+const int PWM_Min = PWM_MINIMUM << 5;
 const int FX_Count = 7;
 const int LED_MST = LED_MODESWITCH_TIME;
 const uint8_t SEL_LED_ARRAY[] = {3, 32, 24, 33, 31, 30, 29, 15};

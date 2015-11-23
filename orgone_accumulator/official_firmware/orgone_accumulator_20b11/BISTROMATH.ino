@@ -180,7 +180,11 @@ if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
 static void inline SUBMULOC() __attribute__((always_inline, unused));
 static void inline SUBMULOC() {
 oSQ.phase = oSQ.phase +  (uint32_t)oSQ.phase_increment; //square wave osc
-  digitalWriteFast (oSQout, (oSQ.phase < oSQ.PW)); //pulse out
+oSQ.phaseRemain = (oSQ.phase << 9) >> 17;
+ oSQ.wave = (sawTable[oSQ.phase >> 23]);
+ oSQ.nextwave =  (sawTable[(oSQ.phase + nextstep) >> 23]);
+oSQ.wave = oSQ.wave + ((((oSQ.nextwave - oSQ.wave)) * oSQ.phaseRemain) >> 15);
+  digitalWriteFast (oSQout, (oSQ.wave < oSQ.PW)); //pulse out
 }
 
 

@@ -11,25 +11,6 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
   NOISELIVE1();
 
 
-
-//  noiseTable[random(0, 511)] = random(-32767, 32767);
-//
-//
-//  o1.phase = o1.phase + o1.phase_increment;
-//  o4.phase = o1.phase + o1.phaseOffset;
-//  
-//  if (o1.phaseOld > o1.phase) {
-//    o3.phase = (uint32_t)((o3.phase_increment * o1.phase) >> Temporal_Shift_CZ);
-//    o2.phase = (uint32_t)((o2.phase_increment * o1.phase) >> Temporal_Shift_CZ);
-//  }
-//  if (o4.phaseOld > o4.phase) {
-//    o5.phase = (uint32_t)((o2.phase_increment * o4.phase) >> Temporal_Shift_CZ);
-//    o6.phase = (uint32_t)((o6.phase_increment * o4.phase) >> Temporal_Shift_CZ);
-//  }
-//  o1.phaseOld = o1.phase;
-//  o4.phaseOld = o4.phase;
-
-
  o1.phase = o1.phase + o1.phase_increment;
             
       o4.phase = o1.phase + o1.phaseOffset;
@@ -50,7 +31,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       o2.phaseRemain = (o2.phase << 9) >> 17; //used for fake interpolation
      
 
-     if (o3.phase >> 31 == 0) {
+     if (o3.phase < 2147483647) {
         o3.phase = o3.phase + o3.phase_increment ;
         o3.wave = (PENV[o3.phase >> 23]);
         o3.nextwave =  (PENV[(o3.phase + nextstep) >> 23]);
@@ -70,7 +51,7 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
       o5.phaseRemain = (o5.phase << 9) >> 17; //used for fake interpolation
       //o4.phaseRemain = (o4.phase << 9) >> 17;
 
-      if (o6.phase >> 31 == 0) {
+      if (o6.phase < 2147483647) {
         o6.phase = o6.phase + o6.phase_increment ;
         o6.wave = (PENV[o6.phase >> 23]);
         o6.nextwave =  (PENV[(o6.phase + nextstep) >> 23]);

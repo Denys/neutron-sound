@@ -234,7 +234,7 @@ void FASTRUN outUpdateISR_PULSAR_DISTS(void) {
   delayTimeShift = uint16_t(delayCounter - ((8192 - delayTime) << 3)) >> 4;
 
 
-  //SUBMULOC();
+  SUBMULOC();
   DECLICK_CHECK();
   NOISELIVE0();
   NOISELIVE1();

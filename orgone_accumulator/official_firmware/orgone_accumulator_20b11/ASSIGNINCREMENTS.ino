@@ -1,7 +1,12 @@
+void INCREMENT_PWM(){
+  oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
+  oSQ.PW = (constrain(((FMIndexCont) ), 0, (2047-PWM_Min)))<<4;
+}
+
 void ASSIGNINCREMENTS() { //--------------------------------------------------------default
 
   CZMix = constrain((FMIndexCont + (2047 - (averageaInIAv / 2.0))), 0, 2047); 
-
+  INCREMENT_PWM();
   switch (oscMode) { //switches which oscs get changed by FM and how much multiplier ;
     case 0://break intentionally ommited
 
@@ -118,7 +123,6 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
       else aInModRatio = (averageaInRAv / 4096.0); //down direction dont go past zero, or divide by zero could happen
 
 
-
       if (FMFixedOn) {
         FMMult = (float)((((averageratio >> 3) / 1.1)) + 1.0) * aInModRatio; 
         osc_mult[0] = 4;
@@ -204,19 +208,6 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
       break;
 
   }
-
-
-
-  oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
-  if (PWM_Cont == 0) {
-    oSQ.PW = (PWM_Min << 20) + ((envVal * (4095 - (PWM_Min << 1))) << 8); //scale the pwm so it only reaches min/max set by PWM_MINIMUM in config
-  }
-  else {
-    oSQ.PW = (PWM_Min << 20) + (((constrain(((2048 + FMIndexCont) + (int(2048 - averageaInIAv))), 0, 4095))    *    (4095 - (PWM_Min << 1))) << 8);
-  }
-
-  //BSFfreq = min((o2.phase_increment>>16),2047);
-
 }
 
 
@@ -225,7 +216,7 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
   PENV = PulsarEnv[analogControls[3] >> 9];
 
   FMIndexContCubing = FMIndexCont / 256.0;
-
+   INCREMENT_PWM();
   switch (oscMode) { //switches which oscs get changed by FM and how much multiplier ;
 
     case 0:
@@ -392,33 +383,18 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
     
   }
    }
-
-
-
-
-  oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
-  if (PWM_Cont == 0) {
-    oSQ.PW = (PWM_Min << 20) + ((envVal * (4095 - (PWM_Min << 1))) << 8); //scale the pwm so it only reaches min/max set by PWM_MINIMUM in config
-  }
-  else {
-    oSQ.PW = (PWM_Min << 20) + (((constrain(((2048 + FMIndexCont) + (int(2048 - averageaInIAv))), 0, 4095))    *    (4095 - (PWM_Min << 1))) << 8);
-  }
-
-  //BSFfreq = min((o2.phase_increment>>16),2047);
-
+ 
 }
 void ASSIGNINCREMENTS_D() { //--------------------------------------------------------delay
 
 
   CZMix = constrain((FMIndexCont + (2047 - (averageaInIAv / 2.0))), 0, 2047);
-  
+   INCREMENT_PWM();
   if (averageaInRAv > 4095) {
     ModRatioCubing = (averageaInRAv - 4095.0) / 256.0;
     aInModRatio = ((ModRatioCubing * ModRatioCubing * ModRatioCubing) / 2048.0) + 1.0;
   }
   else aInModRatio = (averageaInRAv / 4096.0); //down direction dont go past zero, or divide by zero could happen
-
-  
 
 
   switch (oscMode) {
@@ -438,9 +414,7 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
         osc_mult[1] = 4.0;
         o1.phase_increment = inputConverterF * osc_mult[0] ;
         o2.phase_increment = inputConverter * osc_mult[1]  ;
-        
-        
-
+   
 
       }
       else {
@@ -449,9 +423,7 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
         osc_mult[1] = 4.0;
         o1.phase_increment = inputConverter * osc_mult[0] ;
         o2.phase_increment = inputConverter * osc_mult[1] ;
-        
-       
-
+ 
       }
       break;
 
@@ -472,9 +444,7 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
         
         o1.phase_increment = inputConverterF * osc_mult[0] ;
         o2.phase_increment = inputConverter * osc_mult[1] * FMX_HiOffset ;
-       
-       
-
+ 
 
       }
       else {
@@ -484,9 +454,7 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
         
         o1.phase_increment = inputConverter * osc_mult[0] ;
         o2.phase_increment = inputConverter * osc_mult[1] * FMX_HiOffset ;
-       
-       
-
+ 
 
       }
       break;
@@ -500,8 +468,7 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
         osc_mult[1] = FMMult;
         o1.phase_increment = inputConverter * osc_mult[0];
         o2.phase_increment = inputConverterF * osc_mult[1];
-       
-       
+     
       }
       else {
         FMMult = (float)((((analogControls[3] >> 5))) + 1.0); //CZ + free + free
@@ -509,8 +476,7 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
         osc_mult[1] = FMMult;
         o1.phase_increment = inputConverter * osc_mult[0];
         o2.phase_increment = inputConverter * osc_mult[1];
-        
-       
+   
 
       }
       break;
@@ -544,23 +510,11 @@ FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
       }
       break;
   }
-
-
-
-  oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
-  if (PWM_Cont == 0) {
-    oSQ.PW = (PWM_Min << 20) + ((envVal * (4095 - (PWM_Min << 1))) << 8); //scale the pwm so it only reaches min/max set by PWM_MINIMUM in config
-  }
-  else {
-    oSQ.PW = (PWM_Min << 20) + (((constrain(((2048 + FMIndexCont) + (int(2048 - averageaInIAv))), 0, 4095))    *    (4095 - (PWM_Min << 1))) << 8);
-  }
-
 }
 
 
-
 void ASSIGNINCREMENTS_DRUM() { //--------------------------------------------------------drum effect
-
+ INCREMENT_PWM();
   UPDATECONTROLS_DRUM();
   //    Serial.print   (CZMix);
   //    Serial.print   ("      ");
@@ -589,23 +543,12 @@ void ASSIGNINCREMENTS_DRUM() { //-----------------------------------------------
     o4.phase_increment = (inputConverter * osc_mult[1]) * chord[2];
     o5.phase_increment = (inputConverter * osc_mult[1]) * chord[3];
   }
-
-  oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
-  if (PWM_Cont == 0) {
-    oSQ.PW = (PWM_Min << 20) + ((envVal * (4095 - (PWM_Min << 1))) << 8); //scale the pwm so it only reaches min/max set by PWM_MINIMUM in config
-  }
-  else {
-    oSQ.PW = (PWM_Min << 20) + (((constrain(((2048 + FMIndexCont) + (int(2048 - averageaInIAv))), 0, 4095))    *    (4095 - (PWM_Min << 1))) << 8);
-  }
-
-  //BSFfreq = min((o2.phase_increment>>16),2047);
-
 }
 
 void ASSIGNINCREMENTS_SPECTRUM() { //--------------------------------------------------------
 
   PENV = PulsarEnv[analogControls[3] >> 9];
-
+ INCREMENT_PWM();
   CZMix = constrain((FMIndexCont + (2047 - (averageaInIAv / 2.0))), 0, 2047);
 
   if (averageaInRAv > 4095) {
@@ -618,7 +561,6 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
     case 0://break intentionally ommited
 
       UPDATECONTROLS_FM();
-
 
       o2.index = (((HARM_LEVELS[Lbuh]) * mixLo) + ((HARM_LEVELS[Mbuh]) * mixMid) + ((HARM_LEVELS[Hbuh]) * mixHi)) >> 11;
       o3.index = (((HARM_LEVELS[1 + Lbuh]) * mixLo) + ((HARM_LEVELS[1 + Mbuh]) * mixMid) + ((HARM_LEVELS[1 + Hbuh]) * mixHi)) >> 11;
@@ -649,7 +591,6 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
       FMX_HiOffset = 1;
       break;
 
-
     case 2://fm mode with x button pressed allows pitch bending on hi position and FM is LFO in fixed (no auto get freq).
 
       UPDATECONTROLS_FMALT();
@@ -663,8 +604,6 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
       o8.index = (((HARM_LEVELS[6 + Lbuh]) * mixLo) + ((HARM_LEVELS[6 + Mbuh]) * (mixMid + mixHi))) >> 11;
       o9.index = (((HARM_LEVELS[7 + Lbuh]) * mixLo) + ((HARM_LEVELS[7 + Mbuh]) * (mixMid + mixHi))) >> 11;
       o10.index = (((HARM_LEVELS[8 + Lbuh]) * mixLo) + ((HARM_LEVELS[8 + Mbuh]) * (mixMid + mixHi))) >> 11;
-
-
 
 
       FMIndexContCubing = FMIndexCont / 256.0;
@@ -726,8 +665,6 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
       o10.index = (((HARM_LEVELS[8 + Lbuh]) * mixLo) + ((HARM_LEVELS[8 + Mbuh]) * (mixMid + mixHi))) >> 11;
 
 
-
-
       if (FMFixedOn) {
         FMMult = (float)((((averageratio >> 2) / 1.1)) + 1.0) * aInModRatio; //CZ + fixed + free
         osc_mult[0] = FMMult;
@@ -741,8 +678,6 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
       FMIndex = 0;
       break;
   }
-
-
 
   if (FMFixedOn){o1.phase_increment = inputConverterF * osc_mult[0] ;
   lfo.phase_increment = inputConverterF * (osc_mult[0] / 20.0);}
@@ -759,17 +694,6 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
   o9.phase_increment = inputConverter * 28.0 * (-chord[2]) * FMX_HiOffset;
   o10.phase_increment = inputConverter * 32.0* (-chord[3])  * FMX_HiOffset;
 
-
-
-  oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
-  if (PWM_Cont == 0) {
-    oSQ.PW = (PWM_Min << 20) + ((envVal * (4095 - (PWM_Min << 1))) << 8); //scale the pwm so it only reaches min/max set by PWM_MINIMUM in config
-  }
-  else {
-    oSQ.PW = (PWM_Min << 20) + (((constrain(((2048 + FMIndexCont) + (int(2048 - averageaInIAv))), 0, 4095))    *    (4095 - (PWM_Min << 1))) << 8);
-  }
-
-  //BSFfreq = min((o2.phase_increment>>16),2047);
 
 }
 
