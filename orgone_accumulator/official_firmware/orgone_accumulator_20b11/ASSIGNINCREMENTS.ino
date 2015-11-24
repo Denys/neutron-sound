@@ -14,7 +14,7 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
 
 
       FMIndexContCubing = FMIndexCont / 256.0;
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 2.0))));
 
       if (averageaInRAv > 4095) {
         ModRatioCubing = (averageaInRAv - 4095.0) / 256.0;
@@ -67,7 +67,7 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
 
 
       FMIndexContCubing = FMIndexCont / 256.0;
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct/2.0))));
 
       if (averageaInRAv > 4095) {
         ModRatioCubing = (averageaInRAv - 4095) / 256.0;
@@ -142,7 +142,7 @@ void ASSIGNINCREMENTS() { //----------------------------------------------------
       else {
         FMMult = (float)((((averageratio >> 5) / 7.0)) + 1.0) * aInModRatio; 
         osc_mult[0] = 4;
-        osc_mult[1] = FMMult;
+        osc_mult[1] = FMMult;        
         o2.phase_increment = inputConverter * osc_mult[1];
         o4.phase_increment = o2.phase_increment  * chord[0] + detune[0];
         o6.phase_increment = o2.phase_increment * chord[1] + detune[1];
@@ -223,7 +223,7 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
       UPDATECONTROLS_FM();
        o1.phase_SUB = inputConverter * 1;
       FMX_HiOffset = 1;
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 2.0))));
       break;
     case 1:
       UPDATECONTROLS_CZ();
@@ -236,7 +236,7 @@ void ASSIGNINCREMENTS_P() { //--------------------------------------------for pu
       UPDATECONTROLS_FMALT();
       o1.phase_SUB = inputConverter * 1;
       FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 2.0))));
       break;
     case 3:
       UPDATECONTROLS_CZALT();
@@ -403,7 +403,7 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
       UPDATECONTROLS_FM();
 
       FMIndexContCubing = FMIndexCont / 256.0;
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 2.0))));
 
 
       if (FMFixedOn) {
@@ -432,7 +432,7 @@ void ASSIGNINCREMENTS_D() { //--------------------------------------------------
       UPDATECONTROLS_FMALT();
 
       FMIndexContCubing = FMIndexCont / 256.0;
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 2.0))));
 
 FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
     
@@ -574,7 +574,7 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
 
 
       FMIndexContCubing = FMIndexCont / 256.0;
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 2.0))));
 
 
       if (FMFixedOn) {
@@ -607,7 +607,7 @@ void ASSIGNINCREMENTS_SPECTRUM() { //-------------------------------------------
 
 
       FMIndexContCubing = FMIndexCont / 256.0;
-      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 4.0))));
+      FMIndex = (uint32_t((float)(((FMIndexContCubing * FMIndexContCubing * FMIndexContCubing) + (averageaInIAvCubing * averageaInIAvCubing * averageaInIAvCubing)) * (inputVOct / 2.0))));
 
       FMX_HiOffset = (float)(1.0 + ((float)(mixHi) * FMX_HiOffsetCont)/2048.0);
       

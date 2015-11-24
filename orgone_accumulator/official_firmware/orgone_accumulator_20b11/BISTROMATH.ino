@@ -77,7 +77,7 @@ static inline int32_t signed_multiply_32x16t(int32_t a, uint32_t b)
   return out;
 }
 
-// computes (((int64_t)a[31:0] * (int64_t)b[31:0]) >> 32) from pjrc audio lib
+// computes (((int64_t)a[31:0] * (int64_t)b[31:0]) >> 32) from pjrc audio lib SIGNED
 static inline int32_t multiply_32x32_rshift32(int32_t a, int32_t b) __attribute__((always_inline, unused));
 static inline int32_t multiply_32x32_rshift32(int32_t a, int32_t b)
 {
@@ -104,14 +104,15 @@ static inline int32_t ssat15(int32_t a)
   return out;
 }
 
-//// computes (((uint64_t)a[31:0] * (uint64_t)b[31:0]) >> 32) 
-//static inline uint32_t unsigned_multiply_32x32_rshift32(uint32_t a, uint32_t b) __attribute__((always_inline, unused));
-//static inline uint32_t unsigned_multiply_32x32_rshift32(uint32_t a, uint32_t b)
-//{
-//  int32_t out;
-//  asm volatile("ummul %4 ,%0, %1, %2" : "=r" (out) : "r" (a), "r" (b));
-//  return out;
-//}
+// computes (((uint64_t)a[31:0] * (uint64_t)b[31:0]) >> 32) 
+static inline uint32_t Umultiply_32x32_rshift32(uint32_t a, uint32_t b) __attribute__((always_inline, unused));
+static inline uint32_t Umultiply_32x32_rshift32(uint32_t a, uint32_t b)
+{
+  int32_t out;
+  int32_t lsb;
+  asm volatile("umull %0 , %3,  %1, %2" : "=r" (out), "=r"(lsb) : "r" (a), "r" (b));
+  return out;
+}
 
 static inline int16_t Interp512(int16_t wave, int16_t wavenext, uint32_t phase) __attribute__((always_inline, unused));
 static inline int16_t Interp512(int16_t wave, int16_t wavenext, uint32_t phase) {  

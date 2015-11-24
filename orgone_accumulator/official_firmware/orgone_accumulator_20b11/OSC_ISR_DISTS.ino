@@ -101,12 +101,12 @@ void FASTRUN outUpdateISR_DISTS(void) {
 
       o1.phase = o1.phase + o1.phase_increment + o3.index;
       o2.phase = o2.phase +  o2.phase_increment;
-      if (o1.phaseOld > o1.phase)o2.phase = (uint32_t)((o2.phase_increment * o1.phase)>>Temporal_Shift_CZ); 
-      o1.phaseOld = o1.phase;      
+      if (o1.phaseOld > o1.phase)o2.phase = (uint32_t)((o2.phase_increment * o1.phase) >> Temporal_Shift_CZ);;
+      o1.phaseOld = o1.phase;
       o2.phaseRemain = (o2.phase << 9) >> 17; 
       o1.phaseRemain = (o1.phase << 9) >> 17;
 
-      //dummy self mod wave
+      //dummy wave for self mod effect
       o3.phase = o3.phase + o1.phase_increment;
       o3.phaseRemain = (o3.phase << 9) >> 17;
       o3.wave = (FMTable[o3.phase >> 23]);

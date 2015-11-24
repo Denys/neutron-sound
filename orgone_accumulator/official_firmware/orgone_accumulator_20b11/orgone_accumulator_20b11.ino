@@ -1423,6 +1423,7 @@ struct oscillator2
   int32_t wave;
   int32_t nextwave;
   int32_t phase_increment = 0;
+  uint32_t phase_mult = 0;
 }
 o2;
 struct oscillator3
