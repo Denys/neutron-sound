@@ -1837,7 +1837,7 @@ void setup() {
     *portConfigRegister(32) = PORT_PCR_MUX(3) | PORT_PCR_PE;
 
     pinMode(LED_LoSel, OUTPUT);
-    pinMode(LED_pulsarON, INPUT);   
+    pinMode(LED_pulsarON, OUTPUT);   
     pinMode(LED_MidSel, OUTPUT);
     pinMode(LED_FXSelUp, OUTPUT);
     digitalWrite(LED_FXSelUp, HIGH); //turn off LED for animatioon
@@ -1951,7 +1951,7 @@ void setup() {
   delay(75); 
   digitalWrite(LED_LoSel, LOW);
   delay(75);
-  pinMode(LED_pulsarON, INPUT); 
+  //pinMode(LED_pulsarON, INPUT); 
   digitalWrite(LED_pulsarON, LOW);  
   delay(75);
   digitalWrite(LED_MidSel, LOW);

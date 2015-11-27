@@ -34,7 +34,7 @@ void UPDATE_POSITION_LEDS() {
 
 void OFF_prog_LEDS() {
   digitalWriteFast(SEL_LED_ARRAY[0], LOW);
-  pinMode(LED_pulsarON, INPUT); 
+  //pinMode(LED_pulsarON, INPUT); 
   digitalWriteFast(SEL_LED_ARRAY[1], LOW);
   digitalWriteFast(SEL_LED_ARRAY[2], LOW);
   digitalWriteFast(SEL_LED_ARRAY[3], HIGH); //this LED is inverted because pin33 can not be grounded on boot.
@@ -57,7 +57,7 @@ void UPDATE_prog_LEDS() {
           if (FX == 3) digitalWriteFast(SEL_LED_ARRAY[FX], LOW);
                     
           else  {
-          if (FX == 1) {pinMode(LED_pulsarON, OUTPUT);} 
+          //if (FX == 1) {pinMode(LED_pulsarON, OUTPUT);} 
           digitalWriteFast(SEL_LED_ARRAY[FX], HIGH);}
         }
         break;
@@ -93,12 +93,13 @@ void UPDATE_prog_LEDS() {
         digitalWriteFast(LED_FXSelUp, !gateState);
         break;
       case 9:
-      if(pulsarOn){
-        pinMode(LED_pulsarON, OUTPUT); 
-        digitalWriteFast(LED_pulsarON, pulsarOn); }
-        else {
-        pinMode(LED_pulsarON, INPUT); 
-        digitalWriteFast(LED_pulsarON, pulsarOn); }
+      digitalWriteFast(LED_pulsarON, pulsarOn);
+//      if(pulsarOn){
+//        pinMode(LED_pulsarON, OUTPUT); 
+//        digitalWriteFast(LED_pulsarON, pulsarOn); }
+//        else {
+//        pinMode(LED_pulsarON, INPUT); 
+//        digitalWriteFast(LED_pulsarON, pulsarOn); }
         break;
 
     }
