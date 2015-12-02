@@ -1,5 +1,5 @@
 //Neutron-sound.com
-//Orgone Accumulator 2 beta11b
+//Orgone Accumulator 2 beta11c
 // drum CV swap
 // fixed to work with arduino 1.6.6
 
@@ -1366,13 +1366,17 @@ int32_t clippingTest = 0;
 
 int32_t drum_envVal[] = {0, 0, 0, 0};
 int32_t drum_envTemp[] = {0, 0, 0};
+const int32_t enBreak = 130000000;
 int32_t drum_a = 0;
 uint8_t drum_st = 0;
 uint8_t drum_st2 = 0;
 int32_t drum_d = 0;
 int32_t drum_d2 = 0;
+int32_t drum_dB = 0;
+int32_t temph = 0;
+int32_t tempr = 0;
+int32_t drum_d2B = 0;
 uint8_t drum_envStep[] = {0, 0, 0};
-int32_t ditherbit = 0;
 int32_t bipolarFX = 0;
 uint32_t monopoleFX = 0;
 

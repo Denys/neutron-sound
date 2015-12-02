@@ -7,7 +7,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
   SUBMULOC();
   DECLICK_CHECK();
 
-  ditherbit = random(0, 2);
+
 
   noiseTable3[0] = noiseTable3[1] = (noiseTable3[0] + NT3Rate);
   noiseTable[o1.phase >> 23] = random(-32767, 32767); //replace noise cells with random values.
@@ -60,8 +60,8 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   if (drum_envStep[2] == 1) {
 
-    
-    int32_t temph = multiply_32x32_rshift32(drum_envVal[2], drum_d);
+    if (drum_envVal[2] > enBreak){ temph = multiply_32x32_rshift32(drum_envVal[2], drum_d);}
+    else { temph = multiply_32x32_rshift32(drum_envVal[2], drum_d>>drum_dB);}
     drum_envVal[2] = drum_envVal[2] - temph;
     drum_envTemp[2] = drum_envVal[2] >> 14;
     //if (EffectEnOn_B)drum_envTemp[0] = drum_envVal[2] ;
@@ -90,7 +90,8 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
   else if (drum_envStep[1] == 1) {
     drum_envTemp[1] = drum_envVal[1] >> 14;
-    int32_t tempr = multiply_32x32_rshift32(drum_envVal[1], drum_d2);
+    if (drum_envVal[1] > enBreak) {tempr = multiply_32x32_rshift32(drum_envVal[1], drum_d2);}
+    else {tempr = multiply_32x32_rshift32(drum_envVal[1], drum_d2>>drum_d2B);} 
     drum_envVal[1] = drum_envVal[1] - tempr;
     drum_envTemp[1] = drum_envVal[1] >> 14;
 
@@ -160,11 +161,6 @@ void FASTRUN outUpdateISR_DRUM(void) {
 
 
   o8.wave = ((o5.wave + o2.wave + o3.wave + o4.wave) >> 2);
-
-  if(IsHW2){
-  if (pulsarOn) o8.wave = (o8.wave * max(o6.wave,0))>>15; //turn on AM osc2 by osc 1. 
-  if (xModeOn) o8.wave = (o8.wave * (8191 - (drum_envTemp[2]>>3)))>>13; 
-  }
 
   o1.wave = ((((o1.wave) * (2047 - CZMix))) >> 9) + ((o8.wave * CZMix) >> 9);
   

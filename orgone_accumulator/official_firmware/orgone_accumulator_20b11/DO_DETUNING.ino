@@ -4,13 +4,13 @@ void DODETUNING() {
   pcounter = millis() - pcounterOld;//used for LED flash
   pcounterOld = millis();
 
-//Serial.println(inputScaler);
+  
   switch (FX) {
     case 0: //symetrical detune - primes (bipolar)
-    mixEffectUp = mixEffect * 0.77; 
-    mixEffectDn =  (2047 - mixEffect) * 0.97; 
-    
-      bipolarFX = (constrain((((4095 - aInEffectReading )<< 1) + (analogControls[2] - 4095)), -4095, 4095));
+      mixEffectUp = mixEffect * 0.77;
+      mixEffectDn =  (2047 - mixEffect) * 0.97;
+
+      bipolarFX = (constrain((((4095 - aInEffectReading ) << 1) + (analogControls[2] - 4095)), -4095, 4095));
       aInModEffectCubing = bipolarFX / 64.0;
       effectScaler = (aInModEffectCubing * aInModEffectCubing * aInModEffectCubing) / 8.0;
       if (bipolarFX > 0) {
@@ -30,20 +30,20 @@ void DODETUNING() {
 
     case 1: //twin
 
-    mixEffectUp = mixEffect * 0.77; 
-    mixEffectDn =  (2047 - mixEffect) * 0.97; 
+      mixEffectUp = mixEffect * 0.77;
+      mixEffectDn =  (2047 - mixEffect) * 0.97;
       GRADUALWAVE();
 
-      o1.phaseOffset = (uint32_t)( constrain(((4095 - aInEffectReading) + (analogControls[2])), 0, 8190))<<20;//difference between the waves.
+      o1.phaseOffset = (uint32_t)( constrain(((4095 - aInEffectReading) + (analogControls[2])), 0, 8190)) << 20; //difference between the waves.
       //o1.phaseOffset = (map(o1.phaseOffset,0,8190,7000,100))<<20;
       o1.amp = 0;//turn off folding, using same ISR
       detune[0] = 0; //while in wavetwin dont want detuning
       break;
 
     case 2: //crush/fold distortions 1 (bipolar)
-mixEffectUp = mixEffect * 0.97; 
-    mixEffectDn =  (2047 - mixEffect) * 0.97; 
-    
+      mixEffectUp = mixEffect * 0.97;
+      mixEffectDn =  (2047 - mixEffect) * 0.97;
+
       bipolarFX = (constrain((((4095 - aInEffectReading) << 1) + (analogControls[2] - 4095)), -4095, 4095));
       if (bipolarFX > 0) {
         o1.amp = bipolarFX;
@@ -66,14 +66,14 @@ mixEffectUp = mixEffect * 0.97;
 
       break;
 
-     
+
 
     case 3: //Distortions2 (bipolar)
 
- mixEffectUp = mixEffect * 0.97; 
-    mixEffectDn =  (2047 - mixEffect) * 0.97; 
-    
-      bipolarFX = (constrain((((4095 - aInEffectReading )<< 1) + (analogControls[2] - 4095)), -4095, 4095));
+      mixEffectUp = mixEffect * 0.97;
+      mixEffectDn =  (2047 - mixEffect) * 0.97;
+
+      bipolarFX = (constrain((((4095 - aInEffectReading ) << 1) + (analogControls[2] - 4095)), -4095, 4095));
       if (bipolarFX > 0) {
         o1.amp = bipolarFX;
         FXMixer[0] = 0;
@@ -88,13 +88,13 @@ mixEffectUp = mixEffect * 0.97;
         FXMixer[1] = 0;
         FXMixer[2] = 0;
         FXMixer[3] = mixEffect;
-      } 
+      }
       GRADUALWAVE();
 
     case 4: //chord allready bipolar
-    mixEffectUp = mixEffect * 0.87; 
-    mixEffectDn =  (2047 - mixEffect) * 0.97; 
-    
+      mixEffectUp = mixEffect * 0.87;
+      mixEffectDn =  (2047 - mixEffect) * 0.97;
+
       chordArrayOffset = ((constrain(((4095 - aInEffectReading) + (analogControls[2])), 0, 8190)) >> 10) * 3;
       for (int i = 0; i <= 3; i++) {
         chord[i] = (equalTemprementTable[chordTable[i + chordArrayOffset]]);
@@ -102,28 +102,34 @@ mixEffectUp = mixEffect * 0.97;
       break;
 
     case 5: //spectrum bipolar
-    mixEffectUp = mixEffect * 0.77; 
-    mixEffectDn =  (2047 - mixEffect) * 0.97; 
-    
-      bipolarFX = (constrain((((4095 - aInEffectReading )<< 1) + (analogControls[2] - 4095)), -4095, 4095));
+      mixEffectUp = mixEffect * 0.77;
+      mixEffectDn =  (2047 - mixEffect) * 0.97;
+
+      bipolarFX = (constrain((((4095 - aInEffectReading ) << 1) + (analogControls[2] - 4095)), -4095, 4095));
       aInModEffectCubing = bipolarFX / 64.0;
       effectScaler = (aInModEffectCubing * aInModEffectCubing * aInModEffectCubing) / 5000.0;
       if (bipolarFX > 0) {
         FXMixer[0] = 0;
-       effectScaler = (float)((effectScaler * mixEffect) / 4095.0);
-         
-        chord[0] = (float)(1.0+((effectScaler * primes[0])/1000000.0)) ;
-        chord[1] = (float)(1.0+((effectScaler * primes[1])/1000000.0)) ;
-        chord[2] = (float)(1.0+((effectScaler * primes[2])/1000000.0)) ;
-        chord[3] = (float)(1.0+((effectScaler * primes[3])/1000000.0));
+        effectScaler = (float)((effectScaler * mixEffect) / 4095.0);
+
+        chord[0] = (float)(1.0 + ((effectScaler * primes[0]) / 1000000.0)) ;
+        chord[1] = (float)(1.0 + ((effectScaler * primes[1]) / 1000000.0)) ;
+        chord[2] = (float)(1.0 + ((effectScaler * primes[2]) / 1000000.0)) ;
+        chord[3] = (float)(1.0 + ((effectScaler * primes[3]) / 1000000.0));
       }
       else {
-        if (pulsarOn){ FXMixer[1] = abs(bipolarFX) * mixEffect >> 9; FXMixer[0]=0;}
-        else {FXMixer[0] = abs(bipolarFX) * mixEffect >> 9;FXMixer[1]=0;}
+        if (pulsarOn) {
+          FXMixer[1] = abs(bipolarFX) * mixEffect >> 9;
+          FXMixer[0] = 0;
+        }
+        else {
+          FXMixer[0] = abs(bipolarFX) * mixEffect >> 9;
+          FXMixer[1] = 0;
+        }
         effectScaler = 0;
-        detune[0]=detune[1]=detune[2]=detune[3]=1;
+        detune[0] = detune[1] = detune[2] = detune[3] = 1;
       }
-      
+
       Lbuh = (analogControls[8] >> 9) * 9;
       Mbuh =  (analogControls[5] >> 9) * 9;
       Hbuh =  (analogControls[4] >> 9) * 9;
@@ -131,18 +137,18 @@ mixEffectUp = mixEffect * 0.97;
 
     case 6: //delay (bipolar)
 
-     mixEffectUp = mixEffect * 0.97; 
-     mixEffectDn =  (2047 - mixEffect) * 0.97;
-    
+      mixEffectUp = mixEffect * 0.97;
+      mixEffectDn =  (2047 - mixEffect) * 0.97;
+
       GRADUALWAVE();
       o3.phaseOffset = (uint32_t)(analogControls[8]) << 20;
       delayTime = constrain(((averageaInRAv - 4065) + averageratio), 8, 8190); //For Feedback altFX ratio knob
-      delayFeedback = (int32_t)((analogControls[2]>>1)-2048)+(int32_t)((4095 - aInEffectReading)>>1); //detune become feedback
-      delayFeedback = constrain(delayFeedback,-2046,2046);
+      delayFeedback = (int32_t)((analogControls[2] >> 1) - 2048) + (int32_t)((4095 - aInEffectReading) >> 1); //detune become feedback
+      delayFeedback = constrain(delayFeedback, -2046, 2046);
       break;
 
-    case 7: //drum voice    
-     GRADUALWAVE_D();
+    case 7: //drum voice
+      GRADUALWAVE_D();
       mixEffectUp = mixEffect * 0.787; //because there are 5 oscillators being mixed in the detune mix of ISR
       mixEffectDn =  (2047 - mixEffect) * 0.97;
 
@@ -153,8 +159,21 @@ mixEffectUp = mixEffect * 0.97;
         o1.amp = (constrain(((AInRawFilter - 4095) + analogControls[0]), 0, 8191)) >> 3; //amount of pbend on fm freq pot
         drum_d = map(( analogControls[5]), 1, 8191, 24000, 24); //decaY 1
         drum_d2 = map( analogControls[3], 1, 8191, 32000, 24); //decay 2
+        if (pulsarOn) {
+          drum_dB = 2;
+        }
+        else  {
+          drum_dB = 0;
+        }
+        if (xModeOn) {
+          drum_d2B = 2 ;
+        }
+        else {
+          drum_d2B = 0;
+        }
       }
       else
+
       {
         if (!pulsarOn) {
           floats[0] = (float)((constrain(((4095 - aInModIndex ) + analogControls[1]), 0.0, 8191.0)) / 8192.0); //make a log pot of index.
@@ -165,14 +184,15 @@ mixEffectUp = mixEffect * 0.97;
           drum_d = map((constrain(((4095 - aInModIndex)  + analogControls[5]), 0, 8191)), 1, 8191, 24000, 24); //decay 2
         }
         if (!xModeOn) {
-          o1.amp = (constrain(((AInRawFilter - 4095) + analogControls[0]), 0, 8191)) >> 3; //amount of pbend on fm freq pot          
+          o1.amp = (constrain(((AInRawFilter - 4095) + analogControls[0]), 0, 8191)) >> 3; //amount of pbend on fm freq pot
           drum_d2 = map( analogControls[3], 1, 8191, 32000, 24); //decay 2
         }
         else { //swap CVs with x button (hw0)
-          o1.amp = analogControls[0] >> 3; 
+          o1.amp = analogControls[0] >> 3;
           drum_d2 = map((constrain(((AInRawFilter - 4095) + analogControls[3]), 0, 8191)), 1, 8191, 32000, 24); //decaY 1
         }
-
+        drum_dB = 0;
+        drum_d2B = 0;
       }
 
 
