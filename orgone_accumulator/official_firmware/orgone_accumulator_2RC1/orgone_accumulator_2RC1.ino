@@ -1,9 +1,25 @@
-//Neutron-sound.com
-//Orgone Accumulator 2.0 RC1
+/*
+Copyright (c) <2016> <James L Matheson>
 
-//works with arduino 1.6.6
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
 
-//tested, works with teensy 3.2
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Neutron-sound.com
+Orgone Accumulator 2.0 RC1
+*/
+
 
 //pre 2.0 firmware orgones
 //use config.h tab to change FX function button to momentary if you changed it.
@@ -1932,44 +1948,44 @@ void setup() {
   analogWriteFrequency(LED_Hi, 20000);
 
   digitalWrite(LED_TuneLock, HIGH);
-  delay(75);
+  delay(50);
   digitalWrite(LED_LoSel, HIGH);
-  delay(75);
+  delay(50);
   pinMode(LED_pulsarON, OUTPUT); 
   digitalWrite(LED_pulsarON, HIGH);  
-  delay(75);
+  delay(50);
   digitalWrite(LED_MidSel, HIGH);
-  delay(75);
+  delay(50);
   digitalWrite(LED_FXSelUp, LOW); //pin 33 is inverted!
-  delay(75);
+  delay(50);
   digitalWrite(LED_HiSel, HIGH);
-  delay(75);
+  delay(50);
   digitalWrite(LED_xSel, HIGH);
-  delay(75);
+  delay(50);
   digitalWrite(LED_CZSel, HIGH);
-  delay(75);
+  delay(50);
   digitalWrite(LED_FixSel, HIGH);
-  delay(150);  
+  delay(50);  
    if (IsHW2){
   digitalWrite(LED_TuneLock, LOW);
-  delay(75); 
+  delay(50); 
   digitalWrite(LED_LoSel, LOW);
-  delay(75);
+  delay(50);
   //pinMode(LED_pulsarON, INPUT); 
   digitalWrite(LED_pulsarON, LOW);  
-  delay(75);
+  delay(50);
   digitalWrite(LED_MidSel, LOW);
-  delay(75);
+  delay(50);
   digitalWrite(LED_FXSelUp, HIGH); //pin 33 is inverted!
-  delay(75);
+  delay(50);
   digitalWrite(LED_HiSel, LOW);
-  delay(75);
+  delay(50);
   digitalWrite(LED_xSel, LOW);
-  delay(75);
+  delay(50);
   digitalWrite(LED_CZSel, LOW);
-  delay(75);
+  delay(50);
   digitalWrite(LED_FixSel, LOW);
-  delay(150);
+  delay(10);
   }
 
   OFF_prog_LEDS();
@@ -1985,7 +2001,7 @@ void setup() {
 
   outUpdateTimer.begin(outUpdateISR_MAIN, ISRrate); //this is the oscillator and DAC output update rate in uS
 
-  delay(75);
+  delay(10);
 
   attachInterrupt(gateIn, gateISR, CHANGE);
 
