@@ -66,10 +66,14 @@ void UPDATE_prog_LEDS() {
   }
 
   else {
+    
+    digitalWriteFast(LED_FXSelUp, !gateState);  
+
+    
     switch (ARC + 1) {
       case 1:
         if(TUNELOCK_SWITCH == 0 || IsHW2)digitalWriteFast(LED_TuneLock, tuneLockOn); //hardware2 has separate button
-        else digitalWriteFast(LED_TuneLock, pulsarOn);
+        else digitalWriteFast(LED_TuneLock, pulsarOn ^ !gateState);
         break;
       case 2:
         digitalWriteFast(LED_LoSel, EffectEnOn_A);
@@ -89,17 +93,10 @@ void UPDATE_prog_LEDS() {
       case 7:
         digitalWriteFast(LED_xSel, xModeOn);
         break;
-      case 8:
-        digitalWriteFast(LED_FXSelUp, !gateState);
+      case 8:        
         break;
       case 9:
       digitalWriteFast(LED_pulsarON, pulsarOn);
-//      if(pulsarOn){
-//        pinMode(LED_pulsarON, OUTPUT); 
-//        digitalWriteFast(LED_pulsarON, pulsarOn); }
-//        else {
-//        pinMode(LED_pulsarON, INPUT); 
-//        digitalWriteFast(LED_pulsarON, pulsarOn); }
         break;
 
     }
