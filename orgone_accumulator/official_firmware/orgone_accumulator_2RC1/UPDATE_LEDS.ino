@@ -73,7 +73,7 @@ void UPDATE_prog_LEDS() {
     switch (ARC + 1) {
       case 1:
         if(TUNELOCK_SWITCH == 0 || IsHW2)digitalWriteFast(LED_TuneLock, tuneLockOn); //hardware2 has separate button
-        else digitalWriteFast(LED_TuneLock, pulsarOn ^ !gateState);
+        else digitalWriteFast(LED_TuneLock, pulsarOn ^ gateState);
         break;
       case 2:
         digitalWriteFast(LED_LoSel, EffectEnOn_A);
