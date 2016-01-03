@@ -1,6 +1,6 @@
 void INCREMENT_PWM(){
   oSQ.phase_increment = (inputConverter / PWM_Div) * 4;
-  oSQ.PW = (constrain(((FMIndexCont) ), 0, (2047-PWM_Min)))<<4;
+  oSQ.PW = (constrain(((FMIndexCont + (1024-(aInModIndex>>2))) ), 0, (2047-PWM_Min)))<<4;
 }
 
 void ASSIGNINCREMENTS() { //--------------------------------------------------------default
