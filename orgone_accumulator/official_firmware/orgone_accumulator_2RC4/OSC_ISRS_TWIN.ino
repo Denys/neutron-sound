@@ -10,6 +10,8 @@ void FASTRUN outUpdateISR_PULSAR_TWIN(void) {
   NOISELIVE0();
   NOISELIVE1();
 
+  
+
 
  o1.phase = o1.phase + o1.phase_increment;
             
@@ -200,6 +202,8 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
   NOISELIVE0();
   NOISELIVE1();
 
+  
+
 
   switch (oscMode) {
     //-----------------------------------------------FM MODE OSCILLATORS-----------------------------------------------
@@ -314,10 +318,6 @@ void FASTRUN outUpdateISR_WAVE_TWIN(void) {
 
 
     case 1://-------------------------------------------CZ MODE OSCILLATORS-----------------------------------------------
-
-
-
-
 
 
       o1.phase = o1.phase + (o1.phase_increment );

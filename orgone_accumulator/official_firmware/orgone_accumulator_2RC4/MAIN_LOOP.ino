@@ -1,5 +1,7 @@
 void loop() {
-
+  //histCount ++;
+  //if(histCount >= histMax){histCount = 0;}
+  
   if (loopReset == 1)goto evilGoto; //these will jump to the same place in the loop after a gateISR happens for better consistancy of retriggered events.
 
   if (LED_MCD > 0)LED_MCD = LED_MCD - 1;

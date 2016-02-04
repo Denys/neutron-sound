@@ -172,9 +172,14 @@ static void inline NOISELIVE1() {
 
 static void inline DECLICK_CHECK() __attribute__((always_inline, unused));
 static void inline DECLICK_CHECK() {
+if (declick_ready ==1){
+  declickRampOut = 4095;
+    declickHold = FinalOut;  
+    declick_ready = 0;
+}
 if (declickRampOut > 0) declickRampOut = (declickRampOut - declick);
   else declickRampOut = 0;
-  declickValue = (declickValue * declickRampOut) >> 12;
+  declickValue = (declickHold * declickRampOut) >> 12;
   declickRampIn = abs(4095 - declickRampOut);
 }
 

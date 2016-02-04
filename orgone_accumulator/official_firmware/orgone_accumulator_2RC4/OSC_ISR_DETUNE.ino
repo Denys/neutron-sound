@@ -364,7 +364,8 @@ void FASTRUN outUpdateISR_MAIN(void) {//original detuning with stepped wave sele
 
   o1.wave = ((o9.wave*(int)(mixEffectUp))>>7) + (((o1.wave * ((int)mixEffectDn)) >> 8)); //main out and mix detune
  
-  FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);//remove clicks when oscs reset
+  
+  FinalOut = declickValue + ((o1.wave * declickRampIn) >> 12);
   analogWrite(aout2, FinalOut + 32000);
 }
 

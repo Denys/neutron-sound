@@ -1348,8 +1348,20 @@ const int potPinTable_DIY[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
 const int potPinTable_ret[] = {13, 3, 4, 5, 6, 7, 8, 11, 10, 9}; //note these are "A**" pins not digital pin numbers
 
+//uint8_t histCount = 0;
+//const uint8_t histMax = 32;
+//uint32_t Lo_wave_hist[32],Mid_wave_hist[32],Hi_wave_hist[32];
+uint32_t smooth_declick_threshold = 200;
+uint32_t LoOld,MidOld,HiOld;
 
 int IsHW2;
+uint16_t lo_wavesel_indexOld;
+uint16_t Mid_wavesel_indexOld;
+uint16_t Hi_wavesel_indexOld;
+
+uint16_t lo_wavesel_index;
+uint16_t Mid_wavesel_index;
+uint16_t Hi_wavesel_index;
 
 int16_t NT3Rate; //the rate noisetable 3 changes.
 
@@ -1369,6 +1381,7 @@ int32_t ADT2;
 
 uint32_t pcounter;
 uint32_t pcounterOld;
+uint8_t fixedWave;
 
 float osc_mult[]  = {
   4, 4, 4
@@ -1399,7 +1412,10 @@ uint32_t monopoleFX = 0;
 int32_t declickRampOut;
 int32_t declickRampIn;
 int32_t declickValue;
+int32_t declickHold;
 int declick = 8;
+int declick_ready = 0;
+
 
 const int Temporal_Shift_CZ = 9;
 const int Temporal_Shift_P = 18;
@@ -1841,6 +1857,7 @@ void outUpdateISR_PULSAR_DELAY(void);
 void outUpdateISR_PULSAR_DISTS(void);
 void outUpdateISR_PULSAR_CHORD(void);
 void outUpdateISR_WAVE_TWIN(void);
+void GRADUALWAVE(void);
 
 void setup() {
   analogReadResolution(16);

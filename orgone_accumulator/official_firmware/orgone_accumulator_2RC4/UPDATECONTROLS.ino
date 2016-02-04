@@ -1,12 +1,34 @@
 void UPDATECONTROLS_CZ() {
 
+if (fixedWave){
+ lo_wavesel_index = analogControls[8] >> 9;
+ if ((mixLo > 256)&&(lo_wavesel_index != lo_wavesel_indexOld)){
+  declick_ready = 1;  
+  lo_wavesel_indexOld = lo_wavesel_index;
+  waveTableLoLink = CZWTselLo[lo_wavesel_index]; //remove click when switching waves
+ }
+
+ Mid_wavesel_index = analogControls[5] >> 9;
+ if ((mixMid>256)&&(Mid_wavesel_index != Mid_wavesel_indexOld)){
+  declick_ready = 1;  
+  Mid_wavesel_indexOld = Mid_wavesel_index;
+  waveTableMidLink = CZWTselMid[Mid_wavesel_index]; //remove click when switching waves
+ } 
+
+Hi_wavesel_index = analogControls[4] >> 9;
+ if ((mixHi>256)&&(Hi_wavesel_index != Hi_wavesel_indexOld)){
+  declick_ready = 1;  
+  Hi_wavesel_indexOld = Hi_wavesel_index;
+  waveTableHiLink = CZWTselHi[Hi_wavesel_index]; //remove click when switching waves
+ } 
+}
 
   switch (ARC + 1) {
 
     case 8:
-//Serial.print(CRUSHBITS);
+//Serial.print(GWTlo1);
 //Serial.print("     ");
-//Serial.println(CRUSH_Remain);
+
       break;
 
     case 10:
@@ -28,20 +50,20 @@ void UPDATECONTROLS_CZ() {
 
       TUNELOCK_TOGGLE();
 
-      waveTableMidLink = CZWTselMid[analogControls[5] >> 9];
+      
 
       break;
 
     case 5:
 
-      waveTableLoLink = CZWTselLo[analogControls[8] >> 9];
+     
 
 
       break;
 
     case 6: //select hi wave
 
-      waveTableHiLink = CZWTselHi[analogControls[4] >> 9];
+     
 
       if ((analogControls[4] >> 9) == 15) WTShiftHi = 31;
       else WTShiftHi = 23;
@@ -82,6 +104,23 @@ void UPDATECONTROLS_CZ() {
 }
 //--------------------------------------------------------------------CZ-ALT--------------------------------------------------
 void UPDATECONTROLS_CZALT() {
+  if (fixedWave){
+   lo_wavesel_index = analogControls[8] >> 9;
+ if ((mixLo>256)&&(lo_wavesel_index != lo_wavesel_indexOld)){
+  declick_ready = 1;  
+  lo_wavesel_indexOld = lo_wavesel_index;
+  waveTableLoLink = CZAltWTselLo[lo_wavesel_index]; //remove click when switching waves
+ }
+
+ Mid_wavesel_index = analogControls[5] >> 9;
+ if ((mixMid>256)&&(Mid_wavesel_index != Mid_wavesel_indexOld)){
+  declick_ready = 1;  
+  Mid_wavesel_indexOld = Mid_wavesel_index;
+  waveTableMidLink = CZAltWTselMid[Mid_wavesel_index]; //remove click when switching waves
+ } 
+  }
+
+
 
   switch (ARC + 1) {
 
@@ -102,7 +141,7 @@ void UPDATECONTROLS_CZALT() {
 
     case 4:
 
-      waveTableMidLink = CZAltWTselMid[analogControls[5] >> 9];
+     
 
       if ((analogControls[5] >> 9) == 15) WTShiftMid = 31;
       else WTShiftMid = 23;
@@ -112,7 +151,7 @@ void UPDATECONTROLS_CZALT() {
 
     case 5:
 
-      waveTableLoLink = CZAltWTselLo[analogControls[8] >> 9];
+      
 
       break;
 
@@ -165,6 +204,29 @@ void UPDATECONTROLS_CZALT() {
 
 //----------------------------------------------------------------FM--------------------------------------------------------
 void UPDATECONTROLS_FM() {
+if (fixedWave){
+   lo_wavesel_index = analogControls[8] >> 9;
+ if ((mixLo>256)&&(lo_wavesel_index != lo_wavesel_indexOld)){
+  declick_ready = 1;  
+  lo_wavesel_indexOld = lo_wavesel_index;
+  waveTableLoLink = FMWTselLo[lo_wavesel_index]; //remove click when switching waves
+ }
+
+ Mid_wavesel_index = analogControls[5] >> 9;
+ if ((mixMid>256)&&(Mid_wavesel_index != Mid_wavesel_indexOld)){
+  declick_ready = 1;  
+  Mid_wavesel_indexOld = Mid_wavesel_index;
+  waveTableMidLink = FMWTselMid[Mid_wavesel_index]; //remove click when switching waves
+ } 
+
+Hi_wavesel_index = analogControls[4] >> 9;
+ if ((mixHi>256)&&(Hi_wavesel_index != Hi_wavesel_indexOld)){
+  declick_ready = 1;  
+  Hi_wavesel_indexOld = Hi_wavesel_index;
+  waveTableHiLink = FMWTselHi[Hi_wavesel_index]; //remove click when switching waves
+ } 
+}
+  
 
   switch (ARC + 1) {
     case 8: //8 and 10 are skipped when tune lock is on, do not use.
@@ -179,15 +241,15 @@ void UPDATECONTROLS_FM() {
       break;
 
     case 4: //mid wave
-      waveTableMidLink = FMWTselMid[analogControls[5] >> 9];
+      
       break;
 
     case 5:  //lo wave
-      waveTableLoLink = FMWTselLo[analogControls[8] >> 9];
+     
       break;
 
     case 6: //select hi wave
-      waveTableHiLink = FMWTselHi[analogControls[4] >> 9];
+     
       
       if ((analogControls[4] >> 9) == 15) WTShiftHi = 31;
       else WTShiftHi = 23;
@@ -233,6 +295,22 @@ void UPDATECONTROLS_FM() {
 
 void UPDATECONTROLS_FMALT() {
 
+ if (fixedWave){
+  lo_wavesel_index = analogControls[8] >> 9;
+ if ((mixLo>256)&&(lo_wavesel_index != lo_wavesel_indexOld)){
+  declick_ready = 1;  
+  lo_wavesel_indexOld = lo_wavesel_index;
+  waveTableLoLink = FMAltWTselLo[lo_wavesel_index]; //remove click when switching waves
+ }
+
+ Mid_wavesel_index = analogControls[5] >> 9;
+ if ((mixMid>256)&&(Mid_wavesel_index != Mid_wavesel_indexOld)){
+  declick_ready = 1;  
+  Mid_wavesel_indexOld = Mid_wavesel_index;
+  waveTableMidLink = FMAltWTselMid[Mid_wavesel_index]; //remove click when switching waves
+ } 
+ }
+
   switch (ARC + 1) {
 
     case 8: //7 and 9 are skipped when tune lock is on, do not use.
@@ -247,14 +325,14 @@ void UPDATECONTROLS_FMALT() {
       break;
 
     case 4:
-      waveTableMidLink = FMAltWTselMid[analogControls[5] >> 9];
+      
 
        if ((analogControls[5] >> 9) == 15) WTShiftMid = 31;
       else WTShiftMid = 23;
       break;
 
     case 5:
-      waveTableLoLink = FMAltWTselLo[analogControls[8] >> 9];
+      
       break;
 
     case 6: //select hi pitch offset

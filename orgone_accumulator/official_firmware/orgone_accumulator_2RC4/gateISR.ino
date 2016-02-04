@@ -3,7 +3,7 @@ void gateISR() {
 
     gateState = 1;
     declickRampOut = 4095;
-    declickValue = FinalOut;
+    declickHold = FinalOut;
 
     o1.phase =
       o2.phase =

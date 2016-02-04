@@ -73,7 +73,10 @@ void READ_POTS() {
   }//step through control knob readings one per cycle, humans are slow
   else
   {
+    analogControls[8] = analogRead(potPinTable_ret[8]);
     analogControls[ARC] = analogRead(potPinTable_ret[ARC]);
+    analogControls[5] = analogRead(potPinTable_ret[5]);
+    analogControls[4] = analogRead(potPinTable_ret[4]);
   }
 }
 
@@ -201,44 +204,44 @@ void SELECT_ISRS() {
         outUpdateTimer.end();
         o3.phaseOffset = o1.phaseOffset = 0;
         outUpdateTimer.begin(outUpdateISR_MAIN, ISRrate);
-        declick = 8;
+        declick = 32;
 
         break;
       case 1:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_WAVE_TWIN, ISRrate);
-        declick = 16;
+        declick = 32;
 
         break;
       case 2:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DISTS, ISRrate);
-        declick = 16;
+        declick = 32;
         break;
       case 3:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DISTS, ISRrate);
-        declick = 16;
+        declick = 32;
         break;
       case 4:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_MAIN, ISRrate);
-        declick = 8;
+        declick = 32;
         break;
       case 5:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_SPECTRUM, ISRrate);
-        declick = 8;
+        declick = 32;
         break;
       case 6:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_WAVE_DELAY, ISRrate);
-        declick = 100;
+        declick = 32;
         break;
       case 7:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DRUM, ISRrate);
-        declick = 100;
+        declick = 511;
         break;
     }
   }
@@ -247,42 +250,42 @@ void SELECT_ISRS() {
       case 0:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_CHORD, ISRrate);
-        declick = 8;
+        declick = 32;
         break;
       case 1:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_TWIN, ISRrate);
-        declick = 16;
+        declick = 32;
         break;
       case 2:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_DISTS, ISRrate);
-        declick = 16;
+        declick = 32;
         break;
       case 3:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_DISTS, ISRrate);
-        declick = 16;
+        declick = 32;
         break;
       case 4:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_CHORD, ISRrate);//under isr detune
-        declick = 8;
+        declick = 32;
         break;
       case 5:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_SPECTRUM, ISRrate);
-        declick = 8;
+        declick = 32;
         break;
       case 6:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_PULSAR_DELAY, ISRrate);
-        declick = 100;
+        declick = 32;
         break;
       case 7:
         outUpdateTimer.end();
         outUpdateTimer.begin(outUpdateISR_DRUM, ISRrate);
-        declick = 100;
+        declick = 511;
         break;
 
 
@@ -302,53 +305,68 @@ void GRADUALWAVE_D() {
 }
 
 
-void GRADUALWAVE() {
+void FASTRUN GRADUALWAVE() {
+//run declick if control moves fast and that wave is being used.
+if ((mixLo > 256) && ((max(analogControls[8],LoOld)- min(analogControls[8],LoOld)) > smooth_declick_threshold))declick_ready = 1;
+if ((mixMid > 256) && ((max(analogControls[5],MidOld)- min(analogControls[5],MidOld)) > smooth_declick_threshold))declick_ready = 1;
+if ((mixHi > 256) && ((max(analogControls[4],HiOld)- min(analogControls[4],HiOld)) > smooth_declick_threshold))declick_ready = 1;
+ 
+ LoOld = analogControls[8]; 
+ MidOld = analogControls[5]; 
+ HiOld = analogControls[4]; 
 
- GremLo = (uint32_t)(map((analogControls[8]%546),0,545,0,511)); //get remainder for mix amount
- GremMid = (uint32_t)(map((analogControls[5]%546),0,545,0,511));
- GremHi = (uint32_t)(map((analogControls[4]%546),0,545,0,511));
+ GremLo = (uint32_t)(map((LoOld%546),0,545,0,511)); //get remainder for mix amount
+ GremMid = (uint32_t)(map((MidOld%546),0,545,0,511));
+ GremHi = (uint32_t)(map((HiOld %546),0,545,0,511));
 
   
   switch (oscMode) {
     case 0:
-      GWTlo1 = FMWTselLo[analogControls[8]/ 546]; //select "from" wave /546 gives 15 steps
-      GWTlo2 = FMWTselLo[((analogControls[8]/ 546) + 1) ]; //select "to"     
+      GWTlo1 = FMWTselLo[LoOld/ 546]; //select "from" wave /546 gives 15 steps
+      GWTlo2 = FMWTselLo[((LoOld/ 546) + 1) ]; //select "to"     
 
-      GWTmid1 = FMWTselMid[analogControls[5]/ 546];
-      GWTmid2 = FMWTselMid[((analogControls[5]/ 546) + 1)];      
+      GWTmid1 = FMWTselMid[MidOld/ 546];
+      GWTmid2 = FMWTselMid[((MidOld/ 546) + 1)];      
 
-      GWThi1 = FMWTselHi[analogControls[4]/ 546];
-      GWThi2 = FMWTselHi[((analogControls[4]/ 546) + 1)];            
+      GWThi1 = FMWTselHi[HiOld/ 546];
+      GWThi2 = FMWTselHi[((HiOld/ 546) + 1)];            
       break;
       
     case 2:
-      GWTlo1 = FMAltWTselLo[analogControls[8]/ 546];
-      GWTlo2 = FMAltWTselLo[((analogControls[8]/ 546) + 1)];      
+      GWTlo1 = FMAltWTselLo[LoOld/ 546];
+      GWTlo2 = FMAltWTselLo[((LoOld/ 546) + 1)];      
 
-      GWTmid1 = FMAltWTselMid[analogControls[5]/ 546];
-      GWTmid2 = FMAltWTselMid[((analogControls[5]/ 546) + 1)];      
+      GWTmid1 = FMAltWTselMid[MidOld/ 546];
+      GWTmid2 = FMAltWTselMid[((MidOld/ 546) + 1)];      
       break;
 
     case 1:
-      GWTlo1 = CZWTselLo[analogControls[8]/ 546];
-      GWTlo2 = CZWTselLo[((analogControls[8]/ 546) + 1) ];      
+      GWTlo1 = CZWTselLo[LoOld/ 546];
+      GWTlo2 = CZWTselLo[((LoOld/ 546) + 1) ];      
 
-      GWTmid1 = CZWTselMid[analogControls[5]/ 546];
-      GWTmid2 = CZWTselMid[((analogControls[5]/ 546) + 1)];     
+      GWTmid1 = CZWTselMid[MidOld/ 546];
+      GWTmid2 = CZWTselMid[((MidOld/ 546) + 1)];     
 
-      GWThi1 = CZWTselHi[analogControls[4]/ 546];
-      GWThi2 = CZWTselHi[((analogControls[4]/ 546) + 1)];     
+      GWThi1 = CZWTselHi[HiOld/ 546];
+      GWThi2 = CZWTselHi[((HiOld/ 546) + 1)];     
 
       break;
     case 3:
-      GWTlo1 = CZAltWTselLo[analogControls[8]/ 546];
-      GWTlo2 = CZAltWTselLo[((analogControls[8]/ 546) + 1)];
+      GWTlo1 = CZAltWTselLo[LoOld/ 546];
+      GWTlo2 = CZAltWTselLo[((LoOld/ 546) + 1)];
       
-      GWTmid1 = CZAltWTselMid[analogControls[5]/ 546];
-      GWTmid2 = CZAltWTselMid[((analogControls[5]/ 546) + 1) ];
+      GWTmid1 = CZAltWTselMid[MidOld/ 546];
+      GWTmid2 = CZAltWTselMid[((MidOld/ 546) + 1) ];
       
 
       break;
   }
 }
+
+//uint32_t smooth(uint32_t incoming, uint32_t *history, uint32_t accum){
+//  accum = accum - history[histCount];
+//  history[histCount] = incoming;
+//  accum = accum + history[histCount];
+//  return accum>>5; 
+//}
 

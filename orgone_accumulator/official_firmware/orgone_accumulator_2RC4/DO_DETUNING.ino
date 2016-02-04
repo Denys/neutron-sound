@@ -9,6 +9,7 @@ void DODETUNING() {
     case 0: //symetrical detune - primes (bipolar)
       mixEffectUp = mixEffect * 0.77;
       mixEffectDn =  (2047 - mixEffect) * 0.97;
+       fixedWave = 1;
 
       bipolarFX = (constrain((((4095 - aInEffectReading ) << 1) + (analogControls[2] - 4095)), -4095, 4095));
       aInModEffectCubing = bipolarFX / 64.0;
@@ -32,7 +33,8 @@ void DODETUNING() {
 
       mixEffectUp = mixEffect * 0.77;
       mixEffectDn =  (2047 - mixEffect) * 0.97;
-      GRADUALWAVE();
+      GRADUALWAVE();      
+      fixedWave = 0;
 
       o1.phaseOffset = (uint32_t)( constrain(((4095 - aInEffectReading) + (analogControls[2])), 0, 8190)) << 20; //difference between the waves.
       //o1.phaseOffset = (map(o1.phaseOffset,0,8190,7000,100))<<20;
@@ -63,6 +65,7 @@ void DODETUNING() {
         CRUSH_Remain = (monopoleFX << 22) >> 22;
       } //remainder used for mixing crush levels
       GRADUALWAVE();
+       fixedWave = 0;
 
       break;
 
@@ -90,8 +93,10 @@ void DODETUNING() {
         FXMixer[3] = mixEffect;
       }
       GRADUALWAVE();
+       fixedWave = 0;
 
     case 4: //chord allready bipolar
+     fixedWave = 1;
       mixEffectUp = mixEffect * 0.87;
       mixEffectDn =  (2047 - mixEffect) * 0.97;
 
@@ -102,6 +107,7 @@ void DODETUNING() {
       break;
 
     case 5: //spectrum bipolar
+     fixedWave = 1;
       mixEffectUp = mixEffect * 0.77;
       mixEffectDn =  (2047 - mixEffect) * 0.97;
 
@@ -141,6 +147,7 @@ void DODETUNING() {
       mixEffectDn =  (2047 - mixEffect) * 0.97;
 
       GRADUALWAVE();
+       fixedWave = 0;
       o3.phaseOffset = (uint32_t)(analogControls[8]) << 20;
       delayTime = constrain(((averageaInRAv - 4065) + averageratio), 8, 8190); //For Feedback altFX ratio knob
       delayFeedback = (int32_t)((analogControls[2] >> 1) - 2048) + (int32_t)((4095 - aInEffectReading) >> 1); //detune become feedback
@@ -149,6 +156,7 @@ void DODETUNING() {
 
     case 7: //drum voice
       GRADUALWAVE_D();
+       fixedWave = 0;
       mixEffectUp = mixEffect * 0.787; //because there are 5 oscillators being mixed in the detune mix of ISR
       mixEffectDn =  (2047 - mixEffect) * 0.97;
 
