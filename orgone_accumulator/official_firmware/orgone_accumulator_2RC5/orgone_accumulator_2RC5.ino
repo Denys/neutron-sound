@@ -39,6 +39,8 @@ Orgone Accumulator 2.0 RC1
 const float equalTemprementTable[] = {1, 1, 1.05946, 1.12246, 1.18921, 1.25992, 1.33483, 1.41421, 1.49831, 1.58740, 1.68179, 1.78180, 1.88775, 2};
 const float justTable[] = {1, 1, 1.0417, 1.1250, 1.2, 1.25, 1.33333, 1.4063, 1.5, 1.6, 1.66666, 1.8, 1.875, 2};
 
+const uint8_t smoothStepTable[] ={ 0,1,1,3,3,5,5,7,7,9,9,11,11,13,13,15};
+
 const uint16_t HARM_LEVELS[] = { //for spectrum FX each row of 9 must add to around 4095 they are ROOT FIFTH OCTAVE 3RDHARM 4thHARM 5thHARM 6thHARM 7thHARM 8thHARM
   2047, 1027, 509, 257, 127, 65, 31, 17, 5, //used odd numbers because the number also determines the detune rate for that oscillator.
   2047, 255, 1027, 125, 509, 0, 0, 231, 512, //octaves
@@ -1348,9 +1350,10 @@ const int potPinTable_DIY[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
 const int potPinTable_ret[] = {13, 3, 4, 5, 6, 7, 8, 11, 10, 9}; //note these are "A**" pins not digital pin numbers
 
-//uint8_t histCount = 0;
-//const uint8_t histMax = 32;
-//uint32_t Lo_wave_hist[32],Mid_wave_hist[32],Hi_wave_hist[32];
+uint8_t histCount = 0;
+//const uint8_t histMax = 4;
+//uint32_t Lo_wave_hist[4],Mid_wave_hist[4],Hi_wave_hist[4];
+//uint32_t Lo_accumulator,Mid_accumulator,Hi_accumulator;
 uint32_t smooth_declick_threshold = 200;
 uint32_t LoOld,MidOld,HiOld;
 
@@ -1739,6 +1742,9 @@ const int16_t *PENV;
 int32_t GremLo; //gradual wavetable change remainders
 int32_t GremMid;
 int32_t GremHi;
+uint32_t uGremLo; //gradual wavetable change remainders
+uint32_t uGremMid;
+uint32_t uGremHi;
 
 
 //running average for sensetive controls

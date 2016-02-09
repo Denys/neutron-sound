@@ -69,7 +69,10 @@ void ARMED_FX() {
 void READ_POTS() {
 
   if (IsHW2 == 0) {
+     analogControls[8] = analogRead(potPinTable_DIY[8]);
     analogControls[ARC] = analogRead(potPinTable_DIY[ARC]);
+    analogControls[5] = analogRead(potPinTable_DIY[5]);
+    analogControls[4] = analogRead(potPinTable_DIY[4]);
   }//step through control knob readings one per cycle, humans are slow
   else
   {
@@ -306,67 +309,89 @@ void GRADUALWAVE_D() {
 
 
 void FASTRUN GRADUALWAVE() {
-//run declick if control moves fast and that wave is being used.
+//run declick if control moves fast (e-g sequencer) and that wave is being used.
 if ((mixLo > 256) && ((max(analogControls[8],LoOld)- min(analogControls[8],LoOld)) > smooth_declick_threshold))declick_ready = 1;
 if ((mixMid > 256) && ((max(analogControls[5],MidOld)- min(analogControls[5],MidOld)) > smooth_declick_threshold))declick_ready = 1;
 if ((mixHi > 256) && ((max(analogControls[4],HiOld)- min(analogControls[4],HiOld)) > smooth_declick_threshold))declick_ready = 1;
+
+//histCount ++;
+//if (histCount >= histMax) histCount = 0;
+//
+//  Lo_accumulator = Lo_accumulator - Lo_wave_hist[histCount];
+//  Mid_accumulator = Mid_accumulator - Mid_wave_hist[histCount];
+//  Hi_accumulator = Hi_accumulator - Hi_wave_hist[histCount];
+//  
+//  Lo_wave_hist[histCount] = analogControls[8];
+//  Mid_wave_hist[histCount] = analogControls[5];
+//  Hi_wave_hist[histCount] = analogControls[4];
+//  
+//  Lo_accumulator = Lo_accumulator + Lo_wave_hist[histCount];
+//  Mid_accumulator = Mid_accumulator + Mid_wave_hist[histCount];
+//  Hi_accumulator = Hi_accumulator + Hi_wave_hist[histCount];
  
- LoOld = analogControls[8]; 
- MidOld = analogControls[5]; 
- HiOld = analogControls[4]; 
+ LoOld = analogControls[8];
+ MidOld = analogControls[5];
+ HiOld = analogControls[4];
 
- GremLo = (uint32_t)(map((LoOld%546),0,545,0,511)); //get remainder for mix amount
- GremMid = (uint32_t)(map((MidOld%546),0,545,0,511));
- GremHi = (uint32_t)(map((HiOld %546),0,545,0,511));
 
+ uGremLo = (LoOld & 0x03FF);//mask off unwanted bits, power of 2 modulo.
+ uGremMid = (MidOld & 0x03FF);
+ uGremHi = (HiOld & 0x03FF);
+
+ GremLo = (abs (int32_t(511-(uGremLo))));     // make triangle wave from pot remainder
+ GremMid = (abs (int32_t(511-(uGremMid)))); 
+ GremHi = (abs (int32_t(511-(uGremHi)))); 
+
+  uint16_t divLo = (LoOld>>10)<<1;  
+  uint16_t divLo2 = smoothStepTable[LoOld>>9];
+  uint16_t divMid =(MidOld>>10)<<1;
+  uint16_t divMid2 =smoothStepTable[MidOld>>9];
+  uint16_t divHi = (HiOld>>10)<<1;
+  uint16_t divHi2 = smoothStepTable[HiOld>>9]; 
+ 
   
   switch (oscMode) {
-    case 0:
-      GWTlo1 = FMWTselLo[LoOld/ 546]; //select "from" wave /546 gives 15 steps
-      GWTlo2 = FMWTselLo[((LoOld/ 546) + 1) ]; //select "to"     
+    case 0:    
+      GWTlo1 = FMWTselLo[divLo]; //select "from" wave /546 gives 15 steps
+      GWTlo2 = FMWTselLo[divLo2]; //select "to"        
 
-      GWTmid1 = FMWTselMid[MidOld/ 546];
-      GWTmid2 = FMWTselMid[((MidOld/ 546) + 1)];      
+      GWTmid1 = FMWTselMid[divMid];
+      GWTmid2 = FMWTselMid[divMid2];      
 
-      GWThi1 = FMWTselHi[HiOld/ 546];
-      GWThi2 = FMWTselHi[((HiOld/ 546) + 1)];            
+      GWThi1 = FMWTselHi[divHi];
+      GWThi2 = FMWTselHi[divHi2];            
       break;
       
     case 2:
-      GWTlo1 = FMAltWTselLo[LoOld/ 546];
-      GWTlo2 = FMAltWTselLo[((LoOld/ 546) + 1)];      
+      GWTlo1 = FMAltWTselLo[divLo];
+      GWTlo2 = FMAltWTselLo[divLo2];      
 
-      GWTmid1 = FMAltWTselMid[MidOld/ 546];
-      GWTmid2 = FMAltWTselMid[((MidOld/ 546) + 1)];      
+      GWTmid1 = FMAltWTselMid[divMid];
+      GWTmid2 = FMAltWTselMid[divMid2];      
       break;
 
     case 1:
-      GWTlo1 = CZWTselLo[LoOld/ 546];
-      GWTlo2 = CZWTselLo[((LoOld/ 546) + 1) ];      
+      GWTlo1 = CZWTselLo[divLo];
+      GWTlo2 = CZWTselLo[divLo2];      
 
-      GWTmid1 = CZWTselMid[MidOld/ 546];
-      GWTmid2 = CZWTselMid[((MidOld/ 546) + 1)];     
+      GWTmid1 = CZWTselMid[divMid];
+      GWTmid2 = CZWTselMid[divMid2];     
 
-      GWThi1 = CZWTselHi[HiOld/ 546];
-      GWThi2 = CZWTselHi[((HiOld/ 546) + 1)];     
+      GWThi1 = CZWTselHi[divHi];
+      GWThi2 = CZWTselHi[divHi2];     
 
       break;
     case 3:
-      GWTlo1 = CZAltWTselLo[LoOld/ 546];
-      GWTlo2 = CZAltWTselLo[((LoOld/ 546) + 1)];
+      GWTlo1 = CZAltWTselLo[divLo];
+      GWTlo2 = CZAltWTselLo[divLo2];
       
-      GWTmid1 = CZAltWTselMid[MidOld/ 546];
-      GWTmid2 = CZAltWTselMid[((MidOld/ 546) + 1) ];
+      GWTmid1 = CZAltWTselMid[divMid];
+      GWTmid2 = CZAltWTselMid[divMid2];
       
 
       break;
   }
 }
 
-//uint32_t smooth(uint32_t incoming, uint32_t *history, uint32_t accum){
-//  accum = accum - history[histCount];
-//  history[histCount] = incoming;
-//  accum = accum + history[histCount];
-//  return accum>>5; 
-//}
+
 
