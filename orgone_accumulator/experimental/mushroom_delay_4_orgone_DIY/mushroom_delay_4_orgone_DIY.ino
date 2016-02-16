@@ -48,26 +48,33 @@
 #define Audio_input_pin 27
 #define Delay_counts_pin A10
 #define Delay_mix_pin 22
+#define Diffuse_mix_pin 17
 #define Delay_feedback_pin 18
 #define gateIn 12
+#define diffuse_button 1
 
 #define cast_uint32_t static_cast<uint32_t>
 
 ADC *adc = new ADC();
-const uint8_t ISRrate = 4;
+const uint8_t ISRrate = 8;
 const uint8_t diffuser_table = 4;
-uint8_t gateOn = 0;
+uint8_t ARC,INC,Ntest,Nold;
+uint16_t ftune;
+uint8_t gateOn = 0,diffuseMode;
 uint32_t Hi_count = 0;
 uint32_t Hi_count_rate = 0;
-int32_t audioIn,finalOut,delayOut,delayMix;
+int32_t audioIn,finalOut,delayOut,delayMix,diffuseMix,diffuseOut;
 uint8_t Monitor = 0;
 int16_t delayTable[4096];
 float dtuner,inCV,inCVraw,inputScaler,tuner,inputVOct;
 uint16_t delayCounter = 0;
 uint16_t delayFeedback = 0;
 uint16_t delayCounterShift = 0;
+uint16_t diffuseCountShift[4]; 
 uint16_t delayCounts = 512;
+uint16_t diffuseCount[] = {2,3,5,7,11,13,17,19,23,29,31,37};
 uint16_t delayTimeShift = 0;
+uint16_t diffuseTimeShift[4];
 const int numreadingsCV = 16; 
 float readingsaInCV[numreadingsCV];
 int indexInCV = 0;
@@ -80,6 +87,7 @@ void Delay_increment(void);
 void Hi_counter(void); 
 static inline float fasterpow2 (float p);
 static inline float fastpow2 (float p);
+void READSLOW(void);
 
 void setup() {
   if (Monitor) {
@@ -106,38 +114,34 @@ void setup() {
   pinMode(A14  , OUTPUT);
   pinMode(Hi_counter_pin  , OUTPUT);
   pinMode(gateIn , INPUT);
+  pinMode(diffuse_button , INPUT);
 
   analogWriteResolution (16);
  Sample_timer.priority(64); 
 
   Sample_timer.begin(Hi_counter, ISRrate);
-  attachInterrupt(Hi_counter_pin,Delay_increment, RISING);
+  //attachInterrupt(Hi_counter_pin,Delay_increment, RISING);
     attachInterrupt(gateIn, gateISR, CHANGE);
 
     adc->startContinuous(Audio_input_pin);
 }
 
 void loop() {
- 
+  ARC ++;
+  if (ARC >= 6) ARC = 0; 
+  READSLOW();
  
   inCVraw = (float)(adc->analogRead(Voct_pin)*2.0); //v/oct input
-   
-  dtuner = (float)((((int)((adc->analogRead(Coarse_tune_pin,ADC_0)<<1)/227)) * 72.0) + ((int)(adc->analogRead(Fine_tune_pin)<<1) / 28)); //coarse and fine tuning
-  tuner = (float)(inCV + dtuner); //
+  
+  tuner = (float)(inCV + dtuner); 
    
   inputScaler = float(tuner / 864.0);
 
   inputVOct = fastpow2(inputScaler); //"real time" exponentiation of CV input! (powf is single precision float power function) comment out if using powf version above
 
-   Hi_count_rate = inputVOct * 5900000;
+   Hi_count_rate = inputVOct * 5900000;   
 
-   delayCounts = (32<<((adc->analogRead(Delay_counts_pin,ADC_0))>>9))-1;
-
-   delayFeedback = adc->analogRead(Delay_feedback_pin);
-
-   delayMix = adc->analogRead(Delay_mix_pin);
-
-   Serial.println(inCV);
+   //Serial.println(inCV);
 
    totalInCV = totalInCV - readingsaInCV[indexInCV];
   readingsaInCV[indexInCV] = inCVraw; 
@@ -145,6 +149,10 @@ void loop() {
   indexInCV = indexInCV + 1;
   if (indexInCV >= numreadingsCV) indexInCV = 0;  
   inCV = totalInCV / numreadingsCV;
+
+  for (INC = 0;INC < 4;INC ++){
+    diffuseCountShift[INC] = (diffuseCount[INC] * delayCounts)<<4;
+  }
  
   
 }//end of main loop

@@ -30,3 +30,27 @@ static inline float fasterpow2 (float p)
   } v = { (1 << 23) * (p + 126.94269504f) };
   return v.f;
 }
+
+void FASTRUN READSLOW(void) {
+  switch (ARC){
+    case 0:
+     dtuner = (float)((((int)((adc->analogRead(Coarse_tune_pin,ADC_0)<<1)/227)) * 72.0) + ftune);
+    break;
+    case 1:
+     delayCounts = (32<<((adc->analogRead(Delay_counts_pin,ADC_0))>>9))-1;
+    break;
+    case 2:
+     delayFeedback = adc->analogRead(Delay_feedback_pin);
+    break;
+    case 3:
+    delayMix = adc->analogRead(Delay_mix_pin);
+    break;
+    case 4:
+    ftune = ((int)(adc->analogRead(Fine_tune_pin)<<1) / 28);
+    break;
+    case 5:
+    diffuseMix = adc->analogRead(Diffuse_mix_pin);
+    diffuseMode = digitalReadFast(diffuse_button);
+  }
+}
+
