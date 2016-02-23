@@ -115,6 +115,8 @@ evilGoto:
 
   DODETUNING();
 
+ 
+
   if (loopReset == 1)goto evilGoto;
   //---------------------------Index CV---------------------------------
   aInModIndex = analogRead(A15);
@@ -134,9 +136,9 @@ evilGoto:
   default:
    ASSIGNINCREMENTS_P();
    }}
-   else
 
    
+   else
    switch (FX){
      
   case 5:
@@ -150,8 +152,7 @@ evilGoto:
   case 7:
   ASSIGNINCREMENTS_DRUM();//drum
   break;
-   
-    
+     
   default:
    ASSIGNINCREMENTS();
    }

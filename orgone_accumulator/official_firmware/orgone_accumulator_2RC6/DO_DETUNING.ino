@@ -1,5 +1,7 @@
 void DODETUNING() {
 
+  Serial.println(oscMode);
+
 
   pcounter = millis() - pcounterOld;//used for LED flash
   pcounterOld = millis();

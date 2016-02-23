@@ -94,7 +94,7 @@ pinMode(LED_Hi, OUTPUT);
 
  
 
-  Serial.begin(28800);
+  Serial.begin(38400);
 }
 
 //see other pages for 

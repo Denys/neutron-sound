@@ -1358,13 +1358,13 @@ uint32_t smooth_declick_threshold = 200;
 uint32_t LoOld,MidOld,HiOld;
 
 int IsHW2;
-uint16_t lo_wavesel_indexOld;
-uint16_t Mid_wavesel_indexOld;
-uint16_t Hi_wavesel_indexOld;
+uint16_t lo_wavesel_indexOld = 0;
+uint16_t Mid_wavesel_indexOld = 0;
+uint16_t Hi_wavesel_indexOld = 0;
 
-uint16_t lo_wavesel_index;
-uint16_t Mid_wavesel_index;
-uint16_t Hi_wavesel_index;
+uint16_t lo_wavesel_index = 1;
+uint16_t Mid_wavesel_index = 1;
+uint16_t Hi_wavesel_index =1;
 
 int16_t NT3Rate; //the rate noisetable 3 changes.
 

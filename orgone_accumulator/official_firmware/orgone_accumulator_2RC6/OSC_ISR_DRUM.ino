@@ -108,7 +108,7 @@ void FASTRUN outUpdateISR_DRUM(void) {
   o6.wave = ((int32_t)(((GWTlo1[o1.phase >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[o1.phase >> 23] * (GremLo)) >> 9)));
   o6.nextwave =  ((int32_t)(((GWTlo1[(o1.phase + nextstep) >> 23] * (511 - GremLo)) >> 9) + ((GWTlo2[(o1.phase + nextstep) >> 23] * (GremLo)) >> 9))) ;
   
-  if (o6.wave > 30000) drum_st = 1;//trigger decay start at peak of wave 1  
+  if (o6.wave > 26000) drum_st = 1;//trigger decay start at peak of wave 1  
   o6.wave = o6.wave + ((((o6.nextwave - o6.wave)) * o1.phaseRemain) >> 15);
   o1.wave = multiply_32x32_rshift32(drum_envVal[2], o6.wave);
   
