@@ -1,0 +1,2 @@
+make PJRC audio sketches using the left input for the audio. 
+the right input is connected to CVA so youcan have real time modulation with another analog input.
