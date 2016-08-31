@@ -1,0 +1,14 @@
+Provisional BOM (incomplete)
+
+Mouser cart
+https://ca.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=46d7b16813
+
+18x 0.1uf 805 capacitors 
+plus teensy 3.2
+headers and header pins (much cheaper at tayda)
+euro unshrouded power header
+7805 TO220 regulator
+12x thonkiconnjacks
+1x stereo kobiconn jack
+diode (pending)
+new 2x3x4 LEDs (pending)

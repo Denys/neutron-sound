@@ -1,7 +1,7 @@
 /*
- * Neutron magpie dodeca: 
- * 12 drum trigs variable by velocity. 
- * 12 notes (anywhere on keyboard) C=1 C#=2 etc
+   Neutron magpie dodeca:
+   12 drum trigs variable by velocity.
+   12 notes (anywhere on keyboard) C=1 C#=2 etc
  * */
 
 #include <MIDI.h>
@@ -21,19 +21,19 @@ uint8_t bottomNote = 12; //the bottom MIDI note, the module puts out 8 octaves.
 uint8_t topNote = bottomNote + 95;
 uint16_t pitchOut;
 
-//uint8_t cc2out[] = {40, 41, 42, 1, 44, 45, 46, 47, 48, 49, 50, 51}; 
+//uint8_t cc2out[] = {40, 41, 42, 1, 44, 45, 46, 47, 48, 49, 50, 51};
 
 void HandleControlChange (byte channel, byte number, byte value) {
   //maybe use a CC to change drum trigger length
 }
 
 void HandleNoteOn(byte channel, byte pitch, byte velocity) {
-  int modNote = pitch%12;
+  int modNote = pitch % 12;
   if (velocity != 0) {
-    if (out2pin[modNote]){
-    analogWrite(out2pin[modNote], velocity);
+    if (out2pin[modNote]) {
+      analogWrite(out2pin[modNote], velocity);
     }
-    else analogWrite(A14,velocity);
+    else analogWrite(A14, velocity);
     triggerTimer[modNote] = 0;
   }
 
@@ -76,7 +76,7 @@ void setup() {
   MIDI.setHandleControlChange(HandleControlChange);
 
   countdownTimer.begin(ISR_TRIGEND, 1000);
-  
+
   Serial.begin(9600);
 }
 
