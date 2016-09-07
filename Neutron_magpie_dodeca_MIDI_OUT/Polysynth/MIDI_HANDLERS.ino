@@ -22,7 +22,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
         Oactive[buh] = pitch;
         Opower[buh] = velocity;
         Ophase_inc[buh] = note2inc[pitch];
-        analogWrite(out2pin[((buh<<1))],velocity<<3);
+        analogWrite(out2pin[((buh<<1))],Opower[buh]<<3);
         notes ++;
         analogWrite(out2pin[3],1023);
         analogWrite(out2pin[5],velocity<<3);
