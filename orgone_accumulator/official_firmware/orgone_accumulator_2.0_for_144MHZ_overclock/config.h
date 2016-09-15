@@ -1,7 +1,7 @@
 //neutron orgone accumulator config file. 
 
 
-#define TUNEMULT 159000 
+#define TUNEMULT 93000 
 //#define TUNEMULT 5900000
 //this is the base frequency. halving it will lower the entire oscillator by 1 octave 
 //real frequency is sent to the broadcast application for tuning

@@ -15,16 +15,18 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
 
 
   else {
+      
     for (int k = 0; k < 3; k++) {
       if (Oactive[k] == 0) {
+        
         Oactive[k] = pitch;
         if (pitch > 47)Ooctave[k] = int((pitch - 48) / 12);
         //bottom 4 octaves are 512 steps then divided by 2 as octaves increase
         //to keep the sample rate from getting too high
         else Ooctave[k] = 0;
         Opower[k] = velocity;
-        Ophase[k] = 0;//if you want the osc to reset. on the Dodeca, it will still click because the DAC output is not offset.
-        Ophase_inc[k] = note2inc[pitch] >> Ooctave[k];
+        //Ophase[k] = 0;//if you want the osc to reset. on the Dodeca, it will still click because the DAC output is not offset.
+            Ophase_inc[k] = note2inc[pitch] >> Ooctave[k];
         analogWriteFrequency(timerPin[k], Ophase_inc[k]);
         switch (k) {
           case 0:
@@ -34,7 +36,10 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
           case 2:
             attachInterrupt(timerPin[2], ISR_OSC2, RISING); break;
         }
-        //analogWrite(timerPin[k], 512);
+         if (notes < 1){
+      analogWrite(out2pin[5],512);
+      notes ++;
+    }
         break;
       }
     }
@@ -52,8 +57,10 @@ void HandlePitchBend (byte channel, int bend) {
 void NoteOffBoth(byte chan, byte pitc, byte velo) {
   for (int buh = 0; buh < 3; buh ++) {
     if (pitc == Oactive[buh]) {
-      detachInterrupt(timerPin[buh]);
+      notes --;
+      //detachInterrupt(timerPin[buh]);
       Oactive[buh] = 0;
+      if (notes < 1)analogWrite(out2pin[5],0);
     }
   }
 }

@@ -158,6 +158,7 @@ int numWaves = 4;
 const int16_t *wavePointer[] = {sinTable, triTable, sawTable , distoTable};
 const int16_t *waveLink;
 
+
 uint8_t timerPin[] = {4,5,25};
 uint8_t out2pin[] = {23, 0, 22, 25, 20, 6, 21, 5, 9, 4, 10, 3};
 uint8_t maxPower = 0;
@@ -169,6 +170,7 @@ uint32_t Ophase_inc[3];
 uint32_t Ophase[3];
 uint32_t Ophase2[3];
 uint8_t Opower[3];
+uint8_t Odecay_stage[3];
 uint8_t Ooctave[3];
 uint8_t Oactive[3];
 int32_t Owave[3];
@@ -229,6 +231,7 @@ void setup() {
 analogWrite(timerPin[0],512);
 analogWrite(timerPin[1],512);
 analogWrite(timerPin[2],512);
+waveLink = wavePointer[0];//set to something or it willjust read random crap
   Serial.begin(9600);
 }
 

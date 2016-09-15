@@ -1839,7 +1839,7 @@ int cycleCounter;
 uint8_t CRUSHBITS = 0;
 int32_t CRUSH_Remain = 0;
 
-int ISRrate = 20;
+int ISRrate = 12;
 
 IntervalTimer outUpdateTimer;
 

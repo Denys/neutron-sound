@@ -97,12 +97,6 @@ AudioConnection          patchCord49(mixer12, 0, i2s2, 0);
 AudioConnection          patchCord50(dc2, 0, i2s2, 1);
 // GUItool: end automatically generated code
 
-
-
-
-
-
-
 float f, regen, regenComp;
 float q = 1.2;//don't go lower for resonance on this one or it blows up due to high frequency filters.
 float octave = 7;
@@ -119,9 +113,9 @@ void setup() {
   analogWriteResolution(12);
   // Enable the audio shield and set the output volume.
   audioShield.enable();
-  //audioShield.inputSelect(myInput);
-  audioShield.volume(0.0); //used for headphones but set to 0 anyways.
-  audioShield.lineInLevel(0); //use full scale
+  audioShield.inputSelect(AUDIO_INPUT_LINEIN);
+  audioShield.volume(0.5); //used for headphones but set to 0 anyways.
+  audioShield.lineInLevel(10); //use full scale
   audioShield.lineOutLevel(13);
   pinMode (A10, INPUT);
   pinMode (A11, INPUT);
