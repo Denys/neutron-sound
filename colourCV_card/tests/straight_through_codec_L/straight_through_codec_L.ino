@@ -32,7 +32,7 @@ analogReadResolution(12);
   audioShield.enable();
   //audioShield.inputSelect(myInput); 
   audioShield.volume(0.0); //used for headphones but set to 0 anyways.
-  audioShield.lineInLevel(0); //use full scale
+  audioShield.lineInLevel(10); //use full scale
   audioShield.lineOutLevel(13);
   audioShield.audioProcessorDisable();
   pinMode (A10, INPUT);

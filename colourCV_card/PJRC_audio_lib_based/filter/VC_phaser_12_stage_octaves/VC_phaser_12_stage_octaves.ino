@@ -115,7 +115,7 @@ void setup() {
   audioShield.enable();
   audioShield.inputSelect(AUDIO_INPUT_LINEIN);
   audioShield.volume(0.5); //used for headphones but set to 0 anyways.
-  audioShield.lineInLevel(10); //use full scale
+  audioShield.lineInLevel(0); //use full scale
   audioShield.lineOutLevel(13);
   pinMode (A10, INPUT);
   pinMode (A11, INPUT);
