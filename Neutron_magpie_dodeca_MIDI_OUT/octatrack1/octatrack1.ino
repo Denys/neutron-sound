@@ -1,24 +1,19 @@
 /*
    Neutron magpie dodeca:
-   Octatrack channel 1
+   Octatrack1
    7 gate output respond to white notes with velocity (out 1-7)
    4 CC output respond to CC 1,2,3,4 (out 8-11)
-   1 clock out on output 12
+   1 clock out on output 12 (16th notes, 50% duty cycle)
  * */
 
 #include <MIDI.h>
 
-
-// This function will be automatically called when a NoteOn is received.
-// It must be a void-returning function with the correct parameters,
-// see documentation ere:
-// http://arduinomidilib.sourceforge.net/class_m_i_d_i___class.html
-
+const uint8_t CHAN = 1;//set the MIDI channel here!
 
 uint8_t out2pin[] = {23, 0, 22, 25, 20, 6, 21, 5, 9, 4, 10, 3};//output number to actual teensy pin, dont change.
-uint8_t whitekeys[] = {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7};//midi note to 
+uint8_t whitekeys[] = {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7};//non zero keys sent to output number.
 uint8_t pulses;
-uint8_t sixteenthnotes; //this is how long the drum triggers are
+uint8_t sixteenthnotes; 
 uint8_t quartertoggle;
 uint8_t wholetoggle;
 bool playing;
@@ -42,9 +37,8 @@ void setup() {
   }
 
   analogWriteResolution(7);
-  //digitalWriteFast(4, HIGH);
-
-  for (int i = 0; i < 12; i ++) {
+  
+   for (int i = 0; i < 12; i ++) {//start up LED animation
     for (int j = 0; j < 128; j ++) {
       if (out2pin[i] == 0) analogWrite(A14, (j ));
       else analogWrite(out2pin[i], j );
@@ -52,7 +46,7 @@ void setup() {
     }
     if (out2pin[i] == 0) analogWrite(A14, 0);
     analogWrite(out2pin[i], 0);
-  }
+  }//end of start up animantion
 
   MIDI.begin(MIDI_CHANNEL_OMNI);
   // Connect the Handlers to the library, so it is called upon reception.
@@ -64,11 +58,8 @@ void setup() {
   MIDI.setHandleStop(HandleStop);
   MIDI.setHandleContinue(HandleContinue);
 
- // countdownTimer.begin(ISR_TRIGEND, 1000);
-
   Serial.begin(9600);
 }
-
 
 void loop() {
   // Call MIDI.read the fastest you can for real-time performance.
