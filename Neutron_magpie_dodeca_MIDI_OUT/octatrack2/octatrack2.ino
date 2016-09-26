@@ -8,19 +8,23 @@
  * */
 
 #include <MIDI.h>
+#include "notelist.h"
 
 const uint8_t CHAN = 2;//set the MIDI channel here!
-
+uint8_t GateOut = 0; //gate is on first output.
+uint8_t VelOut = 2;
 int numNotes = 0;
 uint8_t out2pin[] = {23, 0, 22, 25, 20, 6, 21, 5, 9, 4, 10, 3}; //actual pin mapping for teensy, dont change unless you redesign the board
 uint8_t cc2out[] = {40, 41, 42, 1, 2, 3, 4, 5, 6, 7, 8, 9}; //MIDI CCs that be detected. (first 3 not used in theis sketch)
-
+static const unsigned sMaxNumNotes = 16;
+MidiNoteList<sMaxNumNotes> midiNotes;
 void setup() {
   for (int i = 0; i < 12; i ++) {//set all the required pins to output and adjust PWM speed.
     if (out2pin[i]) {
       pinMode(out2pin[i], OUTPUT);
       analogWriteFrequency(out2pin[i], 375000);
     }
+    else analogWriteFrequency(A14,40000);
   }
 
   analogWriteResolution(12);//for the DAC channel 2. because of high PWM frequency, PWM resolution is reduced to 7 bits used by MIDI
