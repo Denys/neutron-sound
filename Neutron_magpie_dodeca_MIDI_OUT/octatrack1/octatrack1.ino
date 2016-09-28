@@ -1,8 +1,8 @@
 /*
    Neutron magpie dodeca:
    Octatrack1
-   7 gate output respond to white notes with velocity (out 1-7)
-   4 CC output respond to CC 1,2,3,4 (out 8-11)
+   8 gate output respond to white notes + c# with velocity (out 1-8)
+   4 CC output respond to CC 1,2,3, (out 9-11)
    1 clock out on output 12 (16th notes, 50% duty cycle)
  * */
 
@@ -11,7 +11,7 @@
 const uint8_t CHAN = 1;//set the MIDI channel here!
 
 uint8_t out2pin[] = {23, 0, 22, 25, 20, 6, 21, 5, 9, 4, 10, 3};//output number to actual teensy pin, dont change.
-uint8_t whitekeys[] = {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7};//non zero keys sent to output number.
+uint8_t whitekeys[] = {1, 2, 3, 0, 4, 5, 0, 6, 0, 7, 0, 8};//non zero keys sent to output number.
 uint8_t pulses;
 uint8_t sixteenthnotes; 
 uint8_t quartertoggle;
