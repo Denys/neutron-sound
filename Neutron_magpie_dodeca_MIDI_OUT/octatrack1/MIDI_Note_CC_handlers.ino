@@ -26,7 +26,7 @@ void bothNoteOff(byte channel, byte pitch, byte velocity) { //this is called by 
 }
 
 void HandleControlChange (byte channel, byte number, byte value) {
-  if (channel == CHAN | number < 4) { //ignore wrong channel or CC numbers
+  if (channel == CHAN && number < 4) { //ignore wrong channel or CC numbers
     analogWrite(out2pin[number + 7], value); //output on ,9,10,11
   }
 }

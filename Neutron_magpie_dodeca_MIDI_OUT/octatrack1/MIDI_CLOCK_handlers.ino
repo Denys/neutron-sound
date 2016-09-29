@@ -6,9 +6,9 @@ void HandleClock(void){
     sixteenthnotes ++;
   }
   if (pulses < 3){
-    digitalWriteFast(out2pin[11],HIGH);
+    analogWrite(out2pin[11],127);
   }
-  else digitalWriteFast(out2pin[11],LOW);
+   else analogWrite(out2pin[11],0);
 }
 }
 

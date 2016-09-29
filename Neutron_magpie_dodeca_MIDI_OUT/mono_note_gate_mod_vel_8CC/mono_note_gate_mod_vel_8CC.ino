@@ -15,7 +15,7 @@ uint8_t bottomNote = 12; //the bottom MIDI note, the module puts out 8 octaves.
 uint8_t topNote = bottomNote + 95;
 uint16_t pitchOut;
 
-uint8_t cc2out[] = {40,41,42,1,44,45,46,47,48,49,50,51}; //ignore first 3 these are the MIDI CCs that will be output.
+uint8_t cc2out[] = {40,41,42,1,2,3,4,5,6,7,8,9}; //ignore first 3 these are the MIDI CCs that will be output.
 
 void HandlePitchBend (byte channel, int bend){
   Serial.println(bend);
