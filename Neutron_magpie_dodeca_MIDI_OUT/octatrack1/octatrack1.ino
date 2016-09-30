@@ -32,7 +32,7 @@ void setup() {
   for (int i = 0; i < 12; i ++) {
     if (out2pin[i]) {
       pinMode(out2pin[i], OUTPUT);
-      analogWriteFrequency(out2pin[i], 375000);
+      analogWriteFrequency(out2pin[i], 200000);
     }
   }
 
