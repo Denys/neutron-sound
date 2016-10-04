@@ -8,10 +8,10 @@ void HandleClock(void) {
       intBPM = (4294967295/MIDIclockRate)>>23;
       //Serial.println(BPM,3);
       pulses = MIDIclockRateIn = 0;
-      if (quarters >= 4){
-        quarters = 0;
-        lfo1.phase = 0; //temp for testing reset on bar end
-      }
+//      if (quarters >= 4){
+//        quarters = 0;
+//        lfo1.phase = 0; //temp for testing reset on bar end
+ //     }
     }
   }
 }

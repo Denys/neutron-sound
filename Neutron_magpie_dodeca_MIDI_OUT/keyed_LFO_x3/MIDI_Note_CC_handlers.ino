@@ -3,12 +3,15 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   switch (channel){
   case CHAN:  
     LFO_rate_mult[0] = keyDivs[pitch % 12]; 
+    lfo1.phase = 0;
     break;    
     case (CHAN+1):  
     LFO_rate_mult[1] = keyDivs[pitch % 12]; 
+    lfo2.phase = 0;
     break;    
     case (CHAN + 2):  
     LFO_rate_mult[2] = keyDivs[pitch % 12]; 
+    lfo3.phase = 0;
     break;    
     }    
   }
