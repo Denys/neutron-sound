@@ -71,7 +71,10 @@ struct oscillator1
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;  
   uint32_t phaseOld = 0;
-  int32_t wave;
+  int32_t wave1;  
+  int32_t wave2;  
+  int32_t wave3;  
+  int32_t wave4;  
   int32_t nextwave;  
   int32_t phase_increment = 0;
 }
@@ -83,8 +86,10 @@ struct oscillator3
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;  
   uint32_t phaseOld = 0;  
-  int32_t wave;
-  int32_t nextwave;  
+  int32_t wave1;  
+  int32_t wave2;  
+  int32_t wave3;  
+  int32_t wave4;  
   int32_t phase_increment = 0;
 }
 lfo3;
@@ -95,7 +100,10 @@ struct oscillator2
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;  
   uint32_t phaseOld = 0;
-  int32_t wave;
+  int32_t wave1;  
+  int32_t wave2;  
+  int32_t wave3;  
+  int32_t wave4;  
   int32_t nextwave;  
   int32_t phase_increment = 0;  
 }
@@ -156,5 +164,5 @@ void loop() {
   MIDI.read();  
 
   DO_INCREMENTS();
-  
+  Serial.println(lfo1.phase_increment);  
 }
