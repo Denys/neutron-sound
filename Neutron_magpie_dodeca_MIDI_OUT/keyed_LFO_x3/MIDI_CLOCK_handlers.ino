@@ -1,19 +1,23 @@
 void HandleClock(void) {
-  if (playing) {
+  //if (playing) {
     pulses ++;
     if (pulses >= 24) {
       quarters ++;
       MIDIclockRate = MIDIclockRateIn;      
-      //BPM = float(60000.0/MIDIclockRate);
-      intBPM = (4294967295/MIDIclockRate)>>23;
-      //Serial.println(BPM,3);
+//      BPM = float(60000.0/MIDIclockRate);
+      intBPM = (((4294967295/MIDIclockRate)>>10)*rateScaler)>>10;
+//      Serial.print(MIDIclockRate);
+//      Serial.print("    ");
+//      Serial.print(intBPM);
+//      Serial.print("    ");
+//      Serial.println(BPM,3);
       pulses = MIDIclockRateIn = 0;
-//      if (quarters >= 4){
-//        quarters = 0;
+      if (quarters >= 4){
+        quarters = 0;
 //        lfo1.phase = 0; //temp for testing reset on bar end
- //     }
+      }
     }
-  }
+ // }
 }
 
 void HandleStart() {
