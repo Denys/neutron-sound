@@ -5,12 +5,22 @@
    LFO frequency based on MIDI clock
    White notes are even dividers/multipliers black are odd
    each group of 4 outputs are thye same LFO with 90% phase shift.
-   velocity will shift the LFO phase
-   defaults to sine, 15 other waves can be selected with MIDI CC 1
+   new notes will reset the LFO to whatever phase is set to.
+   velocity will adjust the LFO amplitude
+   4 CCs change parameters.
+   CC_A change phase
+   CC_B change waveform
+   CC_C 
+   CC_D
  * */
 //
 
 #include <MIDI.h>
+//set the CCS to control LFO parameters //cirklon default CCs on new patterns are 1,4,6,10
+const uint8_t CC_A = 1;//control phase
+const uint8_t CC_B = 4;//control waveform
+const uint8_t CC_C = 6;
+const uint8_t CC_D = 10;
 
 const uint8_t CHAN = 1;//set the first MIDI channel here! it will use the following 2 so dont go past 14, strange things might happen!
 const uint8_t ISRrate = 25;
@@ -136,6 +146,7 @@ const uint16_t LFOselLen[] = {23,23,31,23}; //number of bits to shift the accumu
 //they could be got automatically with sizeof, couldnt get it to work because of *LFOsel
 uint8_t LFO_wavenum1=0,LFO_wavenum2=0,LFO_wavenum3=0;
 uint8_t s1 = 23,s2 = 23,s3 = 23; //bitshifts for ISR 
+uint8_t v1=0,v2 = 0,v3 = 0; //velocity level
 
 uint8_t pulses;
 bool playing;
