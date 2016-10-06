@@ -25,6 +25,7 @@ const uint8_t CC_D = 10;
 const uint8_t CHAN = 1;//set the first MIDI channel here! it will use the following 2 so dont go past 14, strange things might happen!
 const uint8_t ISRrate = 25;
 const uint32_t qPhase = 1073741824;//quarter of 32 bits accumulator
+const uint32_t eCiel = 33554443; //32 bits / 128 for envelope cieling.
 
 const uint8_t out2pin[] = {23, 0, 22, 25, 20, 6, 21, 5, 9, 4, 10, 3};//output number to actual teensy pin, dont change.
 const uint8_t keyDivs[] = {4, 6 , 8, 12, 16, 32, 48, 64, 96, 128, 1, 2};//clock division for each key 4=1bar
@@ -146,7 +147,14 @@ const uint16_t LFOselLen[] = {23,23,31,23}; //number of bits to shift the accumu
 //they could be got automatically with sizeof, couldnt get it to work because of *LFOsel
 uint8_t LFO_wavenum1=0,LFO_wavenum2=0,LFO_wavenum3=0;
 uint8_t s1 = 23,s2 = 23,s3 = 23; //bitshifts for ISR 
-uint8_t v1=0,v2 = 0,v3 = 0; //velocity level
+
+uint32_t vel[3]; //velocity level
+int32_t ENVworking[3];
+int32_t env[3];
+uint32_t ENVdecay[] = {2048383,2048383,2048383};
+uint32_t ENVattack[] = {2048383,2048383,2048383};
+bool ENVactive[3];
+uint16_t INvert;
 
 uint8_t pulses;
 bool playing;
@@ -168,7 +176,7 @@ struct oscillator1
   int32_t wave2;
   int32_t wave3;
   int32_t wave4;
-  int32_t nextwave;
+  int32_t nextwave;  
   int32_t phase_increment = 0;
 }
 lfo1;
