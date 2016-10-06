@@ -8,7 +8,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
         ENVactive[0] = 1;
         s1 = LFOselLen[LFO_wavenum1];
         LFOsel1 = LFOpool[LFO_wavenum1];
-        lfo1.phase = lfo1.phaseOffset;
+        lfo1.phase = 0;
         break;
 
       case (CHAN+1):
@@ -17,7 +17,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
         ENVactive[1] = 1;
         s2 = LFOselLen[LFO_wavenum2];
         LFOsel2 = LFOpool[LFO_wavenum2];
-        lfo2.phase = lfo2.phaseOffset;
+        lfo2.phase = 0;
         break;
 
       case (CHAN + 2):
@@ -26,7 +26,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
         ENVactive[2] = 1;
         s3 = LFOselLen[LFO_wavenum3];
         LFOsel3 = LFOpool[LFO_wavenum3];
-        lfo3.phase = lfo3.phaseOffset;
+        lfo3.phase = 0;
         break;
     }
   }

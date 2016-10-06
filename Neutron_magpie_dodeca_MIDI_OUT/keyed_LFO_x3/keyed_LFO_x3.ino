@@ -169,6 +169,7 @@ uint8_t quarters;
 struct oscillator1
 {
   uint32_t phase = 0;
+  uint32_t phaseA = 0;
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;
   uint32_t phaseOld = 0;
@@ -184,6 +185,7 @@ lfo1;
 struct oscillator3
 {
   uint32_t phase = 0;
+  uint32_t phaseA = 0;
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;
   uint32_t phaseOld = 0;
@@ -198,6 +200,7 @@ lfo3;
 struct oscillator2
 {
   uint32_t phase = 0;
+  uint32_t phaseA = 0;
   int32_t phaseRemain = 0;
   int32_t phaseOffset = 0;
   uint32_t phaseOld = 0;
